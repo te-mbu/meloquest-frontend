@@ -12,6 +12,7 @@ import {
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../reducers/user';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function UserSigninSignupScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -81,6 +82,9 @@ export default function UserSigninSignupScreen({ navigation }) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.arrowBack}>
+            <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
+          </TouchableOpacity>
           <View style={styles.topContainer}>
             <Text style={styles.title}>Connexion / Inscription</Text>
           </View>
@@ -116,6 +120,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  arrowBack: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 15,
+  },
   topContainer: {
     flex: 2,
     display: "flex",
@@ -131,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   formContainer: {
-    flex: 2,
+    flex: 6,
     display: "flex",
     flexDirection: "row",
   },
@@ -162,7 +171,7 @@ const styles = StyleSheet.create({
   },
 
   bottomContainer: {
-    flex: 1,
+    flex: 3,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
