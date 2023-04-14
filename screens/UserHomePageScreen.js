@@ -33,7 +33,6 @@ export default function UserHomePageScreen() {
       (date.getMonth() + 1).toString().padStart(2, "0") +
       "-" +
       date.getDate().toString().padStart(2, "0");
-    // console.log("FORMATTED ->", formattedDate)
     return formattedDate;
   }
 
@@ -56,7 +55,6 @@ export default function UserHomePageScreen() {
         name={data.name}
         genres={data.genre}
         venue={data.address.venue}
-        date={formatDate(data.timeDetails.date)}
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
@@ -70,9 +68,6 @@ export default function UserHomePageScreen() {
           <Text style={styles.title}>Évènements</Text>
         </View>
         <View style={styles.eventsContainer}>
-          {/* <EventM />
-          <EventM />
-          <EventM /> */}
           {allEvents}
         </View>
       </ScrollView>

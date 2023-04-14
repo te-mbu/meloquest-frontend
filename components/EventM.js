@@ -44,7 +44,6 @@ export default function EventM(props) {
         <View style={styles.details}>
           <View style={styles.left}>
             <View style={styles.leftInfos}>
-              <Text>{props.date}</Text>
               <Text>{props.venue}</Text>
               <Text>
                 {props.timeStart} - {props.timeEnd}
