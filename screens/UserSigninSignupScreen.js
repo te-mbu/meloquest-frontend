@@ -27,7 +27,7 @@ export default function UserSigninSignupScreen({ navigation }) {
 
   // Variable pour le fetch dans une fonction handleRegister
   const handleRegister = () => {
-    fetch('http://10.6.241.35:3000/users/signup', {
+    fetch('https://meloquest-backend.vercel.app/users/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -51,7 +51,7 @@ export default function UserSigninSignupScreen({ navigation }) {
 
   // Variable pour le fetch dans une fonction handleConnection
   const handleConnection = () => {
-    fetch('http://10.6.241.35:3000/users/signin', {
+    fetch('https://meloquest-backend.vercel.app/users/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

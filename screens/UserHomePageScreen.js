@@ -18,7 +18,7 @@ export default function UserHomePageScreen() {
 
   useEffect(() => {
 
-    fetch("http://10.6.241.35:3000/events/allevents")
+    fetch("https://meloquest-backend.vercel.app/events/allevents")
       .then((res) => res.json())
       .then((data) => {
         setEvents(data.city);

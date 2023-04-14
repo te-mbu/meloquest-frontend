@@ -11,7 +11,7 @@ export default function UserPositionScreen({navigation}) {
 
 
   useEffect(() => {
-    fetch('http://10.6.240.80:3000/events/cities')
+    fetch('https://meloquest-backend.vercel.app/events/cities')
     .then(response => response.json())
     .then(data => {      
         setCities(data.cities);
