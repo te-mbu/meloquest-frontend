@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import {
   ImageBackground,
   Text,
@@ -8,10 +8,131 @@ import {
   TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
+  Modal
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+// import { useState } from 'react';
+import DatePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import MusicGenre from "../components/MusicGenre"
+
+// genre
+import React, { useState } from 'react';
+// import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { MultiSelect } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
+ 
+
+const data = [
+  { label: 'Item 1', value: '1' },
+  { label: 'Item 2', value: '2' },
+  { label: 'Item 3', value: '3' },
+  { label: 'Item 4', value: '4' },
+  { label: 'Item 5', value: '5' },
+  { label: 'Item 6', value: '6' },
+  { label: 'Item 7', value: '7' },
+  { label: 'Item 8', value: '8' },
+];
+///////////////
+
+const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
+
 
 export default function OrgaCreateEventScreen() {
+
+  const [name, setName] = useState('');
+  const [timeStart, setTimeStart] = useState('');
+  const [timeEnd, setTimeEnd] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [price, setPrice] = useState(null);
+  const [venue, setVenue] = useState('');
+  const [description, setDescription] = useState('');
+  const [genre, setGenre] = useState([]);
+
+  
+  const [dateRace, setDateRace] = useState(new Date());
+  const [dateInput, setDateInput] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const [dateRacetwo, setDateRacetwo] = useState(new Date());
+  const [dateInputtwo, setDateInputtwo] = useState(false);
+  const [isDatePickerVisibletwo, setDatePickerVisibilitytwo] = useState(false);
+
+// genre
+  const [selected, setSelected] = useState([]);
+
+  const renderItem = item => {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.selectedTextStyle}>{item.label}</Text>
+        <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+      </View>
+    );
+  };
+//////////////
+
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  
+  const handleConfirm = (date) => {
+    setDateRace(date);
+    hideDatePicker();
+    setDateInput(true)
+  };
+
+  const showDatePickertwo = () => {
+    setDatePickerVisibilitytwo(true);
+  };
+
+  const hideDatePickertwo = () => {
+    setDatePickerVisibilitytwo(false);
+  };
+
+  const handleConfirmtwo = (date) => {
+    setDateRacetwo(date);
+    hideDatePickertwo();
+    setDateInputtwo(true)
+  };
+
+  const handleEventCreation = () => {
+   setTimeStart(new Date(dateRace))
+   setTimeEnd(new Date(dateRacetwo))
+   console.log('genre ->', genre)
+
+      fetch('https://meloquest-backend.vercel.app/users/eventcreation', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
+          street: 'ma street',
+          city: city,
+          address: address,
+          price: price,
+          venue: venue,
+          description: description,
+          // genre: genre,
+          genre: ['rock', 'rap'],
+    }),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    if(data.result){
+      console.log('event added')
+    } else {
+      console.log('fetch good but false response')
+    }
+    })}
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -33,21 +154,97 @@ export default function OrgaCreateEventScreen() {
           </View>
           <View style={styles.formContainer}>
             <View style={styles.leftForm}>
-              <TextInput style={styles.textInput} placeholder="Date" />
-              <TextInput style={styles.textInput} placeholder="Heure début" />
-              <TextInput style={styles.textInput} placeholder="Ville" />
-              <TextInput style={styles.textInput} placeholder="Adresse" />
+              <View style={styles.selectView}>
+                <TouchableOpacity onPress={showDatePicker}>
+                   {dateInput ? <Text style={styles.buttonDateText}>{dateRace.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</Text> : <Text style={styles.buttonDateText}>Date & heure de début</Text>}
+               </TouchableOpacity>
+
+                <Modal
+                  transparent={true}
+                  visible={isDatePickerVisible}
+                  onRequestClose={hideDatePicker}
+                >
+                <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="datetime"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                />
+                </Modal>
+              </View>
+      <View style={styles.selectView}>
+                <TouchableOpacity onPress={showDatePickertwo}>
+                   {dateInputtwo ? <Text style={styles.buttonDateText}>{dateRacetwo.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</Text> : <Text style={styles.buttonDateText}>Date & heure de fin</Text>}
+               </TouchableOpacity>
+
+                <Modal
+                  transparent={true}
+                  visible={isDatePickerVisibletwo}
+                  onRequestClose={hideDatePickertwo}
+                >
+                  <DateTimePickerModal
+                    isVisible={isDatePickerVisibletwo}
+                    mode="datetime"
+                    onConfirm={handleConfirmtwo}
+                    onCancel={hideDatePickertwo}
+                  />
+                </Modal>
+      </View>
+
+              <TextInput onChangeText={(value) => setCity(value)} value={city} style={styles.textInput} placeholder="Ville" />
+              <TextInput onChangeText={(value) => setAddress(value)} value={address} style={styles.textInput} placeholder="Adresse" />
+              <TextInput onChangeText={(value) => setPrice(value)} value={price} style={styles.textInput} placeholder="Price" />
+
             </View>
             <View style={styles.rightForm}>
-              <TextInput style={styles.textInput} placeholder="Prix" />
-              <TextInput style={styles.textInput} placeholder="Heure fin" />
-              <TextInput style={styles.textInput} placeholder="Nom du lieu" />
-              <TextInput style={styles.textInput} placeholder="Genre" />
+
+              <TextInput onChangeText={(value) => setVenue(value)} value={venue} style={styles.textInput} placeholder="Nom du lieu" />
+             {/* < MusicGenre /> */}
+
+
+             <View style={styles.container}>
+      <MultiSelect
+        style={styles.dropdown}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={data}
+        labelField="label"
+        valueField="value"
+        placeholder="Select item"
+        value={selected}
+        search
+        searchPlaceholder="Search..."
+        onChange={item => {
+          setSelected(item);
+        }}
+        renderLeftIcon={() => (
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="Safety"
+            size={20}
+          />
+        )}
+        renderItem={renderItem}
+        renderSelectedItem={(item, unSelect) => (
+          <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+            <View style={styles.selectedStyle}>
+              <Text style={styles.textSelectedStyle}>{item.label}</Text>
+              <AntDesign color="black" name="delete" size={17} />
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+
+
             </View>
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.descriptionContainer}>
-              <TextInput placeholder="Entrez votre description" />
+              <TextInput onChangeText={(value) => setDescription(value)}  value={description} placeholder="Entrez votre description" />
             </View>
             <View style={styles.uploadContainer}>
               <TouchableOpacity style={styles.uploadButton}>
@@ -57,7 +254,7 @@ export default function OrgaCreateEventScreen() {
                 <FontAwesome name="plus" color="#ffffff" />
               </View>
             </View>
-            <TouchableOpacity style={styles.createEventContainer}>
+            <TouchableOpacity onPress={() => handleEventCreation()} style={styles.createEventContainer}>
               <Text style={styles.createEventText}>Créer l'évènement</Text>
             </TouchableOpacity>
           </View>
@@ -127,7 +324,7 @@ const styles = StyleSheet.create({
 
   descriptionContainer: {
     borderRadius: 5,
-    marginTop: 10,
+    marginTop: 50,
     height: 80,
     width: "90%",
     backgroundColor: "#ffffff",
@@ -167,4 +364,90 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontWeight: "bold",
   },
+  buttonDateText: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  selectView: {
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#474CCC',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 15,
+  },
+  dropdown: {
+    marginLeft: "3%",
+    marginRight: "3%",
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+  },
+
+
+// genre
+container: { padding: 16 },
+  dropdown: {
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  selectedStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 14,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    marginTop: 8,
+    marginRight: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  },
+  textSelectedStyle: {
+    marginRight: 5,
+    fontSize: 16,
+  },
+// ///////////
+
 });
