@@ -11,14 +11,14 @@ export default function RoleScreen({ navigation }) {
       <ImageBackground source={require('../assets/photobleue.jpg')} style={styles.background}>
         <View style={styles.globallayout}>
             <View>
-                <Text style={styles.text}>Qui es-tu ?</Text>
+                <Text style={styles.text}>Je suis un</Text>
             </View>
             <View style={styles.btnlayout}>
                 <TouchableOpacity onPress={() => navigation.navigate('OrgaSigninSignup')} style={styles.btnleft} activeOpacity={0.8}>
-                    <Text style={styles.textButton}>Un(e) organisateur·trice</Text>
+                    <Text style={styles.textButton}>Organisateur·trice</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('UserSigninSignup')} style={styles.btnright} activeOpacity={0.8}>
-                    <Text style={styles.textButton}>Un(e) utilisateur·trice</Text>
+                    <Text style={styles.textButton}>Utilisateur·trice</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -41,8 +41,12 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     textAlign: "center",
-    fontSize: 60,
+    fontSize: 50,
     backgroundColor: '#FFFFFF',
+  },
+  textButton: {
+    fontSize: 18,
+    fontWeight:'500'
   },
   globallayout: {
     flexDirection: 'column',
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
   },
   btnleft: {
     alignItems: 'center',
-    width: '47%',
+    width: '49%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     padding: 10,
@@ -63,10 +67,11 @@ const styles = StyleSheet.create({
   },
   btnright: {
     alignItems: 'center',
-    width: '47%',
+    width: '49%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     padding: 10,
     borderWidth: 2,
   },
+
  })
