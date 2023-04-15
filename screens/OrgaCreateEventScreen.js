@@ -1,4 +1,4 @@
-// import React from "react";
+import React, { useState } from "react";
 import {
   ImageBackground,
   Text,
@@ -12,21 +12,17 @@ import {
   Modal,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-// import { useState } from 'react';
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-// import MusicGenre from "../components/MusicGenre"
 
 // genre
-import React, { useState } from "react";
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const data = [
-  { label: "Item 1", value: "1" },
-  { label: "Item 2", value: "2" },
-  { label: "Item 3", value: "3" },
-  { label: "Item 4", value: "4" },
+  { label: "Rock", value: "rock" },
+  { label: "Pop", value: "pop" },
+  { label: "Hip Hop", value: "hiphop" },
 ];
 ///////////////
 
@@ -40,6 +36,7 @@ export default function OrgaCreateEventScreen() {
   const [venue, setVenue] = useState("");
   const [description, setDescription] = useState("");
   const [genres, setGenres] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [timeStart, setTimeStart] = useState(new Date());
   const [dateInput, setDateInput] = useState(false);
@@ -49,6 +46,7 @@ export default function OrgaCreateEventScreen() {
   const [dateInputtwo, setDateInputtwo] = useState(false);
   const [isDatePickerVisibletwo, setDatePickerVisibilitytwo] = useState(false);
 
+  const [isMultiSelectOpen, setIsMultiSelectOpen] = useState(false);
 
   const renderItem = (item) => {
     return (
@@ -57,6 +55,16 @@ export default function OrgaCreateEventScreen() {
         <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
       </View>
     );
+  };
+
+  // DESCRIPTION STYLES
+
+  const descriptionContainerStyles = {
+    borderRadius: 5,
+    marginTop: isMultiSelectOpen ? 200 : 30,
+    height: 80,
+    width: "90%",
+    backgroundColor: "#ffffff",
   };
 
   // TIME START
@@ -96,11 +104,12 @@ export default function OrgaCreateEventScreen() {
 
   // On Click delete item
   function handleDeleteItem(item) {
-    setGenres(genre.filter((value) => value !== item));
+    setGenres(
+      genres.filter((value) => value !== item.replace(/\s/g, "").toLowerCase())
+    );
   }
 
   const handleEventCreation = () => {
-
     fetch("https://meloquest-backend.vercel.app/users/eventcreation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -119,20 +128,24 @@ export default function OrgaCreateEventScreen() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log("event added");
+          console.log("Event added to the database");
         } else {
-          console.log("fetch good but false response");
+          console.log("[eventCreation] failed");
         }
       });
   };
 
+  const filteredData = data.filter((item) =>
+    item.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <ImageBackground
-          style={styles.container}
-          source={require("../assets/photoblanche.png")}
-        >
+      <ImageBackground
+        style={styles.imageBackgroundContainer}
+        source={require("../assets/photoblanche.png")}
+      >
+        <ScrollView>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
@@ -267,20 +280,25 @@ export default function OrgaCreateEventScreen() {
 
                 <MultiSelect
                   style={styles.dropdown}
+                  maxHeight={150}
                   placeholderStyle={styles.placeholderStyle}
                   selectedTextStyle={styles.selectedTextStyle}
                   inputSearchStyle={styles.inputSearchStyle}
                   iconStyle={styles.iconStyle}
+                  onFocus={() => setIsMultiSelectOpen(true)}
+                  onBlur={() => setIsMultiSelectOpen(false)}
+                  items={filteredData}
                   data={data}
-                  // labelField="label"
-                  valueField="label"
-                  placeholder="Select item"
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Select a genre"
                   value={genres}
                   search
                   searchPlaceholder="Search..."
                   onChange={(item) => {
                     setGenres(item);
                   }}
+                  onChangeInput={(text) => setSearchTerm(text)}
                   renderLeftIcon={() => (
                     <AntDesign
                       style={styles.icon}
@@ -312,7 +330,7 @@ export default function OrgaCreateEventScreen() {
               </View>
 
               {/* DESCRIPTION */}
-              <View style={styles.descriptionContainer}>
+              <View style={descriptionContainerStyles}>
                 <TextInput
                   onChangeText={(value) => setDescription(value)}
                   value={description}
@@ -339,8 +357,8 @@ export default function OrgaCreateEventScreen() {
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -348,6 +366,9 @@ export default function OrgaCreateEventScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  imageBackgroundContainer: {
+    resizeMode: "cover",
   },
   topContainer: {
     height: 80,
@@ -403,25 +424,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  descriptionContainer: {
-    borderRadius: 5,
-    marginTop: 30,
-    height: 80,
-    width: "90%",
-    backgroundColor: "#ffffff",
-  },
-
   bottomContainer: {
-    flex: 1,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 50,
   },
 
   genreContainer: {
     marginTop: 30,
-    width: "70%",
+    width: "80%",
   },
 
   uploadContainer: {
