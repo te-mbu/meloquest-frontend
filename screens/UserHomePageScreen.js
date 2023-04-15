@@ -12,12 +12,13 @@ import {
 } from "react-native";
 import EventM from "../components/EventM";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+const { formatDate, formatHour } = require('../modules/date')
 
 export default function UserHomePageScreen() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-
     fetch("https://meloquest-backend.vercel.app/events/allevents")
       .then((res) => res.json())
       .then((data) => {
@@ -25,40 +26,23 @@ export default function UserHomePageScreen() {
       });
   }, []);
 
-  function formatDate(dateString) {
-    let date = new Date(dateString);
-    let formattedDate =
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0");
-    return formattedDate;
-  }
-
-  function formatHour(dateString) {
-    let date = new Date(dateString);
-    let formattedTime =
-      date.getUTCHours().toString().padStart(2, "0") +
-      ":" +
-      date.getUTCMinutes().toString().padStart(2, "0");
-    return formattedTime
-  }
+  
 
 
   const allEvents = events.map((data, i) => {
-
-    console.log(data.genre)
     return (
-      <EventM
-        key={i}
-        name={data.name}
-        genres={data.genre}
-        venue={data.address.venue}
-        timeStart={formatHour(data.timeDetails.timeStart)}
-        timeEnd={formatHour(data.timeDetails.timeEnd)}
-        price={data.price}
-      />
+        <EventM
+          key={i}
+          isClickable={true}
+          clientId={data._id}
+          name={data.name}
+          genres={data.genre}
+          venue={data.address.venue}
+          date={formatDate(data.timeDetails.timeStart)}
+          timeStart={formatHour(data.timeDetails.timeStart)}
+          timeEnd={formatHour(data.timeDetails.timeEnd)}
+          price={data.price}
+        />
     );
   });
   return (
@@ -67,9 +51,7 @@ export default function UserHomePageScreen() {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Évènements</Text>
         </View>
-        <View style={styles.eventsContainer}>
-          {allEvents}
-        </View>
+        <View style={styles.eventsContainer}>{allEvents}</View>
       </ScrollView>
     </SafeAreaView>
   );

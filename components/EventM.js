@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ImageBackground,
   Text,
@@ -10,19 +10,38 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import TagGenre from "./TagGenre";
 import { useNavigation } from "@react-navigation/native";
+import UserEventPageScreen from "../screens/UserEventPageScreen";
+import { useDispatch } from "react-redux";
+import { addEventToPurchase } from "../reducers/user";
 
 export default function EventM(props) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
- 
-  let allGenres = props.genres
+  const handleOnPress = () => {
+    fetch(`http://localhost:3000/events/${props.clientId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(addEventToPurchase(data.event));
+          navigation.navigate("UserEventPage");
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  let allGenres = props.genres;
   const genres = allGenres.map((data, i) => {
-    return <TagGenre key={i} genre={data}/>
-  })
+    return <TagGenre key={i} genre={data} />;
+  });
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("UserEventPage")}>
+      <TouchableOpacity onPress={props.isClickable ? handleOnPress : null}>
         <View style={styles.topContainer}>
           <ImageBackground
             style={{ flex: 1 }}
@@ -45,6 +64,7 @@ export default function EventM(props) {
           <View style={styles.left}>
             <View style={styles.leftInfos}>
               <Text>{props.venue}</Text>
+              <Text>{props.date}</Text>
               <Text>
                 {props.timeStart} - {props.timeEnd}
               </Text>
@@ -52,9 +72,7 @@ export default function EventM(props) {
             </View>
           </View>
           <View style={styles.right}>
-            <View style={styles.rightInfos}>
-              {genres}
-            </View>
+            <View style={styles.rightInfos}>{genres}</View>
           </View>
         </View>
       </TouchableOpacity>
