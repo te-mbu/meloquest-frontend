@@ -90,7 +90,7 @@ export default function UserEventPageScreen({ navigation }) {
         {/* bloc réservation + prix */}
         <View style={styles.blocPrix}>
           <View style={styles.prix}>
-            <Text style={styles.textprix}>{event[0].price}</Text>
+            <Text style={styles.textprix}>{event[0].price} €</Text>
           </View>
 
           <TouchableOpacity
