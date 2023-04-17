@@ -32,7 +32,6 @@ export default function UserHomePageScreen({ }) {
       (date.getMonth() + 1).toString().padStart(2, "0") +
       "-" +
       date.getDate().toString().padStart(2, "0");
-    // console.log("FORMATTED ->", formattedDate)
     return formattedDate;
   }
 
@@ -55,7 +54,6 @@ export default function UserHomePageScreen({ }) {
         name={data.name}
         genres={data.genre}
         venue={data.address.venue}
-        date={formatDate(data.timeDetails.date)}
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
@@ -68,6 +66,7 @@ export default function UserHomePageScreen({ }) {
     fetch('http://localhost:3000/events/tonight')
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         if (data.result && data.tonight) {
           setEvents(data.tonight)
         }
@@ -86,11 +85,13 @@ export default function UserHomePageScreen({ }) {
       })
   };
 
+  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Évènements</Text>
+          <Text style={styles.title}>Événements</Text>
         </View>
         <View style={styles.headerContainer}>
 
@@ -110,9 +111,6 @@ export default function UserHomePageScreen({ }) {
 
         {/* </View> */}
         <View style={styles.eventsContainer}>
-          {/* <EventM />
-          <EventM />
-          <EventM /> */}
           {allEvents}
         </View>
       </ScrollView>
@@ -127,13 +125,13 @@ const styles = StyleSheet.create({
 
 
   titleContainer: {
-    height: 60,
+    height: 50,
     backgroundColor: "#000000",
     borderBottomWidth: 2,
     borderBottomColor: "white"
   },
   title: {
-    fontSize: 28,
+    fontSize: 23,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 5,
@@ -155,7 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     height: '100%',
     width: "33.3%",
-    borderRightWidth: 4,
+    borderRightWidth: 2,
     borderColor: 'white'
   },
   //style de text tonight 
@@ -170,7 +168,7 @@ const styles = StyleSheet.create({
   weekContainer: {
     height: '100%',
     width: "33.3%",
-    borderRightWidth: 4,
+    borderRightWidth: 2,
     borderColor: 'white'
   },
   //style de text week-end
