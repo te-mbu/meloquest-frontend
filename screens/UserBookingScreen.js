@@ -24,7 +24,7 @@ export default function UserBookingScreen({ navigation }) {
     setEvent([eventToPurchase]);
     setDataLoaded(true);
   }, [eventToPurchase]);
-
+  
   if (!dataLoaded) {
     return (
       <View>
@@ -32,7 +32,7 @@ export default function UserBookingScreen({ navigation }) {
       </View>
     );
   }
-
+  
   const eventDetails = event.map((data, i) => {
     return (
       <EventL
@@ -44,11 +44,12 @@ export default function UserBookingScreen({ navigation }) {
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
       />
-    );
-  });
-
-  return (
-    <SafeAreaView style={styles.maincontainer}>
+      );
+    });
+    
+    console.log('[USER_BOOKING_SCREEN eventL->', event)
+    return (
+      <SafeAreaView style={styles.maincontainer}>
       {eventDetails}
       <View style={styles.container}>
         <View style={styles.sectionone}>

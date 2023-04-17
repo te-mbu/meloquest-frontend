@@ -64,7 +64,7 @@ export default function UserSearchScreen({}) {
 
    // Variable pour fetch les évents filter dans une fonction handleWeek
    const handleSearch = () => {
-    fetch('http://localhost:3000/events/tonight') // pour tester la route avec les évents de la nuit 
+    fetch('https://meloquest-backend.vercel.app/events/tonight') // pour tester la route avec les évents de la nuit 
       .then(response => response.json())
       .then(data => {
         if (data.result && data.tonight) {

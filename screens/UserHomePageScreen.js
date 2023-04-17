@@ -34,7 +34,7 @@ export default function UserHomePageScreen({ }) {
       <EventM
         key={i}
         isClickable={true}
-        clientId={data._id}
+        event_id={data.event_id}
         name={data.name}
         genres={data.genre}
         venue={data.address.venue}
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   //style de text tonight 
   textTonight: {
-    fontSize: 20,
+    fontSize:15,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 10
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   //style de text week-end
   textweek: {
-    fontSize: 20,
+    fontSize:15,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 10
@@ -169,11 +169,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     height: '100%',
     width: "33.3%",
+    
   },
 
   //style de text tendances
   textTrend: {
-    fontSize: 20,
+    fontSize:15,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 10
