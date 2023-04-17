@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   View,
@@ -10,29 +10,74 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import EventM from "../components/EventM";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+const { formatDate, formatHour } = require("../modules/date");
 
 export default function UserEventPageScreen({ navigation }) {
+  const [event, setEvent] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const eventToPurchase = useSelector(
+    (state) => state.user.value.eventToPurchase
+  );
+
+  useEffect(() => {
+    setEvent([eventToPurchase]);
+    setDataLoaded(true);
+  }, [eventToPurchase]);
+
+  if (!dataLoaded) {
+    return (
+      <View>
+        <Text>Chargement en cours...</Text>
+      </View>
+    );
+  }
+
+  const eventDetails = event.map((data, i) => {
+    return (
+      <EventM
+        key={i}
+        isClickable={false}
+        clientId={data._id}
+        name={data.name}
+        genres={data.genre}
+        venue={data.address.venue}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
+        timeEnd={formatHour(data.timeDetails.timeEnd)}
+        price={data.price}
+      />
+    );
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.arrowBack}
+        >
+          <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
+        </TouchableOpacity>
+
         {/* zone de titre "Evenements" */}
-        <View style={styles.title}>
-          <Text style={styles.textTitle}>Evenements</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.textTitle}>Détails de l'évènement</Text>
         </View>
 
         {/* bloc de la cardevent medium */}
-        <EventM />
+        {eventDetails}
 
         {/* bloc de la description */}
-        <View style={styles.blocDesc}>
-          <Text style={styles.textDesc}>Description</Text>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.description}>Description</Text>
         </View>
 
         <View style={styles.blocBio}>
-          <Text style={styles.textEvent}>
-            {" "}
-            loremipsumloremipsumnbchjdbhfjbdhjfbdhbfjhdvfhjdvfhbsdjfhbnsklbfhsbfdjksqvfhbnsjfvjhsbnfkkbsjhfbsjkfdbqhkj
-          </Text>
+          <Text style={styles.textEvent}> {event[0].description}</Text>
         </View>
 
         {/* bloc de la localisation*/}
@@ -45,7 +90,7 @@ export default function UserEventPageScreen({ navigation }) {
         {/* bloc réservation + prix */}
         <View style={styles.blocPrix}>
           <View style={styles.prix}>
-            <Text style={styles.textprix}> prix </Text>
+            <Text style={styles.textprix}>{event[0].price} €</Text>
           </View>
 
           <TouchableOpacity
@@ -69,7 +114,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "black",
   },
-
+  arrowBack: {
+    height: 70,
+    justifyContent: "center",
+    paddingLeft: 15,
+  },
   eventContainer: {
     flexDirection: "column",
     alignItems: "flex-start",
@@ -77,19 +126,19 @@ const styles = StyleSheet.create({
   },
 
   // bloc du titre
-  title: {
+  titleContainer: {
     width: "100%",
+    justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: 'purple',
     height: 50,
-    marginBottom: "10%",
+    marginBottom: 10,
   },
 
   // css du titre evenement
   textTitle: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#ffffff",
     alignItems: "center",
   },
 
@@ -100,50 +149,52 @@ const styles = StyleSheet.create({
     color: "white",
   },
 
-  blocDesc: {
+  descriptionContainer: {
     fontSize: 30,
     marginBottom: 10,
     height: 50,
     width: "100%",
-    backgroundColor: "black",
-    marginTop: "10%",
+    marginTop: 10,
+    justifyContent: "center",
   },
 
-  textDesc: {
-    color: "white",
+  description: {
+    color: "#ffffff",
     fontSize: 20,
+    fontWeight: "bold",
   },
 
   blocBio: {
-    backgroundColor: "gray",
+    backgroundColor: "#ffffff",
     width: "100%",
     height: "auto",
     borderRadius: 10,
   },
 
   textEvent: {
-    color: "red",
+    padding: 15,
+    color: "#000000",
     alignItems: "center",
   },
 
   bloclocation: {
-    // backgroundColor: 'red',
     width: "100%",
     height: 50,
-    marginTop: "10%",
+    marginTop: 20,
+    justifyContent: "center",
   },
 
   textloca: {
-    color: "white",
+    color: "#ffffff",
     fontSize: 20,
-    alignSelf: "left",
+    fontWeight: "bold",
   },
 
   map: {
     // prend en compte la taille de mon écran
     width: Dimensions.get("window").width * 1,
     height: Dimensions.get("window").height * 0.3,
-    marginTop: "10%",
+    marginTop: 10,
   },
 
   blocPrix: {
