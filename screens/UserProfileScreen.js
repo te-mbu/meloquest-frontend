@@ -9,14 +9,24 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
+import { logout } from "../reducers/user";
+import { useDispatch } from "react-redux";
 
-export default function UserProfileScreen() {
+export default function UserProfileScreen({ navigation }) {
+
+  const dispatch = useDispatch()
+
+  function handleLogout() {
+    dispatch(logout())
+    navigation.navigate("Role")
+  }
+ 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.bannerContainer}>
           <View style={styles.logoutContainer}>
-            <Text style={styles.logoutText}>Déconnexion</Text>
+            <Text onPress={() => handleLogout()} style={styles.logoutText}>Déconnexion</Text>
           </View>
           <View style={styles.userIcon}>
             <FontAwesome
