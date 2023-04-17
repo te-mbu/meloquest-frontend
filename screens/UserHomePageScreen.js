@@ -26,29 +26,29 @@ export default function UserHomePageScreen({ }) {
       });
   }, []);
 
-  
+
 
 
   const allEvents = events.map((data, i) => {
     return (
-        <EventM
-          key={i}
-          isClickable={true}
-          clientId={data._id}
-          name={data.name}
-          genres={data.genre}
-          venue={data.address.venue}
-          date={formatDate(data.timeDetails.timeStart)}
-          timeStart={formatHour(data.timeDetails.timeStart)}
-          timeEnd={formatHour(data.timeDetails.timeEnd)}
-          price={data.price}
-        />
+      <EventM
+        key={i}
+        isClickable={true}
+        clientId={data._id}
+        name={data.name}
+        genres={data.genre}
+        venue={data.address.venue}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
+        timeEnd={formatHour(data.timeDetails.timeEnd)}
+        price={data.price}
+      />
     );
   });
 
   // Variable pour fetch les évents filter dans une fonction handleTonight
   const handleTonight = () => {
-    fetch('http://localhost:3000/events/tonight')
+    fetch('https://meloquest-backend.vercel.app/events/tonight')
       .then(response => response.json())
       .then(data => {
         console.log(data)
@@ -61,7 +61,7 @@ export default function UserHomePageScreen({ }) {
 
   // Variable pour fetch les évents filter dans une fonction handleWeek
   const handleWeek = () => {
-    fetch('http://localhost:3000/events/week')
+    fetch('https://meloquest-backend.vercel.app/events/week')
       .then(response => response.json())
       .then(data => {
         if (data.result && data.week) {
@@ -70,7 +70,7 @@ export default function UserHomePageScreen({ }) {
       })
   };
 
-  
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,7 +86,7 @@ export default function UserHomePageScreen({ }) {
 
           <TouchableOpacity onPress={() => handleWeek()} style={styles.weekContainer}>
             <Text style={styles.textweek}>Cette Semaine</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
 
           <View style={styles.trendContainer}>
             <Text style={styles.textTrend}>Tendances</Text>
