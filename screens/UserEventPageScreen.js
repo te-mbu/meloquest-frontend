@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import MapView from "react-native-maps";
-import EventM from "../components/EventM";
+import EventMNonClickable from '../components/EventMNonClickable'
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -39,7 +39,7 @@ export default function UserEventPageScreen({ navigation }) {
   const eventDetails = event.map((data, i) => {
     console.log("DATA -> ", data.event_id)
     return (
-      <EventM
+      <EventMNonClickable
         key={i}
         isClickable={false}
         genres={data.genre}
@@ -217,18 +217,20 @@ const styles = StyleSheet.create({
 
   textprix: {
     color: "white",
-    fontSize: 30,
+    fontSize: 25,
     alignSelf: "center",
   },
-
+  
   buttonBook: {
     borderWidth: 1,
     borderRadius: "50%",
     padding: "5%",
     backgroundColor: "#4C32CC",
+    justifyContent: 'center'
   },
-
+  
   textButton: {
+    fontWeight: 'bold',
     color: "white",
     fontSize: 20,
     alignSelf: "center",
