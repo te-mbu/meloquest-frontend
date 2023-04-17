@@ -13,17 +13,26 @@ import { useNavigation } from "@react-navigation/native";
 import UserEventPageScreen from "../screens/UserEventPageScreen";
 import { useDispatch } from "react-redux";
 import { addEventToPurchase } from "../reducers/user";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function EventM(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [isLiked, setIsLiked] = useState(false);
+  const [token, setToken] = useState("");
+
+  const userToken = useSelector((state) => state.user.value.token);
+
+  useEffect(() => {
+    setToken(userToken);
+  }, []);
 
   const handleOnPress = () => {
     fetch(`https://meloquest-backend.vercel.app/events/${props.event_id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.result) {
-          console.log("EVENT M DATA EVENT -> ", data.event)
           dispatch(addEventToPurchase(data.event));
           navigation.navigate("UserEventPage");
         } else {
@@ -35,39 +44,95 @@ export default function EventM(props) {
       });
   };
 
+  const handleEventLiked = () => {
+    setIsLiked(!isLiked);
+    if (!isLiked) {
+      fetch("https://meloquest-backend.vercel.app/events/liked", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event_id: props.event_id,
+          token: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.result) {
+            console.log("organiser added to event liked");
+          } else {
+            console.log("organiser not added");
+          }
+        });
+    } else {
+      fetch("https://meloquest-backend.vercel.app/events/unliked", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event_id: props.event_id,
+          token: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.result) {
+            console.log("organiser removed from event liked");
+          } else {
+            console.log("organiser not removed");
+          }
+        });
+    }
+  };
+
   let allGenres = props.genres;
   const genres = allGenres.map((data, i) => {
     if (i <= 3) {
       return <TagGenre key={i} genre={data} />;
-    } 
-    
+    }
   });
+
+  let heartStyles;
+  if (isLiked) {
+    heartStyles = {
+      color: "red",
+      pointerEvents: "auto",
+    };
+  } else {
+    heartStyles = {
+      color: "#ffffff",
+      pointerEvents: "auto",
+    };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.totalContainer} onPress={props.isClickable ? handleOnPress : null}>
+      <TouchableOpacity
+        style={styles.totalContainer}
+        onPress={props.isClickable ? handleOnPress : null}
+      >
         <ImageBackground
-          style={{ flex: 1, }}
+          style={{ flex: 1 }}
           source={require("../assets/eventPhoto.png")}
-          resizeMode='cover'
+          resizeMode="cover"
         >
           <View style={styles.topContainer}>
             <View style={styles.topContainerInfos}>
               <Text style={styles.title}>{props.name}</Text>
               <View style={styles.icons}>
-                <View style={styles.share}>
+                <TouchableOpacity style={styles.share}>
                   <FontAwesome name="share" color="#ffffff" size={20} />
-                </View>
-                <View style={styles.heart}>
-                  <FontAwesome name="heart" color="#ffffff" size={20} />
-                </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.heart}
+                  onPress={() => handleEventLiked()}
+                >
+                  <FontAwesome name="heart" style={heartStyles} size={20} />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
           <View style={styles.details}>
             <View style={styles.left}>
               <View style={styles.leftInfos}>
-
                 <View style={styles.iconTextContainer}>
                   <FontAwesome name="map-pin" color="purple" size={20} />
                   <Text style={styles.textevent}>{props.venue}</Text>
@@ -77,7 +142,6 @@ export default function EventM(props) {
                   <FontAwesome name="calendar" color="purple" size={20} />
                   <Text style={styles.textevent}>{props.date}</Text>
                 </View>
-
 
                 <View style={styles.iconTextContainer}>
                   <FontAwesome name="clock-o" color="purple" size={20} />
@@ -91,7 +155,6 @@ export default function EventM(props) {
                   <Text style={styles.textevent}>{props.price}€</Text>
                 </View>
               </View>
-
             </View>
             <View style={styles.right}>
               <View style={styles.rightInfos}>{genres}</View>
@@ -109,7 +172,7 @@ const styles = StyleSheet.create({
 
     borderWidth: "2px",
     borderColor: "#000000",
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
   totalContainer: {
     width: "95%",
@@ -117,7 +180,7 @@ const styles = StyleSheet.create({
     height: 240,
     overflow: "hidden",
     // paddingVertical: 10,
-    margin: 15
+    margin: 15,
   },
   topContainer: {
     width: "100%",
@@ -127,19 +190,18 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 30
+    padding: 30,
   },
 
   iconTextContainer: {
     display: "flex",
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   textevent: {
     marginLeft: 10,
     fontWeight: "bold",
     fontSize: 15,
-
   },
 
   title: {
@@ -162,7 +224,7 @@ const styles = StyleSheet.create({
     height: "45%",
     display: "flex",
     flexDirection: "row",
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
   },
   left: {
     height: "100%",
@@ -180,17 +242,15 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "50%",
     // backgroundColor: 'red',
-    display: 'flex',
+    display: "flex",
     flexDirection: "row",
-    justifyContent: 'space-between'
-
+    justifyContent: "space-between",
   },
   rightInfos: {
     // height: "100%",
-    width: '100%',
-    flexWrap: 'wrap',
+    width: "100%",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-
   },
 });
