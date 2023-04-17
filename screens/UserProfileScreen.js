@@ -11,22 +11,73 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
 import { logout } from "../reducers/user";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function UserProfileScreen({ navigation }) {
+  const [token, setToken] = useState("");
+  const [eventsLiked, setEventsLiked] = useState("");
+  const [eventsPurchased, setEventsPurchased] = useState("");
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const userToken = useSelector((state) => state.user.value.token);
+
+  useEffect(() => {
+    setToken(userToken);
+
+    fetch(`http://localhost:3000/events/liked/${token}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) {
+          setEventsLiked(data.data);
+        } else {
+          console.log("Events not found");
+        }
+      });
+
+    fetch(`http://localhost:3000/events/purchased/${token}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) {
+          setEventsPurchased(data.data);
+          setDataLoaded(true);
+        } else {
+          console.log("Events not found");
+        }
+      });
+  }, []);
+
+  if (!dataLoaded) {
+    return (
+      <View>
+        <Text>Chargement en cours...</Text>
+      </View>
+    );
+  }
 
   function handleLogout() {
-    dispatch(logout())
-    navigation.navigate("Role")
+    dispatch(logout());
+    navigation.navigate("Role");
   }
- 
+
+  const allLiked = eventsLiked.map((data, i) => {
+    return <EventSOne name={data.name} venue={data.address.venue} />;
+  });
+
+  const allPurchased = eventsPurchased.map((data, i) => {
+    return <EventSOne name={data.name} venue={data.address.venue} />;
+  });
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.bannerContainer}>
           <View style={styles.logoutContainer}>
-            <Text onPress={() => handleLogout()} style={styles.logoutText}>Déconnexion</Text>
+            <Text onPress={() => handleLogout()} style={styles.logoutText}>
+              Déconnexion
+            </Text>
           </View>
           <View style={styles.userIcon}>
             <FontAwesome
@@ -44,17 +95,12 @@ export default function UserProfileScreen({ navigation }) {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Évènements likés</Text>
           </View>
-          <View style={styles.eventsLikedContainer}>
-            <EventSOne />
-          </View>
+          <View style={styles.eventsLikedContainer}>{allLiked}</View>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Évènements achetés</Text>
           </View>
           <View style={styles.eventsPurchasedContainer}>
-            <EventSOne />
-            <EventSOne />
-            <EventSOne />
-            <EventSOne />
+            {allPurchased}
           </View>
         </View>
       </ScrollView>
@@ -117,7 +163,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     width: "100%",
     textAlign: "center",
-    fontSize: '20px',
+    fontSize: "20px",
     padding: "3%",
     backgroundColor: "#ffffff",
   },
