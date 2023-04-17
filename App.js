@@ -74,35 +74,27 @@ const UserTabNavigator = () => {
           } else if (route.name === "UserProfile") {
             iconName = "user-circle-o";
           }
-          
+
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        
+
         tabBarActiveTintColor: "orange",
         tabBarInactiveTintColor: "white",
         headerShown: false,
-        
+
         tabBarStyle: {
           backgroundColor: 'black', // permet de définir le fond de la tabbar
           borderTopWidth: 0,
 
         },
-        
+
       })}
-      
-      
-      
+
+
+
     >
-      <Tab.Screen name="UserHomePage" component={UserHomePageScreen} options={{
-        // tabBarIcon: ({ color, size }) => (
-        //   <FontAwesome name="home" size={size} color={color} />
-        // ),
-        // tabBarOnPress: ({ navigation }) => {
-        //   navigation.navigate('UserHomePage');
-        //   // ici vous pouvez inclure votre fonction tabBarOnPress
-        // },
-      }} />
+      <Tab.Screen name="UserHomePage" component={UserHomePageScreen} />
       <Tab.Screen name="UserSearch" component={UserSearchScreen} />
       <Tab.Screen name="UserTicket" component={UserTicketScreen} />
       <Tab.Screen name="UserProfile" component={UserProfileScreen} />
@@ -115,7 +107,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="FirstPage" component={FirstPageScreen} />
+          <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
             name="OrgaSigninSignup"
@@ -125,8 +117,8 @@ export default function App() {
             name="UserSigninSignup"
             component={UserSigninSignupScreen}
           />
-          <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} /> */}
-          {/* <Stack.Screen name="UserPosition" component={UserPositionScreen} /> */}
+          <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
+          <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
           <Stack.Screen name="UserBooking" component={UserBookingScreen} />
