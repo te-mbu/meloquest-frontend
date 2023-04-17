@@ -17,12 +17,17 @@ const styles = StyleSheet.create({
   genreContainer: {
     backgroundColor: "purple",
     borderRadius: 15,
+    marginVertical: 5,
+    width:'auto',
   },
   genreText: {
     alignSelf: "center",
-    paddingHorizontal: 5,
-    paddingVertical: 2,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
     color: "#ffffff",
     fontWeight: "bold",
+    justifyContent:"center",
+    fontSize:17
+    
   },
 });

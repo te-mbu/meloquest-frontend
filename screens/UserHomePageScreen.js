@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
   titleContainer: {
     height: 50,
     backgroundColor: "#000000",
-    borderBottomWidth: 2,
-    borderBottomColor: "white"
+    // borderBottomWidth: 2,
+    // borderBottomColor: "white"
   },
   title: {
     fontSize: 23,
@@ -135,15 +135,14 @@ const styles = StyleSheet.create({
   },
 
   tonightContainer: {
-    backgroundColor: 'black',
-    height: '100%',
-    width: "33.3%",
-    borderRightWidth: 2,
-    borderColor: 'white'
+    backgroundColor: 'purple',
+    height: '80%',
+    width: "30%",
+    borderRadius:30
   },
   //style de text tonight 
   textTonight: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 10
@@ -151,14 +150,15 @@ const styles = StyleSheet.create({
 
 
   weekContainer: {
-    height: '100%',
-    width: "33.3%",
-    borderRightWidth: 2,
-    borderColor: 'white'
+    height: '80%',
+    width: "30%",
+    backgroundColor: 'purple',
+    borderRadius:30,
+
   },
   //style de text week-end
   textweek: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 10
@@ -166,31 +166,25 @@ const styles = StyleSheet.create({
 
 
   trendContainer: {
-    backgroundColor: 'black',
-    height: '100%',
-    width: "33.3%",
+    backgroundColor: 'purple',
+    borderRadius:30,
+    height: '80%',
+    width: "30%",
   },
 
   //style de text tendances
   textTrend: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: "center",
     color: "#ffffff",
     paddingTop: 10
   },
-
-
-
-
-
-
-
-
 
   eventsContainer: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    
   },
 });
