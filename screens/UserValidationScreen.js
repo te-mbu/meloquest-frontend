@@ -10,7 +10,9 @@ import {
   TouchableOpacity
 } from "react-native";
 
+
 export default function UserValidationScreen({ navigation }) {
+
   return (
     <SafeAreaView style={{flex : 1}}>
       <ImageBackground source={require('../assets/photobleue.jpg')} style={styles.background}> 

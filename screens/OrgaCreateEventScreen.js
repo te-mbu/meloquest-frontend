@@ -14,6 +14,8 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
@@ -47,6 +49,15 @@ export default function OrgaCreateEventScreen() {
   const [isDatePickerVisibletwo, setDatePickerVisibilitytwo] = useState(false);
 
   const [isMultiSelectOpen, setIsMultiSelectOpen] = useState(false);
+  const [token, setToken] = useState('')
+
+  const userToken = useSelector((state) => state.user.value.token)
+
+  useEffect(() => {
+    setToken(userToken);
+  }, []);
+
+
 
   const renderItem = (item) => {
     return (
@@ -128,6 +139,23 @@ export default function OrgaCreateEventScreen() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
+          fetch("http://localhost:3000/events/organiser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              event_id: data.event_id,
+              token: token,
+             
+            }),
+          }).then(response => response.json())
+            .then(data => {
+              if (data.result) {
+                console.log('Organiser added to event collection')
+              } else {
+                console.log("Can't add organiser to event collection" )
+              }
+            })
+
           console.log("Event added to the database");
         } else {
           console.log("[eventCreation] failed");
@@ -138,7 +166,7 @@ export default function OrgaCreateEventScreen() {
   const filteredData = data.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground

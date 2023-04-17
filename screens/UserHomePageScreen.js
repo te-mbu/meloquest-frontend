@@ -34,7 +34,7 @@ export default function UserHomePageScreen({ }) {
       <EventM
         key={i}
         isClickable={true}
-        clientId={data._id}
+        event_id={data.event_id}
         name={data.name}
         genres={data.genre}
         venue={data.address.venue}

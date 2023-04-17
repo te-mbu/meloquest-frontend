@@ -12,6 +12,8 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { emptyEventToPurchase, eventsPurchased } from '../reducers/user'
 
 export default function UserPaymentScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -27,6 +29,7 @@ export default function UserPaymentScreen({ navigation }) {
     (state) => state.user.value.eventToPurchase
   );
   const userToken = useSelector((state) => state.user.value.token)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setEvent([eventToPurchase]);
@@ -54,7 +57,11 @@ export default function UserPaymentScreen({ navigation }) {
   };
 
   function handlePaymentValidationClick() {
-    fetch("http://localhost:3000/events/purchased", {
+
+    console.log('[PAYMENT PAGE event]', event[0])
+
+
+    fetch("https://meloquest-backend.vercel.app/events/purchased", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -65,6 +72,7 @@ export default function UserPaymentScreen({ navigation }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.result) {
+          dispatch(eventsPurchased(event[0]))
           navigation.navigate("UserValidation");
         } else {
           console.log("Unable to validate payment");

@@ -19,10 +19,11 @@ export default function EventM(props) {
   const dispatch = useDispatch();
 
   const handleOnPress = () => {
-    fetch(`http://localhost:3000/events/${props.clientId}`)
+    fetch(`https://meloquest-backend.vercel.app/events/${props.event_id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.result) {
+          console.log("EVENT M DATA EVENT -> ", data.event)
           dispatch(addEventToPurchase(data.event));
           navigation.navigate("UserEventPage");
         } else {

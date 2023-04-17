@@ -9,11 +9,26 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
+import { useDispatch } from "react-redux";
+import { logout } from "../reducers/user";
 
-export default function OrgaProfileScreen() {
+export default function OrgaProfileScreen({ navigation }) {
+
+  const dispatch = useDispatch()
+
+  function handleLogout() {
+    dispatch(logout())
+    navigation.navigate("Role")
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+      <View style={styles.logoutContainer}>
+        <Text onPress={() => handleLogout()} style={styles.logoutText}>
+          Déconnexion
+        </Text>
+      </View>
         <View style={styles.body}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Évènements à venir</Text>
@@ -37,9 +52,26 @@ export default function OrgaProfileScreen() {
 }
 
 const styles = StyleSheet.create({
+  logoutContainer: {
+    flex: 1,
+    alignSelf: "flex-end",
+    marginVertical: 10,
+    marginRight: 10,
+    backgroundColor: "purple",
+    borderRadius: 15,
+  },
+  logoutText: {
+    color: "#ffffff",
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    fontWeight: "bold",
+  },
   container: {
     flex: 1,
-    backgroundColor: '#000000'
+    backgroundColor: "#000000",
+  },
+  body: {
+    marginTop: 10,
   },
   bannerContainer: {
     display: "flex",

@@ -27,7 +27,7 @@ export default function UserEventPageScreen({ navigation }) {
     setEvent([eventToPurchase]);
     setDataLoaded(true);
   }, [eventToPurchase]);
-
+  
   if (!dataLoaded) {
     return (
       <View>
@@ -35,26 +35,28 @@ export default function UserEventPageScreen({ navigation }) {
       </View>
     );
   }
-
+  
   const eventDetails = event.map((data, i) => {
+    console.log("DATA -> ", data.event_id)
     return (
       <EventM
         key={i}
         isClickable={false}
-        clientId={data._id}
-        name={data.name}
         genres={data.genre}
+        name={data.name}
+        event_id={data.event_id}
         venue={data.address.venue}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
       />
-    );
-  });
-
-  return (
-    <SafeAreaView style={styles.container}>
+      );
+    });
+    
+    console.log('[USER_EVENT_PAGE_SCREEN event->', event)
+    return (
+      <SafeAreaView style={styles.container}>
       <ScrollView>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
