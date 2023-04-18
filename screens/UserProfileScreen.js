@@ -33,7 +33,6 @@ export default function UserProfileScreen({ navigation }) {
 
   useEffect(() => {
     if (isFocused) {
-      //
       setToken(userToken);
       fetch(`https://meloquest-backend.vercel.app/events/liked/${userToken}`)
         .then((res) => res.json())
