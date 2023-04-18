@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FirstPageScreen from "./screens/FirstPageScreen";
 import RoleScreen from "./screens/RoleScreen";
+import SigninScreen from "./screens/SigninScreen";
 import OrgaSigninScreen from "./screens/OrgaSigninScreen";
 import OrgaSignupScreen from "./screens/OrgaSignupScreen";
 import UserSigninScreen from "./screens/UserSigninScreen";
@@ -105,6 +106,10 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
+          <Stack.Screen
+            name="Signin"
+            component={SigninScreen}
+          />
           <Stack.Screen
             name="OrgaSignin"
             component={OrgaSigninScreen}

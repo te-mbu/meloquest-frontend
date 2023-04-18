@@ -18,7 +18,7 @@ export default function FirstPageScreen({navigation}) {
                 <View style={styles.container}>
                     <Text style={styles.catchphrase}>Explorer la musique autrement</Text>
 
-                    <TouchableOpacity onPress={() => navigation.navigate('Role')} style={styles.button} activeOpacity={0.8}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Signin')} style={styles.button} activeOpacity={0.8}>
                         <Text style={styles.textButton}>Démarrer</Text>
                     </TouchableOpacity>
 
