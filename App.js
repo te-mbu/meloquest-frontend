@@ -5,9 +5,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FirstPageScreen from "./screens/FirstPageScreen";
 import RoleScreen from "./screens/RoleScreen";
 import SigninScreen from "./screens/SigninScreen";
-import OrgaSigninScreen from "./screens/OrgaSigninScreen";
 import OrgaSignupScreen from "./screens/OrgaSignupScreen";
-import UserSigninScreen from "./screens/UserSigninScreen";
 import UserSignupScreen from "./screens/UserSignupScreen";
 import OrgaProfileScreen from "./screens/OrgaProfileScreen";
 import OrgaCreateEventScreen from "./screens/OrgaCreateEventScreen";
@@ -110,17 +108,18 @@ export default function App() {
             name="Signin"
             component={SigninScreen}
           />
-          <Stack.Screen
-            name="OrgaSignin"
-            component={OrgaSigninScreen}
-          />
            <Stack.Screen
             name="OrgaSignup"
             component={OrgaSignupScreen}
           />
           <Stack.Screen
+<<<<<<< HEAD
             name="UserSigninSignup"
             component={UserSigninSignupScreen}
+=======
+            name="UserSignup"
+            component={UserSignupScreen}
+>>>>>>> f405ec067f366edc1edbf7bf997e2748ba641dcc
           />
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
           <Stack.Screen name="UserPosition" component={UserPositionScreen} /> 

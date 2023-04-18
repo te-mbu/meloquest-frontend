@@ -18,7 +18,7 @@ export default function OrgaProfileScreen({ navigation }) {
 
   function handleLogout() {
     dispatch(logout())
-    navigation.navigate("Role")
+    navigation.navigate("Signin")
   }
 
   return (
