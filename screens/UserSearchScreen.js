@@ -11,53 +11,38 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
-import EventM from "../components/EventM";
 import { useState, useEffect } from "react";
+import { useIsFocused } from '@react-navigation/native';
+import { formatDate, formatHour } from "../modules/date";
+
 
 export default function UserSearchScreen({ }) {
   const [events, setEvents] = useState([]);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    fetch("https://meloquest-backend.vercel.app/events/allevents")
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data.city);
-      });
-  }, []);
-
-  function formatDate(dateString) {
-    let date = new Date(dateString);
-    let formattedDate =
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0");
-    return formattedDate;
-  }
-
-  function formatHour(dateString) {
-    let date = new Date(dateString);
-    let formattedTime =
-      date.getUTCHours().toString().padStart(2, "0") +
-      ":" +
-      date.getUTCMinutes().toString().padStart(2, "0");
-    return formattedTime
-  }
+    if (isFocused) {
+      fetch("https://meloquest-backend.vercel.app/events/allevents")
+        .then((res) => res.json())
+        .then((data) => {
+          setEvents(data.city);
+        });
+    }
+  }, [isFocused]);
 
 
   const allEvents = events.map((data, i) => {
 
     console.log(data.genre)
     return (
-      <EventM
+      <EventSOne
         key={i}
         name={data.name}
-        genres={data.genre}
         venue={data.address.venue}
-        timeStart={formatHour(data.timeDetails.timeStart)}
-        timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
       />
     );
   });
@@ -86,11 +71,6 @@ export default function UserSearchScreen({ }) {
             </TouchableOpacity>
           </View>
           <View style={styles.eventsLikedContainer}>
-            {/* <EventSOne />
-            <EventSOne />
-            <EventSOne />
-            <EventSOne />
-            <EventSOne /> */}
             {allEvents}
           </View>
         </View>
