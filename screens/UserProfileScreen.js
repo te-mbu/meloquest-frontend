@@ -44,27 +44,6 @@ export default function UserProfileScreen({ navigation }) {
   } 
   }, [isFocused]);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     setToken(userToken);
-  //     if (isFocused) {
-  //       try {
-  //         const res = await fetch(`https://meloquest-backend.vercel.app/events/liked/${token}`);
-  //         const data = await res.json();
-  //         if (data.result) {
-  //           setEventsLiked(dataLiked.data);
-  //           setEventsPurchased(eventsPurchasedRed)
-  //         } else {
-  //           console.log("Events not found");
-  //         }
-  //       } catch (error) {
-  //         console.log("Error fetching data: ", error);
-  //       }
-  //     }
-  //   }
-  //   fetchData();
-  // }, [isFocused]);
-
 
   if (!dataLoaded) {
     return (
