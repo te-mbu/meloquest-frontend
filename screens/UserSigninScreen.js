@@ -31,6 +31,7 @@ export default function UserSigninSignupScreen({ navigation }) {
       body: JSON.stringify({
         email: signInEmail,
         password: signInPassword,
+        profileType: "customer",
       }),
     })
       .then(response => response.json())
