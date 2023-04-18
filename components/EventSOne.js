@@ -20,7 +20,7 @@ export default function EventSOne(props) {
       <View style={styles.right}>
         <Text>{props.name}</Text>
         <Text>{props.venue}</Text>
-        <Text>Date | Heure | Prix</Text>
+        <Text>{props.date} | {props.timeStart} | {props.price} €</Text>
       </View>
     </View>
   );
