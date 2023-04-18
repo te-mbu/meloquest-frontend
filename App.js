@@ -108,7 +108,7 @@ export default function App() {
             name="Signin"
             component={SigninScreen}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="OrgaSignup"
             component={OrgaSignupScreen}
           />
@@ -117,11 +117,11 @@ export default function App() {
             component={UserSignupScreen}
           />
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
-          <Stack.Screen name="UserPosition" component={UserPositionScreen} /> 
+          <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
-          <Stack.Screen name="UserBooking" component={UserBookingScreen} />*/}
-          {/* <Stack.Screen name="UserPayment" component={UserPaymentScreen} /> */}
+          <Stack.Screen name="UserBooking" component={UserBookingScreen} />
+          <Stack.Screen name="UserPayment" component={UserPaymentScreen} />
           <Stack.Screen name="UserValidation" component={UserValidationScreen}
           />
         </Stack.Navigator>

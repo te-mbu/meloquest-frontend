@@ -3,19 +3,18 @@ import {
     Text,
     View,
     StyleSheet,
-    KeyboardAvoidingView,
-    ImageBackground,
     TouchableOpacity,
     SafeAreaView,
-    backgroundColor
+    Image
 } from 'react-native';
 
 
-export default function FirstPageScreen({navigation}) {
+export default function FirstPageScreen({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground source={require('../assets/logo_meloQ.png')} style={styles.background}>
-                <View style={styles.imageContainer}>
+            <View style={styles.logo}>
+                <Image source={require('../assets/logo_meloQsmall.png')} style={styles.background} />
+                <View style={styles.textContainer}>
                     <Text style={styles.catchphrase}>Explorer la musique autrement</Text>
 
                     <TouchableOpacity onPress={() => navigation.navigate('Signin')} style={styles.button} activeOpacity={0.8}>
@@ -23,7 +22,8 @@ export default function FirstPageScreen({navigation}) {
                     </TouchableOpacity>
 
                 </View>
-            </ImageBackground>
+
+            </View>
         </SafeAreaView>
     )
 }
@@ -31,12 +31,26 @@ export default function FirstPageScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        display: 'flex',
+        justifyContent: "center",
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor:'#262626'
+        display: "flex",
+
     },
-    imageContainer:{
+    logo: {
+        backgroundColor: "black",
+        height: "100%",
+        width: "100%"
+    },
+
+    background: {
+        width: 300,
+        height: 300,
+        objectFit: "contain",
+        alignSelf: "center",
+        marginTop: "18%"
+    },
+
+    textContainer: {
         flex: 1,
         display: 'flex',
         alignItems: 'center',
@@ -45,30 +59,25 @@ const styles = StyleSheet.create({
 
     catchphrase: {
         position: 'absolute',
-        bottom:0,
+        bottom: 0,
         fontSize: 40,
         fontWeight: '600',
-        marginBottom: 120,
+        marginBottom: 300,
         alignItems: 'center',
         color: 'white'
     },
 
     button: {
-        position:'absolute',
-        bottom:0,
+        position: 'absolute',
+        bottom: 0,
         alignItems: 'center',
         paddingTop: 9,
         width: '100%',
-        marginBottom:30,
+        marginBottom: 40,
         backgroundColor: 'white',
         borderRadius: 16,
     },
 
-    background: {
-        flex: 1,
-        width: '100%',
-        borderBottom: 'none'
-    },
 
     textButton: {
         height: 30,

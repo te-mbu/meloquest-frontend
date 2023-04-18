@@ -9,72 +9,89 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from "react-native";
-
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function UserValidationScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.fullScreen}>
-      <Image source={require('../assets/logo_meloQsmall.png')} style={styles.background} />
+      <View style={styles.fullContainer}>
+        <Image source={require('../assets/logo_meloQsmall.png')} style={styles.background} />
         <View style={styles.maincontainer}>
-            <View style={styles.container}>
-                <Text style={styles.text}>Paiement accepté !</Text>
-                <Text style={styles.text}>Le plus dur est passé !</Text>
-                <Text style={styles.text}>Maintenant place à la zik !</Text>
-            </View>
-            <View>
-                <TouchableOpacity onPress={() => navigation.navigate('UserHomePage')} style={styles.btnstyle} activeOpacity={0.8}>
-                    <Text style={styles.textbutton}>Retour à l'accueil</Text>
-                </TouchableOpacity>
-            </View>
+          <View style={styles.container}>
+          <FontAwesome name="check" color="green" size={30} style={styles.icon} />
+            <Text style={styles.text}>Paiement accepté !</Text>
+            <Text style={styles.text}>Le plus dur est passé !</Text>
+            <Text style={styles.text}>Maintenant place à la zik !</Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate('UserTicket')} style={styles.btnstyle} activeOpacity={0.8}>
+              <Text style={styles.textbutton}>Retour à l'accueil</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        
+      </View>
+
     </SafeAreaView>
-    );
+  );
 }
 
 const styles = StyleSheet.create({
+
+
+  fullScreen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: 'center',
+    display: "flex",
+
+  },
+
+  fullContainer: {
+    backgroundColor: "black",
+    height: "100%",
+    width: "100%"
+  },
+
   background: {
     width: 300,
     height: 300,
-    objectFit:"contain"
+    objectFit: "contain",
+    alignSelf:"center",
+    marginTop:"18%"
   },
 
-  fullScreen:{
-backgroundColor:"black",
-flex:1,
-justifyContent:"center",
-alignItems:'center'
+  icon:{
+    alignSelf:"center"
   },
 
   container: {
     borderWidth: 1,
-    backgroundColor: "white",
+    backgroundColor: "black",
     marginLeft: "3%",
     marginRight: "3%",
-    borderRadius: 10, 
+    borderRadius: 10,
     marginBottom: "25%",
-    padding: "12%"
+    padding: "3%"
   },
-  maincontainer:{
-    display:"flex",
+  maincontainer: {
+    display: "flex",
     alignItems: "center",
     marginTop: "10%",
   },
   text: {
-    color: "black",
+    color: "white",
     textAlign: "center",
     padding: "4%",
+    fontSize: 20,
   },
-  btnstyle :{
-    position:"absolute",
-    bottom:0,
+  btnstyle: {
     borderWidth: 1,
     backgroundColor: "white",
     borderRadius: "5%",
-    alignItems:"flex-end", 
+    alignItems: "flex-end",
   },
-  textbutton:{
+  textbutton: {
     padding: "5%",
     color: "black"
   }
