@@ -13,7 +13,8 @@ import { logout } from "../reducers/user";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
+import { formatDate, formatHour } from "../modules/date";
 
 export default function UserProfileScreen({ navigation }) {
   const [token, setToken] = useState("");
@@ -21,29 +22,32 @@ export default function UserProfileScreen({ navigation }) {
   const [eventsPurchased, setEventsPurchased] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const dispatch = useDispatch();
+  
 
   const userToken = useSelector((state) => state.user.value.token);
-  const eventsPurchasedRed = useSelector((state) => state.user.value.eventsPurchased);
+  const eventsPurchasedRed = useSelector(
+    (state) => state.user.value.eventsPurchased
+  );
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused) {     // 
+    if (isFocused) {
+      //
       setToken(userToken);
       fetch(`https://meloquest-backend.vercel.app/events/liked/${userToken}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.result) {
-            setEventsLiked([...data.data])
-            setEventsPurchased([...eventsPurchasedRed])
-            setDataLoaded(true)
+            setEventsLiked([...data.data]);
+            setEventsPurchased([...eventsPurchasedRed]);
+            setDataLoaded(true);
           } else {
             console.log("Events not found");
           }
         });
-  } 
+    }
   }, [isFocused]);
-
 
   if (!dataLoaded) {
     return (
@@ -59,11 +63,29 @@ export default function UserProfileScreen({ navigation }) {
   }
 
   const allLiked = eventsLiked.map((data, i) => {
-    return <EventSOne name={data.name} venue={data.address.venue} />;
+    return (
+      <EventSOne
+        key={i}
+        name={data.name}
+        venue={data.address.venue}
+        price={data.price}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
+      />
+    );
   });
 
   const allPurchased = eventsPurchased.map((data, i) => {
-    return <EventSOne name={data.name} venue={data.address.venue} />;
+    return (
+      <EventSOne
+        key={i}
+        name={data.name}
+        venue={data.address.venue}
+        price={data.price}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
+      />
+    );
   });
 
   return (
