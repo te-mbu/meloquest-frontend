@@ -77,9 +77,15 @@ const UserTabNavigator = () => {
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#ec6e5b",
-        tabBarInactiveTintColor: "#335561",
+
+        tabBarActiveTintColor: "orange",
+        tabBarInactiveTintColor: "white",
         headerShown: false,
+
+        tabBarStyle: {
+          backgroundColor: "black", // permet de définir le fond de la tabbar
+          borderTopWidth: 0,
+        },
       })}
     >
       <Tab.Screen name="UserHomePage" component={UserHomePageScreen} />

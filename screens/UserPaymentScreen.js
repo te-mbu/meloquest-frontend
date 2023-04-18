@@ -9,9 +9,77 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { emptyEventToPurchase, eventsPurchased } from '../reducers/user'
 
 export default function UserPaymentScreen({ navigation }) {
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvc, setCvc] = useState("");
+
+  const [event, setEvent] = useState([]);
+  const [token, setToken] = useState("");
+  
+  const eventToPurchase = useSelector(
+    (state) => state.user.value.eventToPurchase
+  );
+  const userToken = useSelector((state) => state.user.value.token)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setEvent([eventToPurchase]);
+    setToken(userToken);
+  }, []);
+
+  const formatCreditCardNumber = (inputValue) => {
+    let formattedValue = inputValue.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    let cardNumberArr = [];
+
+    for (let i = 0; i < formattedValue.length; i += 4) {
+      cardNumberArr.push(formattedValue.slice(i, i + 4));
+    }
+    return cardNumberArr.join(" ");
+  };
+
+  const formatExpiryDate = (inputValue) => {
+    let formattedValue = inputValue.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    let expiryDateArr = [];
+
+    for (let i = 0; i < formattedValue.length; i += 2) {
+      expiryDateArr.push(formattedValue.slice(i, i + 2));
+    }
+    return expiryDateArr.join("/");
+  };
+
+  function handlePaymentValidationClick() {
+
+    console.log('[PAYMENT PAGE event]', event[0])
+
+
+    fetch("https://meloquest-backend.vercel.app/events/purchased", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event_id: event[0].event_id,
+        token: token,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(eventsPurchased(event[0]))
+          navigation.navigate("UserValidation");
+        } else {
+          console.log("Unable to validate payment");
+        }
+      });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -27,18 +95,48 @@ export default function UserPaymentScreen({ navigation }) {
           </View>
 
           <View style={styles.formContainer}>
-            <TextInput style={styles.textInput} placeholder="Nom" />
-            <TextInput style={styles.textInput} placeholder="Prénom" />
-            <TextInput style={styles.textInput} placeholder="Numéro de carte" />
-            <View style={styles}>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(value) => setName(value)}
+              value={name}
+              placeholder="Nom"
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(value) => setSurname(value)}
+              value={surname}
+              placeholder="Prénom"
+            />
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(value) =>
+                setCardNumber(formatCreditCardNumber(value))
+              }
+              value={cardNumber}
+              placeholder="Numéro de carte"
+            />
 
-                <TextInput style={styles.textInput} placeholder="Date d'expiration" />
-                <TextInput style={styles.textInput} placeholder="CVC" />
+            <View style={styles.bottomFormContainer}>
+              <TextInput
+                style={styles.textInputExpirationDate}
+                onChangeText={(value) => setExpiryDate(formatExpiryDate(value))}
+                value={expiryDate}
+                placeholder="Date d'expiration"
+              />
+              <TextInput
+                style={styles.textInputCvc}
+                onChangeText={(value) => setCvc(value)}
+                value={cvc}
+                placeholder="CVC"
+              />
             </View>
           </View>
           <View style={styles.bottomContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate('UserValidation')} style={styles.validationContainer}>
-                <Text style={styles.validationText}>Valider le paiement</Text>
+            <TouchableOpacity
+              onPress={() => handlePaymentValidationClick()}
+              style={styles.validationContainer}
+            >
+              <Text style={styles.validationText}>Valider le paiement</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -66,25 +164,57 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   formContainer: {
-    flex: 1,
+    flex: 3,
     display: "flex",
     flexDirection: "column",
-    alignItems: 'center',
+    alignItems: "center",
+    justifyContent: "space-evenly",
     width: "100%",
-    backgroundColor: 'purple',
   },
   textInput: {
     width: "80%",
     height: 40,
     backgroundColor: "white",
     borderRadius: 10,
-    alignSelf: 'center',
+    alignSelf: "center",
+    paddingLeft: 15,
+  },
+  textInputExpirationDate: {
+    width: "60%",
+    height: 40,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignSelf: "center",
+    paddingLeft: 15,
+  },
+  textInputCvc: {
+    width: "30%",
+    height: 40,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignSelf: "center",
+    paddingLeft: 15,
+    marginLeft: 10,
+  },
+  bottomFormContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  bottomContainer: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   validationContainer: {
     height: 50,
-    backgroundColor: 'green',
+    width: "50%",
+    backgroundColor: "green",
+    justifyContent: "center",
+    borderRadius: 15,
   },
   validationText: {
-    alignSelf: 'center',
-  }
+    alignSelf: "center",
+  },
 });

@@ -14,6 +14,8 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
@@ -47,6 +49,15 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [isDatePickerVisibletwo, setDatePickerVisibilitytwo] = useState(false);
 
   const [isMultiSelectOpen, setIsMultiSelectOpen] = useState(false);
+  const [token, setToken] = useState('')
+
+  const userToken = useSelector((state) => state.user.value.token)
+
+  useEffect(() => {
+    setToken(userToken);
+  }, []);
+
+
 
   const [modalVisible, setModalVisible] = useState(false);
   const [isTrue, setIsTrue] = useState(false);
@@ -149,6 +160,22 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setIsMultiSelectOpen(false);
           setModalVisible(true); // pour l'affichage de la modale
           setIsTrue(true); // pour le contenu de la modale
+          fetch("http://localhost:3000/events/organiser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              event_id: data.event_id,
+              token: token,
+             
+            }),
+          }).then(response => response.json())
+            .then(data => {
+              if (data.result) {
+                console.log('Organiser added to event collection')
+              } else {
+                console.log("Can't add organiser to event collection" )
+              }
+            })
         } else {
           setModalVisible(true); // si les champs ne sont pas remplis, afficher quand même un modale.
         }

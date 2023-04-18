@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import MapView from "react-native-maps";
-import EventM from "../components/EventM";
+import EventMNonClickable from '../components/EventMNonClickable'
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -27,7 +27,7 @@ export default function UserEventPageScreen({ navigation }) {
     setEvent([eventToPurchase]);
     setDataLoaded(true);
   }, [eventToPurchase]);
-
+  
   if (!dataLoaded) {
     return (
       <View>
@@ -35,26 +35,28 @@ export default function UserEventPageScreen({ navigation }) {
       </View>
     );
   }
-
+  
   const eventDetails = event.map((data, i) => {
+    console.log("DATA -> ", data.event_id)
     return (
-      <EventM
+      <EventMNonClickable
         key={i}
         isClickable={false}
-        clientId={data._id}
-        name={data.name}
         genres={data.genre}
+        name={data.name}
+        event_id={data.event_id}
         venue={data.address.venue}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
       />
-    );
-  });
-
-  return (
-    <SafeAreaView style={styles.container}>
+      );
+    });
+    
+    console.log('[USER_EVENT_PAGE_SCREEN event->', event)
+    return (
+      <SafeAreaView style={styles.container}>
       <ScrollView>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -215,18 +217,20 @@ const styles = StyleSheet.create({
 
   textprix: {
     color: "white",
-    fontSize: 30,
+    fontSize: 25,
     alignSelf: "center",
   },
-
+  
   buttonBook: {
     borderWidth: 1,
     borderRadius: "50%",
     padding: "5%",
     backgroundColor: "#4C32CC",
+    justifyContent: 'center'
   },
-
+  
   textButton: {
+    fontWeight: 'bold',
     color: "white",
     fontSize: 20,
     alignSelf: "center",
