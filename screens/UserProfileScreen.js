@@ -59,7 +59,7 @@ export default function UserProfileScreen({ navigation }) {
 
   function handleLogout() {
     dispatch(logout());
-    navigation.navigate("Role");
+    navigation.navigate("Signin");
   }
 
   const allLiked = eventsLiked.map((data, i) => {
