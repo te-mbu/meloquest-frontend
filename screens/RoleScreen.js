@@ -11,7 +11,7 @@ export default function RoleScreen({ navigation }) {
       <ImageBackground source={require('../assets/photobleue.jpg')} style={styles.background}>
         <View style={styles.globallayout}>
             <View>
-                <Text style={styles.text}>Je suis un</Text>
+                <Text style={styles.text}>Qui suis-je ??</Text>
             </View>
             <View style={styles.btnlayout}>
                 <TouchableOpacity onPress={() => navigation.navigate('OrgaSignin')} style={styles.btnleft} activeOpacity={0.8}>
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 50,
     backgroundColor: '#FFFFFF',
+    borderWidth: 1,
   },
   textButton: {
     fontSize: 18,
@@ -50,7 +51,10 @@ const styles = StyleSheet.create({
   },
   globallayout: {
     flexDirection: 'column',
-    paddingTop: '100%'
+    paddingTop: '120%',
+    paddingLeft: "6%",
+    paddingRight: "6%",
+
   },
   btnlayout: {
     flexDirection: "row",

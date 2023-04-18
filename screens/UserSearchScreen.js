@@ -14,7 +14,7 @@ import EventSOne from "../components/EventSOne";
 import EventM from "../components/EventM";
 import { useState, useEffect } from "react";
 
-export default function UserSearchScreen({}) {
+export default function UserSearchScreen({ }) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function UserSearchScreen({}) {
 
    // Variable pour fetch les évents filter dans une fonction handleWeek
    const handleSearch = () => {
-    fetch('http://localhost:3000/events/tonight') // pour tester la route avec les évents de la nuit 
+    fetch('https://meloquest-backend.vercel.app/events/tonight') // pour tester la route avec les évents de la nuit 
       .then(response => response.json())
       .then(data => {
         if (data.result && data.tonight) {
@@ -81,7 +81,7 @@ export default function UserSearchScreen({}) {
               style={styles.searchText}
               placeholder="Rechercher"
             />
-            <TouchableOpacity onPress={() => handleSearch()} style={styles.searchButton}> 
+            <TouchableOpacity onPress={() => handleSearch()} style={styles.searchButton}>
               <FontAwesome name="search" size={13} color="#ffffff" />
             </TouchableOpacity>
           </View>
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   searchText: {
     padding: 10,
-    flex:1,
+    flex: 1,
   },
 
   searchButton: {

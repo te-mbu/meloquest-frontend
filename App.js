@@ -77,7 +77,6 @@ const UserTabNavigator = () => {
             iconName = "user-circle-o";
           }
 
-
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
 
@@ -86,15 +85,10 @@ const UserTabNavigator = () => {
         headerShown: false,
 
         tabBarStyle: {
-          backgroundColor: 'black', // permet de définir le fond de la tabbar
+          backgroundColor: "black", // permet de définir le fond de la tabbar
           borderTopWidth: 0,
-
         },
-
       })}
-
-
-
     >
       <Tab.Screen name="UserHomePage" component={UserHomePageScreen} />
       <Tab.Screen name="UserSearch" component={UserSearchScreen} />
@@ -109,7 +103,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="FirstPage" component={FirstPageScreen} />
+          {/* <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
             name="OrgaSignin"
@@ -120,6 +114,7 @@ export default function App() {
             component={OrgaSignupScreen}
           />
           <Stack.Screen
+<<<<<<< HEAD
             name="UserSignin"
             component={UserSigninScreen}
           />
@@ -127,15 +122,18 @@ export default function App() {
             name="UserSignup"
             component={UserSignupScreen}
           />
+=======
+            name="UserSigninSignup"
+            component={UserSigninSignupScreen}
+          /> */}
+>>>>>>> c8601ed385855f7da34986bdf397705f11ad5e86
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
           <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
           <Stack.Screen name="UserBooking" component={UserBookingScreen} />
           <Stack.Screen name="UserPayment" component={UserPaymentScreen} />
-          <Stack.Screen
-            name="UserValidation"
-            component={UserValidationScreen}
+          <Stack.Screen name="UserValidation" component={UserValidationScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
