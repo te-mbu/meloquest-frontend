@@ -8,19 +8,19 @@ import { StatusBar } from 'expo-status-bar';
 export default function RoleScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground source={require('../assets/photobleue.jpg')} style={styles.background}>
+      <ImageBackground source={require('../assets/logo_meloQ.png')} style={styles.background}>
         <View style={styles.globallayout}>
-            <View>
-                <Text style={styles.text}>Je suis un</Text>
-            </View>
-            <View style={styles.btnlayout}>
-                <TouchableOpacity onPress={() => navigation.navigate('OrgaSigninSignup')} style={styles.btnleft} activeOpacity={0.8}>
-                    <Text style={styles.textButton}>Organisateur·trice</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('UserSigninSignup')} style={styles.btnright} activeOpacity={0.8}>
-                    <Text style={styles.textButton}>Utilisateur·trice</Text>
-                </TouchableOpacity>
-            </View>
+          <View>
+            <Text style={styles.text}>Je suis un</Text>
+          </View>
+          <View style={styles.btnlayout}>
+            <TouchableOpacity onPress={() => navigation.navigate('OrgaSigninSignup')} style={styles.btnleft} activeOpacity={0.8}>
+              <Text style={styles.textButton}>Organisateur·trice</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('UserSigninSignup')} style={styles.btnright} activeOpacity={0.8}>
+              <Text style={styles.textButton}>Utilisateur·trice</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-},
+  },
   background: {
     width: '100%',
     height: '100%',
@@ -41,21 +41,31 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     textAlign: "center",
-    fontSize: 50,
-    backgroundColor: '#FFFFFF',
+    fontSize: 40,
+    color:'white'
+    // backgroundColor: '#FFFFFF',
+
   },
   textButton: {
     fontSize: 18,
-    fontWeight:'500'
+    fontWeight: '500'
   },
   globallayout: {
     flexDirection: 'column',
-    paddingTop: '100%'
+    paddingTop: '130%',
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+
   },
   btnlayout: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 70,
+    marginBottom: 50,
+    position: 'absolute',
+    bottom: 0,
   },
   btnleft: {
     alignItems: 'center',
@@ -74,4 +84,4 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
 
- })
+})
