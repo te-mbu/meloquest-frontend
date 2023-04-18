@@ -17,37 +17,26 @@ import { useIsFocused } from '@react-navigation/native';
 
 export default function UserProfileScreen({ navigation }) {
   const [token, setToken] = useState("");
-  const [eventsLiked, setEventsLiked] = useState("");
-  const [eventsPurchased, setEventsPurchased] = useState("");
+  const [eventsLiked, setEventsLiked] = useState([]);
+  const [eventsPurchased, setEventsPurchased] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const userToken = useSelector((state) => state.user.value.token);
+  const eventsPurchasedRed = useSelector((state) => state.user.value.eventsPurchased);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    setToken(userToken);
     if (isFocused) {     // 
       setToken(userToken);
-      fetch(`https://meloquest-backend.vercel.app/events/liked/${token}`)
+      fetch(`https://meloquest-backend.vercel.app/events/liked/${userToken}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.result) {
-            setEventsLiked(data.data);
-            
-            fetch(
-              `https://meloquest-backend.vercel.app/events/purchased/${token}`
-            )
-              .then((res) => res.json())
-              .then((data) => {
-                if (data.result) {
-                  setEventsPurchased(data.data);
-                  setDataLoaded(true);
-                } else {
-                  console.log("Events not found");
-                }
-              });
+            setEventsLiked([...data.data])
+            setEventsPurchased([...eventsPurchasedRed])
+            setDataLoaded(true)
           } else {
             console.log("Events not found");
           }
