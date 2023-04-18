@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function EventSOne() {
+export default function EventSOne(props) {
   return (
     <View style={styles.eventSContainer}>
       <View style={styles.left}>
@@ -18,8 +18,8 @@ export default function EventSOne() {
         ></ImageBackground>
       </View>
       <View style={styles.right}>
-        <Text>Name</Text>
-        <Text>Lieu</Text>
+        <Text>{props.name}</Text>
+        <Text>{props.venue}</Text>
         <Text>Date | Heure | Prix</Text>
       </View>
     </View>
