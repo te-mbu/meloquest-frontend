@@ -14,10 +14,10 @@ export default function RoleScreen({ navigation }) {
                 <Text style={styles.text}>Je suis un</Text>
             </View>
             <View style={styles.btnlayout}>
-                <TouchableOpacity onPress={() => navigation.navigate('OrgaSigninSignup')} style={styles.btnleft} activeOpacity={0.8}>
+                <TouchableOpacity onPress={() => navigation.navigate('OrgaSignin')} style={styles.btnleft} activeOpacity={0.8}>
                     <Text style={styles.textButton}>Organisateur·trice</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('UserSigninSignup')} style={styles.btnright} activeOpacity={0.8}>
+                <TouchableOpacity onPress={() => navigation.navigate('UserSignin')} style={styles.btnright} activeOpacity={0.8}>
                     <Text style={styles.textButton}>Utilisateur·trice</Text>
                 </TouchableOpacity>
             </View>
