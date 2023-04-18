@@ -157,7 +157,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setIsMultiSelectOpen(false);
           setModalVisible(true); // pour l'affichage de la modale
           setIsTrue(true); // pour le contenu de la modale
-          fetch("http://localhost:3000/events/organiser", {
+          fetch("https://meloquest-backend.vercel.app/events/organiser", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

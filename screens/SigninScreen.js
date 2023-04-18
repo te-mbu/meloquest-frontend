@@ -26,7 +26,7 @@ export default function SigninScreen({ navigation }) {
   // Variable pour le fetch dans une fonction handleConnection
   const handleConnection = () => {
     //fetch('https://meloquest-backend.vercel.app/users/signin', {
-    fetch("http://localhost:3000/users/signin", {
+    fetch("https://meloquest-backend.vercel.app/users/signin", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

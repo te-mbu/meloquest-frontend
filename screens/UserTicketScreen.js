@@ -66,7 +66,7 @@ export default function UserTicketScreen() {
       <ScrollView>
         <View style={styles.body}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Évènements à venir</Text>
+            <Text style={styles.title}>Mes tickets</Text>
           </View>
           <View style={styles.eventsLikedContainer}>
             {allEvents}

@@ -45,7 +45,7 @@ export default function UserSearchScreen({}) {
   });
 
   const handleSearch = () => {
-    fetch("http://localhost:3000/events/search", {
+    fetch("https://meloquest-backend.vercel.app/events/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

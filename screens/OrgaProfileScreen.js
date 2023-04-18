@@ -28,7 +28,7 @@ export default function OrgaProfileScreen({ navigation }) {
   useEffect(() => {
     if (isFocused) {
       setToken(userToken);
-      fetch(`http://localhost:3000/events/organiser/${userToken}`)
+      fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.result) {
