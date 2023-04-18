@@ -16,10 +16,12 @@ import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import UploadPhoto from "../components/uploadPhoto";
 
 const data = [
   { label: "Rock", value: "rock" },
@@ -49,18 +51,21 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [isDatePickerVisibletwo, setDatePickerVisibilitytwo] = useState(false);
 
   const [isMultiSelectOpen, setIsMultiSelectOpen] = useState(false);
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isTrue, setIsTrue] = useState(false);
 
-  const userToken = useSelector((state) => state.user.value.token)
+  const userToken = useSelector((state) => state.user.value.token);
+
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
     setToken(userToken);
-  }, []);
-
-
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isTrue, setIsTrue] = useState(false);
+    if (isFocused) {     // in react-native, isFocused works the same as the useEffect?
+      setIsTrue(false);
+  } 
+  }, [isFocused]);
 
   const renderItem = (item) => {
     return (
@@ -166,16 +171,16 @@ export default function OrgaCreateEventScreen({ navigation }) {
             body: JSON.stringify({
               event_id: data.event_id,
               token: token,
-             
             }),
-          }).then(response => response.json())
-            .then(data => {
+          })
+            .then((response) => response.json())
+            .then((data) => {
               if (data.result) {
-                console.log('Organiser added to event collection')
+                console.log("Organiser added to event collection");
               } else {
-                console.log("Can't add organiser to event collection" )
+                console.log("Can't add organiser to event collection");
               }
-            })
+            });
         } else {
           setModalVisible(true); // si les champs ne sont pas remplis, afficher quand même un modale.
         }
@@ -183,9 +188,9 @@ export default function OrgaCreateEventScreen({ navigation }) {
   };
 
   const handleRedirection = () => {
-    setModalVisible(false)
-    navigation.navigate("OrgaProfile")
-  }
+    setModalVisible(false);
+    navigation.navigate("OrgaProfile");
+  };
 
   const filteredData = data.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
@@ -393,9 +398,9 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
               {/* UPLOAD D'IMAGE */}
               <View style={styles.uploadContainer}>
-                <TouchableOpacity style={styles.uploadButton}>
+                <UploadPhoto style={styles.uploadButton}/> 
                   <Text style={styles.upload}>Upload Image</Text>
-                </TouchableOpacity>
+                
                 <View style={styles.share}>
                   <FontAwesome name="plus" color="#ffffff" />
                 </View>
@@ -418,14 +423,13 @@ export default function OrgaCreateEventScreen({ navigation }) {
                 <View
                   style={{
                     flex: 0.2,
-                    backgroundColor: "yellow",
+                    backgroundColor: "grey",
                     justifyContent: "center",
                     alignItems: "center",
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
                     height: "15%",
                     width: "100%",
-                    justifyContent: "center",
                     position: "absolute",
                     bottom: 0,
                     marginBottom: "20%",
@@ -433,27 +437,29 @@ export default function OrgaCreateEventScreen({ navigation }) {
                 >
                   {isTrue ? (
                     <>
-                      <Text>Super ! Votre évènement a bien été créé !!!</Text>
+                      <Text style={styles.champtext}>
+                        Super ! Votre évènement a bien été créé !!!
+                      </Text>
                       <TouchableOpacity
                         onPress={() => handleRedirection()}
-                        style={styles.trybtn}
+                        style={styles.redirectionBtn}
                       >
                         <Text style={styles.eventBtnNavigation}>
-                          Retour à la case départ
+                          Aller à la case départ !
                         </Text>
                       </TouchableOpacity>
                     </>
                   ) : (
                     <View>
-                      <Text>
+                      <Text style={styles.champtext}>
                         Tu as oublié de remplir un ou plusieurs champs !
                       </Text>
                       <TouchableOpacity
                         style={styles.tryButonStyle}
                         onPress={() => setModalVisible(false)}
                       >
-                        <Text style={styles.trybtn}>
-                          C'est ici pour réessayer !!
+                        <Text style={styles.tryText}>
+                          Par ici pour réessayer !!
                         </Text>
                       </TouchableOpacity>
                     </View>
@@ -645,7 +651,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
     elevation: 2,
   },
   textSelectedStyle: {
@@ -659,19 +664,27 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
     marginTop: "5%",
+    backgroundColor: "white",
   },
-  trybtn: {
+  tryText: {
     textAlign: "center",
   },
 
-  eventBtnNavigation:{
+  eventBtnNavigation: {
     borderWidth: 1,
     borderRadius: "20%",
-    padding: "3%",
     marginLeft: "5%",
     marginRight: "5%",
     marginTop: "5%",
-  }
+    padding: "3%",
+    backgroundColor: "white",
+  },
+  redirectionBtn: {
+    textAlign: "center",
+  },
+  champtext: {
+    color: "white",
+  },
 
   // ///////////
 });

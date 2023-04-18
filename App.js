@@ -4,8 +4,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FirstPageScreen from "./screens/FirstPageScreen";
 import RoleScreen from "./screens/RoleScreen";
-import OrgaSigninSignupScreen from "./screens/OrgaSigninSignupScreen";
-import UserSigninSignupScreen from "./screens/UserSigninSignupScreen";
+import OrgaSigninScreen from "./screens/OrgaSigninScreen";
+import OrgaSignupScreen from "./screens/OrgaSignupScreen";
+import UserSigninScreen from "./screens/UserSigninScreen";
+import UserSignupScreen from "./screens/UserSignupScreen";
 import OrgaProfileScreen from "./screens/OrgaProfileScreen";
 import OrgaCreateEventScreen from "./screens/OrgaCreateEventScreen";
 import OrgaEventStatsScreen from "./screens/OrgaEventStatsScreen";
@@ -101,16 +103,24 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="FirstPage" component={FirstPageScreen} />
+          <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
-            name="OrgaSigninSignup"
-            component={OrgaSigninSignupScreen}
+            name="OrgaSignin"
+            component={OrgaSigninScreen}
+          />
+           <Stack.Screen
+            name="OrgaSignup"
+            component={OrgaSignupScreen}
           />
           <Stack.Screen
-            name="UserSigninSignup"
-            component={UserSigninSignupScreen}
-          /> */}
+            name="UserSignin"
+            component={UserSigninScreen}
+          />
+          <Stack.Screen
+            name="UserSignup"
+            component={UserSignupScreen}
+          />
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
           <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
