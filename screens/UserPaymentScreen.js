@@ -82,10 +82,10 @@ export default function UserPaymentScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
+      {/* <ImageBackground
         style={styles.container}
-        source={require("../assets/photoblanche.png")}
-      >
+        source={require("../assets/logo_meloQ.png")}
+      > */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
@@ -140,7 +140,7 @@ export default function UserPaymentScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </SafeAreaView>
   );
 }
@@ -148,6 +148,8 @@ export default function UserPaymentScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor:"#262626",
+    backgroundColor:"black"
   },
   topContainer: {
     height: 80,
@@ -161,10 +163,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     padding: "3%",
-    backgroundColor: "#ffffff",
+    color:"white"
+    // backgroundColor: "#ffffff",
   },
   formContainer: {
-    flex: 3,
+    flex: 8,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -210,7 +213,7 @@ const styles = StyleSheet.create({
   validationContainer: {
     height: 50,
     width: "50%",
-    backgroundColor: "green",
+    backgroundColor: "white",
     justifyContent: "center",
     borderRadius: 15,
   },

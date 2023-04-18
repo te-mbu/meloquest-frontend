@@ -14,8 +14,8 @@ import {
 export default function UserValidationScreen({ navigation }) {
 
   return (
-    <SafeAreaView style={{flex : 1}}>
-      <ImageBackground source={require('../assets/photobleue.jpg')} style={styles.background}> 
+    <SafeAreaView style={styles.fullScreen}>
+      <Image source={require('../assets/logo_meloQsmall.png')} style={styles.background} />
         <View style={styles.maincontainer}>
             <View style={styles.container}>
                 <Text style={styles.text}>Paiement accepté !</Text>
@@ -29,28 +29,37 @@ export default function UserValidationScreen({ navigation }) {
             </View>
         </View>
         
-      </ImageBackground>
     </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
   background: {
-    width: '100%',
-    height: '100%',
+    width: 300,
+    height: 300,
+    objectFit:"contain"
   },
+
+  fullScreen:{
+backgroundColor:"black",
+flex:1,
+justifyContent:"center",
+alignItems:'center'
+  },
+
   container: {
     borderWidth: 1,
     backgroundColor: "white",
     marginLeft: "3%",
     marginRight: "3%",
-    borderRadius: 7, 
+    borderRadius: 10, 
     marginBottom: "25%",
     padding: "12%"
   },
   maincontainer:{
+    display:"flex",
     alignItems: "center",
-    marginTop: "70%",
+    marginTop: "10%",
   },
   text: {
     color: "black",
@@ -58,6 +67,8 @@ const styles = StyleSheet.create({
     padding: "4%",
   },
   btnstyle :{
+    position:"absolute",
+    bottom:0,
     borderWidth: 1,
     backgroundColor: "white",
     borderRadius: "5%",
