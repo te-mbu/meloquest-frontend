@@ -9,52 +9,58 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
-//import redux
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../reducers/user";
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../reducers/user';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Column from "antd/es/table/Column";
 
-export default function OrgaSinginScreen({ navigation }) {
+export default function SigninScreen({ navigation }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
 
-  //  Etats pour Sign In de l'Orga
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
+
+  //  Etats pour Sign In de l'USER
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
 
 
   // Variable pour le fetch dans une fonction handleConnection
   const handleConnection = () => {
-    //fetch("https://meloquest-backend.vercel.app/users/signin",
+    //fetch('https://meloquest-backend.vercel.app/users/signin', {
     fetch("http://localhost:3000/users/signin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: signInEmail,
         password: signInPassword,
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         if (data.result) {
-          dispatch(login({ email: signInEmail, token: data.token }));
-          setSignInEmail("");
-          setSignInPassword("");
-          navigation.navigate("OrgaTabNavigator");
+          console.log(data)
+          dispatch(login({ email: signInEmail, token: data.token }))
+          setSignInEmail('');
+          setSignInPassword('');
+          //navigation.navigate('UserPosition')
+          if (data.profileType === "organiser") {
+            navigation.navigate('OrgaTabNavigator');
+          } else if (data.profileType === "customer") {
+            navigation.navigate('UserPosition');
+          }
         }
-      });
-  };
+      })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
         style={styles.container}
-        source={require("../assets/photoblanche.png")}
+        source={require("../assets/photobleue.jpg")}
       >
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.arrowBack}>
             <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
           </TouchableOpacity>
@@ -87,12 +93,12 @@ export default function OrgaSinginScreen({ navigation }) {
 
             <Text style={styles.alter}>Pas encore inscrit ?</Text>
 
-            <TouchableOpacity onPress={() => navigation.navigate("OrgaSignup")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Role")}>
               <Text style={styles.signupLink}>Créer un compte</Text>
             </TouchableOpacity>
 
           </View>
-
+          
         </KeyboardAvoidingView>
       </ImageBackground>
     </SafeAreaView>
@@ -100,6 +106,7 @@ export default function OrgaSinginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
   },
@@ -167,4 +174,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   }
+
 });

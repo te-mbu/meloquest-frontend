@@ -103,7 +103,7 @@ export default function OrgaSignupScreen({ navigation }) {
 
             <Text style={styles.alter}>Déjà inscrit ?</Text>
 
-            <TouchableOpacity onPress={() => navigation.navigate("OrgaSignin")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
               <Text style={styles.signupLink}>Se Connecter</Text>
             </TouchableOpacity>
 

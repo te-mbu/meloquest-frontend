@@ -14,38 +14,46 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Column from "antd/es/table/Column";
 
-export default function OrgaSinginScreen({ navigation }) {
+export default function OrgaSignupScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  //  Etats pour Sign In de l'Orga
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
+  //  Etats pour sign up de l'ORGA
+  const [signUpUsername, setSignUpUsername] = useState("");
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
 
-
-  // Variable pour le fetch dans une fonction handleConnection
-  const handleConnection = () => {
-    //fetch("https://meloquest-backend.vercel.app/users/signin",
-    fetch("http://localhost:3000/users/signin", {
+  // Variable pour le fetch dans une fonction handleRegister
+  const handleRegister = () => {
+    fetch("https://meloquest-backend.vercel.app/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: signInEmail,
-        password: signInPassword,
+        username: signUpUsername,
+        email: signUpEmail,
+        password: signUpPassword,
+        profileType: "organiser",
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(login({ email: signInEmail, token: data.token }));
-          setSignInEmail("");
-          setSignInPassword("");
+          dispatch(
+            login({
+              username: signUpUsername,
+              email: signUpEmail,
+              token: data.token,
+            })
+          );
+          setSignUpUsername("");
+          setSignUpEmail("");
+          setSignUpPassword("");
           navigation.navigate("OrgaTabNavigator");
         }
       });
   };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,41 +62,49 @@ export default function OrgaSinginScreen({ navigation }) {
         source={require("../assets/photoblanche.png")}
       >
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-
+          
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.arrowBack}>
             <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
           </TouchableOpacity>
 
-          <View style={styles.signinContainer}>
+          <View style={styles.signupContainer}>
             
-            <Text style={styles.title}>Se Connecter</Text>
+            <Text style={styles.title}>Créer un compte</Text>
 
             <TextInput
-              style={styles.textInput}
-              placeholder="Email"
-              id="signInEmail"
-              onChangeText={(value) => setSignInEmail(value)}
-              value={signInEmail}
-              autoCapitalize="none"
-            />
-            <TextInput
-              style={styles.textInput}
-              secureTextEntry={true}
-              placeholder="Password"
-              id="signInPassword"
-              onChangeText={(value) => setSignInPassword(value)}
-              value={signInPassword}
-              autoCapitalize="none"
-            />
+                style={styles.textInput}
+                placeholder="Username"
+                id="signUpUsername"
+                onChangeText={(value) => setSignUpUsername(value)}
+                value={signUpUsername}
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Email"
+                id="signUpEmail"
+                onChangeText={(value) => setSignUpEmail(value)}
+                value={signUpEmail}
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={styles.textInput}
+                secureTextEntry={true}
+                placeholder="Password"
+                id="signUpPassword"
+                onChangeText={(value) => setSignUpPassword(value)}
+                value={signUpPassword}
+                autoCapitalize="none"
+              />
 
-            <TouchableOpacity onPress={() => handleConnection()} style={styles.signinBtn}>
-              <Text style={styles.signin}>Connexion</Text>
+            <TouchableOpacity onPress={() => handleRegister()} style={styles.signupBtn}>
+              <Text style={styles.signup}>Inscription</Text>
             </TouchableOpacity>
 
-            <Text style={styles.alter}>Pas encore inscrit ?</Text>
+            <Text style={styles.alter}>Déjà inscrit ?</Text>
 
-            <TouchableOpacity onPress={() => navigation.navigate("OrgaSignup")}>
-              <Text style={styles.signupLink}>Créer un compte</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("OrgaSignin")}>
+              <Text style={styles.signupLink}>Se Connecter</Text>
             </TouchableOpacity>
 
           </View>
@@ -109,10 +125,10 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
   },
 
-  signinContainer: {
+  signupContainer: {
     alignSelf: 'center',
     marginTop:'30%',
-    height: 400,
+    height: 465,
     width: 280,
     backgroundColor: '#ffffff',
     opacity: 0.9,
@@ -138,7 +154,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 
-  signinBtn: {
+  signupBtn: {
     height : 40,
     width: 140,
     alignItems: 'center',
@@ -151,7 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  signin: {
+  signup: {
     fontSize: 16,
     fontWeight: "bold",
   },
