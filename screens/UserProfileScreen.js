@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     width: "100%",
     textAlign: "center",
-    fontSize: "20px",
+    fontSize: 20,
     padding: "3%",
     backgroundColor: "#ffffff",
   },

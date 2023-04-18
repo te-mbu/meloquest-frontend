@@ -41,11 +41,10 @@ export default function SigninScreen({ navigation }) {
           dispatch(login({ email: signInEmail, token: data.token }))
           setSignInEmail('');
           setSignInPassword('');
-          //navigation.navigate('UserPosition')
           if (data.profileType === "organiser") {
             navigation.navigate('OrgaTabNavigator');
           } else if (data.profileType === "customer") {
-            navigation.navigate('UserPosition');
+            navigation.navigate('UserTabNavigator', {screen: 'UserHomePage'});
           }
         }
       })

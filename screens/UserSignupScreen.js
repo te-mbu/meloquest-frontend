@@ -42,7 +42,7 @@ export default function UserSigninSignupScreen({ navigation }) {
           setSignUpUsername('');
           setSignUpEmail('');
           setSignUpPassword('');
-          navigation.navigate('UserPosition')
+          navigation.navigate('UserTabNavigator', {screen: 'UserHomePage'});
         }
       })
   }

@@ -76,7 +76,7 @@ export default function UserHomePageScreen({ }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Événements</Text>
+          <Text style={styles.title}>Évènements</Text>
         </View>
         <View style={styles.headerContainer}>
 

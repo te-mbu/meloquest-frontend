@@ -10,7 +10,6 @@ import UserSignupScreen from "./screens/UserSignupScreen";
 import OrgaProfileScreen from "./screens/OrgaProfileScreen";
 import OrgaCreateEventScreen from "./screens/OrgaCreateEventScreen";
 import OrgaEventStatsScreen from "./screens/OrgaEventStatsScreen";
-import UserPositionScreen from "./screens/UserPositionScreen";
 import UserHomePageScreen from "./screens/UserHomePageScreen";
 import UserSearchScreen from "./screens/UserSearchScreen";
 import UserTicketScreen from "./screens/UserTicketScreen";
@@ -117,7 +116,6 @@ export default function App() {
             component={UserSignupScreen}
           />
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
-          <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
           <Stack.Screen name="UserBooking" component={UserBookingScreen} />
