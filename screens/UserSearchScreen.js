@@ -89,7 +89,7 @@ export default function UserSearchScreen({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#000000",
   },
   bannerContainer: {
     display: "flex",
