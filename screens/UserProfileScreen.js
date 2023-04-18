@@ -26,22 +26,24 @@ export default function UserProfileScreen({ navigation }) {
   useEffect(() => {
     setToken(userToken);
 
-    fetch(`http://localhost:3000/events/liked/${token}`)
+    fetch(`https://meloquest-backend.vercel.app/events/liked/${token}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.result) {
           setEventsLiked(data.data);
-        } else {
-          console.log("Events not found");
-        }
-      });
-
-    fetch(`http://localhost:3000/events/purchased/${token}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.result) {
-          setEventsPurchased(data.data);
-          setDataLoaded(true);
+          
+          fetch(
+            `https://meloquest-backend.vercel.app/events/purchased/${token}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.result) {
+                setEventsPurchased(data.data);
+                setDataLoaded(true);
+              } else {
+                console.log("Events not found");
+              }
+            });
         } else {
           console.log("Events not found");
         }
@@ -68,7 +70,6 @@ export default function UserProfileScreen({ navigation }) {
   const allPurchased = eventsPurchased.map((data, i) => {
     return <EventSOne name={data.name} venue={data.address.venue} />;
   });
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -99,9 +100,7 @@ export default function UserProfileScreen({ navigation }) {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Évènements achetés</Text>
           </View>
-          <View style={styles.eventsPurchasedContainer}>
-            {allPurchased}
-          </View>
+          <View style={styles.eventsPurchasedContainer}>{allPurchased}</View>
         </View>
       </ScrollView>
     </SafeAreaView>
