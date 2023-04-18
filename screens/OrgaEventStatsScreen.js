@@ -12,8 +12,7 @@ import {
 
 export default function OrgaEventStatsScreen() {
   return (
-    <SafeAreaView style={{flex : 1}}>
-      <ImageBackground source={require('../assets/photoblanche.png')} style={styles.background}> 
+    <SafeAreaView style={{flex : 1, backgroundColor: '#000000'}}>
       <ScrollView>
         <View style={styles.containerone}>
           <Text style={styles.title}>Stats</Text>
@@ -22,19 +21,14 @@ export default function OrgaEventStatsScreen() {
           <Event_S_Stats />
           <Event_S_Stats />
       </ScrollView>
-      </ImageBackground>
     </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    width: '100%',
-    height: '100%',
-    flex: 1
-  },
   containerone: {
     marginTop: "10%",
+    backgroundColor:'#000000'
   },
   title: {
     fontWeight: "bold",
