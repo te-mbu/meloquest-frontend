@@ -95,7 +95,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="FirstPage" component={FirstPageScreen} />
+          {/* <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
             name="OrgaSigninSignup"
@@ -104,16 +104,14 @@ export default function App() {
           <Stack.Screen
             name="UserSigninSignup"
             component={UserSigninSignupScreen}
-          />
+          /> */}
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
           <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
           <Stack.Screen name="UserBooking" component={UserBookingScreen} />
           <Stack.Screen name="UserPayment" component={UserPaymentScreen} />
-          <Stack.Screen
-            name="UserValidation"
-            component={UserValidationScreen}
+          <Stack.Screen name="UserValidation" component={UserValidationScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

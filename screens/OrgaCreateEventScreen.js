@@ -28,7 +28,7 @@ const data = [
 
 const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
 
-export default function OrgaCreateEventScreen() {
+export default function OrgaCreateEventScreen({ navigation }) {
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
@@ -47,6 +47,9 @@ export default function OrgaCreateEventScreen() {
   const [isDatePickerVisibletwo, setDatePickerVisibilitytwo] = useState(false);
 
   const [isMultiSelectOpen, setIsMultiSelectOpen] = useState(false);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isTrue, setIsTrue] = useState(false);
 
   const renderItem = (item) => {
     return (
@@ -128,17 +131,39 @@ export default function OrgaCreateEventScreen() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log("Event added to the database");
+          // console.log("Event added to the database");
+          setName("");
+          setCity("");
+          setAddress("");
+          setPrice(null);
+          setVenue("");
+          setDescription("");
+          setGenres([]);
+          setSearchTerm("");
+          setTimeStart(new Date());
+          setTimeEnd(new Date());
+          setDateInput(false);
+          setDateInputtwo(false);
+          setDatePickerVisibility(false);
+          setDatePickerVisibilitytwo(false);
+          setIsMultiSelectOpen(false);
+          setModalVisible(true); // pour l'affichage de la modale
+          setIsTrue(true); // pour le contenu de la modale
         } else {
-          console.log("[eventCreation] failed");
+          setModalVisible(true); // si les champs ne sont pas remplis, afficher quand même un modale.
         }
       });
   };
 
+  const handleRedirection = () => {
+    setModalVisible(false)
+    navigation.navigate("OrgaProfile")
+  }
+
   const filteredData = data.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -161,6 +186,7 @@ export default function OrgaCreateEventScreen() {
                 style={[styles.textInput, styles.nameInput]}
                 onChangeText={(value) => setName(value)}
                 placeholder="Nom de l'évènement"
+                value={name}
               />
             </View>
 
@@ -355,6 +381,58 @@ export default function OrgaCreateEventScreen() {
               >
                 <Text style={styles.createEventText}>Créer l'évènement</Text>
               </TouchableOpacity>
+
+              <Modal
+                visible={modalVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={true}
+              >
+                <View
+                  style={{
+                    flex: 0.2,
+                    backgroundColor: "yellow",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    height: "15%",
+                    width: "100%",
+                    justifyContent: "center",
+                    position: "absolute",
+                    bottom: 0,
+                    marginBottom: "20%",
+                  }}
+                >
+                  {isTrue ? (
+                    <>
+                      <Text>Super ! Votre évènement a bien été créé !!!</Text>
+                      <TouchableOpacity
+                        onPress={() => handleRedirection()}
+                        style={styles.trybtn}
+                      >
+                        <Text style={styles.eventBtnNavigation}>
+                          Retour à la case départ
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  ) : (
+                    <View>
+                      <Text>
+                        Tu as oublié de remplir un ou plusieurs champs !
+                      </Text>
+                      <TouchableOpacity
+                        style={styles.tryButonStyle}
+                        onPress={() => setModalVisible(false)}
+                      >
+                        <Text style={styles.trybtn}>
+                          C'est ici pour réessayer !!
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              </Modal>
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
@@ -547,5 +625,26 @@ const styles = StyleSheet.create({
     marginRight: 5,
     fontSize: 16,
   },
+  tryButonStyle: {
+    borderWidth: 1,
+    borderRadius: "35%",
+    padding: "3%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginTop: "5%",
+  },
+  trybtn: {
+    textAlign: "center",
+  },
+
+  eventBtnNavigation:{
+    borderWidth: 1,
+    borderRadius: "20%",
+    padding: "3%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginTop: "5%",
+  }
+
   // ///////////
 });
