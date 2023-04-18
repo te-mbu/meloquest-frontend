@@ -7,19 +7,22 @@ import {
   } from "react-native";
 
 
-export default function Event_S_Stats() {
+export default function Event_S_Stats(props) {
+  const nbSells = 0
+  const nbLike = 0
+
   return (
     <View style={styles.cardcontainer}>
         <View style={styles.left}>
             <Image 
-              style={{ flex: 1 }}
+              style={{ flex: 1, borderTopLeftRadius: 15, borderBottomLeftRadius: 15 }}
               source={require("../assets/photobleue.jpg")}>
             </Image>
           </View>
           <View style={styles.right}>
-            <Text>Name      |    Lieu    |    Date</Text>
-            <Text>Nombre de ventes :</Text>
-            <Text>Nombre de likes :</Text>
+            <Text>{props.name} | {props.venue} | {props.date}</Text>
+            <Text>Nombre de ventes : {nbSells}</Text>
+            <Text>Nombre de likes : {nbLike}</Text>
           </View>
         </View>
   )
@@ -42,8 +45,9 @@ const styles = StyleSheet.create({
       width: "100%",
       borderWidth: "2px",
       borderColor: "#000000",
-      marginTop: "8%",
-    
+      marginTop: 10,
+      borderRadius: 15,
+      overflow: 'hidden',
     },
     left: {
       height: "100%",
@@ -57,5 +61,7 @@ const styles = StyleSheet.create({
       width: "70%",
       padding: 10,
       backgroundColor: '#ffffff',
+      borderTopRightRadius: 15, 
+      borderBottomRightRadius: 15
     },
   });
