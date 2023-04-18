@@ -34,6 +34,9 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: "2px",
     borderColor: "#000000",
+    borderRadius: '15%',
+    overflow: 'hidden',
+    marginTop: 10,
   },
   left: {
     height: "100%",
