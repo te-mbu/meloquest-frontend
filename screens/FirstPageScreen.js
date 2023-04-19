@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         fontSize: 40,
         fontWeight: '600',
-        marginBottom: 300,
+        marginBottom: "50%",
         alignItems: 'center',
         color: 'white'
     },

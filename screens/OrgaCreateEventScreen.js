@@ -470,11 +470,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    width: "100%",
+    width: "110%",
     textAlign: "center",
     fontSize: 20,
     padding: "3%",
     backgroundColor: "#ffffff",
+    marginBottom:30
   },
   formContainer: {
     height: 230,
@@ -531,12 +532,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
+    marginLeft:20,
     width: "50%",
   },
   uploadButton: {
     backgroundColor: "#ffffff",
     borderRadius: 15,
   },
+  share:{
+    marginRight:30
+  },
+
   upload: {
     paddingHorizontal: 25,
     paddingVertical: 10,

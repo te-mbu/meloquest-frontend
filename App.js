@@ -46,9 +46,15 @@ const OrgaTabNavigator = () => {
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#ec6e5b",
-        tabBarInactiveTintColor: "#335561",
+        tabBarActiveTintColor: "orange",
+        tabBarInactiveTintColor: "white",
         headerShown: false,
+
+        tabBarStyle: {
+          backgroundColor: "#262626", // permet de définir le fond de la tabbar
+          borderTopWidth: 0,
+        }
+
       })}
     >
       <Tab.Screen name="OrgaProfile" component={OrgaProfileScreen} />
@@ -101,20 +107,20 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="FirstPage" component={FirstPageScreen} />
+          {/* <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
             name="Signin"
             component={SigninScreen}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="OrgaSignup"
             component={OrgaSignupScreen}
           />
           <Stack.Screen
             name="UserSignup"
             component={UserSignupScreen}
-          />
+          /> */}
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />

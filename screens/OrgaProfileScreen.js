@@ -43,8 +43,9 @@ export default function OrgaProfileScreen({ navigation }) {
 
   if (!dataLoaded) {
     return (
-      <View>
-        <Text>Chargement en cours...</Text>
+      <View style={styles.loaded}>
+        <Text style={styles.textload}> Chargement en cours...</Text>
+        <FontAwesome name="optin-monster" color="purple" size={40} style={styles.icon} />
       </View>
     );
   }
@@ -89,6 +90,18 @@ export default function OrgaProfileScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  loaded:{
+    display:'flex',
+    flex:1,
+    marginTop:'20%',
+    alignSelf:'center'
+  },
+
+  textload:{
+    fontSize:25
+
+  },
+
   logoutContainer: {
     flex: 1,
     alignSelf: "flex-end",
@@ -105,7 +118,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#262626",
+    marginTop:"10%"
   },
   body: {
     marginTop: 10,
