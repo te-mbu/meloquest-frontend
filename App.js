@@ -4,14 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FirstPageScreen from "./screens/FirstPageScreen";
 import RoleScreen from "./screens/RoleScreen";
-import OrgaSigninScreen from "./screens/OrgaSigninScreen";
+import SigninScreen from "./screens/SigninScreen";
 import OrgaSignupScreen from "./screens/OrgaSignupScreen";
-import UserSigninScreen from "./screens/UserSigninScreen";
 import UserSignupScreen from "./screens/UserSignupScreen";
 import OrgaProfileScreen from "./screens/OrgaProfileScreen";
 import OrgaCreateEventScreen from "./screens/OrgaCreateEventScreen";
 import OrgaEventStatsScreen from "./screens/OrgaEventStatsScreen";
-import UserPositionScreen from "./screens/UserPositionScreen";
 import UserHomePageScreen from "./screens/UserHomePageScreen";
 import UserSearchScreen from "./screens/UserSearchScreen";
 import UserTicketScreen from "./screens/UserTicketScreen";
@@ -106,23 +104,18 @@ export default function App() {
           <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
-            name="OrgaSignin"
-            component={OrgaSigninScreen}
+            name="Signin"
+            component={SigninScreen}
           />
            <Stack.Screen
             name="OrgaSignup"
             component={OrgaSignupScreen}
           />
           <Stack.Screen
-            name="UserSignin"
-            component={UserSigninScreen}
-          />
-          <Stack.Screen
             name="UserSignup"
             component={UserSignupScreen}
           />
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
-          <Stack.Screen name="UserPosition" component={UserPositionScreen} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
           <Stack.Screen name="UserBooking" component={UserBookingScreen} />

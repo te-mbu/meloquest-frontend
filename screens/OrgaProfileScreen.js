@@ -11,40 +11,77 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
 import { useDispatch } from "react-redux";
 import { logout } from "../reducers/user";
+import { useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { formatDate, formatHour } from "../modules/date";
 
 export default function OrgaProfileScreen({ navigation }) {
+  const [token, setToken] = useState("");
+  const [events, setEvents] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  const dispatch = useDispatch()
+  const isFocused = useIsFocused();
+  const userToken = useSelector((state) => state.user.value.token);
+
+  useEffect(() => {
+    if (isFocused) {
+      setToken(userToken);
+      fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.result) {
+            setEvents([...data.data]);
+            setDataLoaded(true);
+          } else {
+            console.log("Events not found");
+          }
+        });
+    }
+  }, [isFocused]);
+
+  if (!dataLoaded) {
+    return (
+      <View>
+        <Text>Chargement en cours...</Text>
+      </View>
+    );
+  }
+
+  const allEvents = events.map((data, i) => {
+    return (
+      <EventSOne
+        key={i}
+        name={data.name}
+        venue={data.address.venue}
+        price={data.price}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
+      />
+    );
+  });
+
+  const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logout())
-    navigation.navigate("Role")
+    dispatch(logout());
+    navigation.navigate("Signin");
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-      <View style={styles.logoutContainer}>
-        <Text onPress={() => handleLogout()} style={styles.logoutText}>
-          Déconnexion
-        </Text>
-      </View>
+        <View style={styles.logoutContainer}>
+          <Text onPress={() => handleLogout()} style={styles.logoutText}>
+            Déconnexion
+          </Text>
+        </View>
         <View style={styles.body}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Évènements à venir</Text>
+            <Text style={styles.title}>Mes évènements</Text>
           </View>
-          <View style={styles.eventsLikedContainer}>
-            <EventSOne />
-          </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Évènements passés</Text>
-          </View>
-          <View style={styles.eventsPurchasedContainer}>
-            <EventSOne />
-            <EventSOne />
-            <EventSOne />
-            <EventSOne />
-          </View>
+          <View style={styles.eventsLikedContainer}>{allEvents}</View>
         </View>
       </ScrollView>
     </SafeAreaView>

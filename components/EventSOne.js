@@ -20,7 +20,7 @@ export default function EventSOne(props) {
       <View style={styles.right}>
         <Text>{props.name}</Text>
         <Text>{props.venue}</Text>
-        <Text>Date | Heure | Prix</Text>
+        <Text>{props.date} | {props.timeStart} | {props.price} €</Text>
       </View>
     </View>
   );
@@ -34,6 +34,9 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: "2px",
     borderColor: "#000000",
+    borderRadius: '15%',
+    overflow: 'hidden',
+    marginVertical: 5,
   },
   left: {
     height: "100%",
