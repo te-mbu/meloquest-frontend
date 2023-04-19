@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -8,22 +8,68 @@ import {
   ImageBackground,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import EventM from "../components/EventM";
+import EventMNonClickable from "../components/EventMNonClickable";
+import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from "react";
+import { formatDate, formatHour } from "../modules/date";
 
 export default function UserTicketScreen() {
+  const [token, setToken] = useState('')
+  const [eventsPurchased, setEventsPurchased] = useState("");
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  const userToken = useSelector((state) => state.user.value.token);
+  const eventsPurchasedRed = useSelector((state) => state.user.value.eventsPurchased);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      setToken(userToken);
+
+      setEventsPurchased(eventsPurchasedRed)
+
+      // fetch(`https://meloquest-backend.vercel.app/events/purchased/${token}`)
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     if (data.result) {
+      //       setEventsPurchased(data.data);
+      //       setDataLoaded(true);
+      //     } else {
+      //       console.log("Events not found");
+      //     }
+      //   });
+    }
+  }, [isFocused]);
+
+
+  console.log("all events ->", eventsPurchasedRed)
+  const allEvents = eventsPurchasedRed.map((data, i) => {
+
+    return <EventMNonClickable 
+    key={i}
+    // isClickable={false}
+    genres={data.genre}
+    name={data.name}
+    event_id={data.event_id}
+    venue={data.address.venue}
+    date={formatDate(data.timeDetails.timeStart)}
+    timeStart={formatHour(data.timeDetails.timeStart)}
+    timeEnd={formatHour(data.timeDetails.timeEnd)}
+    price={data.price}
+    />
+  }) 
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.body}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Évènements à venir</Text>
+            <Text style={styles.title}>Mes tickets</Text>
           </View>
           <View style={styles.eventsLikedContainer}>
-            <EventM />
-            <EventM />
-            <EventM />
-            <EventM />
-
+            {allEvents}
           </View>
         </View>
       </ScrollView>

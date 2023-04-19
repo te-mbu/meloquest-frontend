@@ -42,7 +42,7 @@ export default function UserSigninSignupScreen({ navigation }) {
           setSignUpUsername('');
           setSignUpEmail('');
           setSignUpPassword('');
-          navigation.navigate('UserPosition')
+          navigation.navigate('UserTabNavigator', {screen: 'UserHomePage'});
         }
       })
   }
@@ -97,7 +97,7 @@ export default function UserSigninSignupScreen({ navigation }) {
 
             <Text style={styles.alter}>Déjà inscrit ?</Text>
 
-            <TouchableOpacity onPress={() => navigation.navigate("UserSignin")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
               <Text style={styles.signupLink}>Se Connecter</Text>
             </TouchableOpacity>
 

@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../reducers/user';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function UserSigninSignupScreen({ navigation }) {
+export default function SigninScreen({ navigation }) {
   const dispatch = useDispatch();
 
 
@@ -25,7 +25,8 @@ export default function UserSigninSignupScreen({ navigation }) {
 
   // Variable pour le fetch dans une fonction handleConnection
   const handleConnection = () => {
-    fetch('https://meloquest-backend.vercel.app/users/signin', {
+    //fetch('https://meloquest-backend.vercel.app/users/signin', {
+    fetch("https://meloquest-backend.vercel.app/users/signin", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -36,11 +37,15 @@ export default function UserSigninSignupScreen({ navigation }) {
       .then(response => response.json())
       .then(data => {
         if (data.result) {
+          console.log(data)
           dispatch(login({ email: signInEmail, token: data.token }))
           setSignInEmail('');
           setSignInPassword('');
-          navigation.navigate('UserPosition')
-          
+          if (data.profileType === "organiser") {
+            navigation.navigate('OrgaTabNavigator');
+          } else if (data.profileType === "customer") {
+            navigation.navigate('UserTabNavigator', {screen: 'UserHomePage'});
+          }
         }
       })
   }
@@ -87,7 +92,7 @@ export default function UserSigninSignupScreen({ navigation }) {
 
             <Text style={styles.alter}>Pas encore inscrit ?</Text>
 
-            <TouchableOpacity onPress={() => navigation.navigate("UserSignup")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Role")}>
               <Text style={styles.signupLink}>Créer un compte</Text>
             </TouchableOpacity>
 

@@ -28,7 +28,6 @@ const data = [
   { label: "Pop", value: "pop" },
   { label: "Hip Hop", value: "hiphop" },
 ];
-///////////////
 
 const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
 
@@ -165,7 +164,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setIsMultiSelectOpen(false);
           setModalVisible(true); // pour l'affichage de la modale
           setIsTrue(true); // pour le contenu de la modale
-          fetch("http://localhost:3000/events/organiser", {
+          fetch("https://meloquest-backend.vercel.app/events/organiser", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -197,289 +196,278 @@ export default function OrgaCreateEventScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={styles.imageBackgroundContainer}
-        source={require("../assets/photoblanche.png")}
-      >
-        <ScrollView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
-          >
-            {/* CREER UN EVENEMENT */}
-            <View style={styles.topContainer}>
-              <Text style={styles.title}>Créer un évènement</Text>
-            </View>
+    <SafeAreaView>
+      <ScrollView style={styles.main}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
+          {/* CREER UN EVENEMENT */}
+          <View style={styles.topContainer}>
+            <Text style={styles.title}>Créer un évènement</Text>
+          </View>
 
-            {/* NOM DE L'EVENEMENT */}
-            <View style={styles.nameInputContainer}>
+          {/* NOM DE L'EVENEMENT */}
+          <View style={styles.nameInputContainer}>
+            <TextInput
+              style={[styles.textInput, styles.nameInput]}
+              onChangeText={(value) => setName(value)}
+              placeholder="Nom de l'évènement"
+              value={name}
+            />
+          </View>
+
+          {/* FORM */}
+
+          <View style={styles.formContainer}>
+            <View style={styles.leftForm}>
+              {/* TIME START */}
+              <View style={styles.selectView}>
+                <TouchableOpacity onPress={showDatePicker}>
+                  {dateInput ? (
+                    <Text style={styles.buttonDateText}>
+                      {timeStart.toLocaleDateString("fr-FR", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Text>
+                  ) : (
+                    <Text style={styles.buttonDateText}>
+                      Date / Heure de début
+                    </Text>
+                  )}
+                </TouchableOpacity>
+
+                <Modal
+                  transparent={true}
+                  visible={isDatePickerVisible}
+                  onRequestClose={hideDatePicker}
+                >
+                  <DateTimePickerModal
+                    date={timeStart}
+                    isVisible={isDatePickerVisible}
+                    mode="datetime"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                </Modal>
+              </View>
+
+              {/* TIME END */}
+
+              <View style={styles.selectView}>
+                <TouchableOpacity onPress={showDatePickertwo}>
+                  {dateInputtwo ? (
+                    <Text style={styles.buttonDateText}>
+                      {timeEnd.toLocaleDateString("fr-FR", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Text>
+                  ) : (
+                    <Text style={styles.buttonDateText}>
+                      Date / Heure de fin
+                    </Text>
+                  )}
+                </TouchableOpacity>
+
+                <Modal
+                  transparent={true}
+                  visible={isDatePickerVisibletwo}
+                  onRequestClose={hideDatePickertwo}
+                >
+                  <DateTimePickerModal
+                    // Add 2 hours to the date
+                    date={new Date(timeEnd.getTime() + 2 * 60 * 60 * 1000)}
+                    isVisible={isDatePickerVisibletwo}
+                    mode="datetime"
+                    onConfirm={handleConfirmtwo}
+                    onCancel={hideDatePickertwo}
+                  />
+                </Modal>
+              </View>
+
+              {/* PRICE */}
               <TextInput
-                style={[styles.textInput, styles.nameInput]}
-                onChangeText={(value) => setName(value)}
-                placeholder="Nom de l'évènement"
-                value={name}
+                onChangeText={(value) => setPrice(value)}
+                value={price}
+                style={styles.textInput}
+                placeholder="Prix"
+              />
+              {/* NOM DU LIEU */}
+              <TextInput
+                onChangeText={(value) => setVenue(value)}
+                value={venue}
+                style={styles.textInput}
+                placeholder="Nom du lieu"
+              />
+
+              {/* VILLE */}
+              <TextInput
+                onChangeText={(value) => setCity(value)}
+                value={city}
+                style={styles.textInput}
+                placeholder="Ville"
+              />
+
+              {/* ADRESSE */}
+              <TextInput
+                onChangeText={(value) => setAddress(value)}
+                value={address}
+                style={styles.textInput}
+                placeholder="Adresse"
+              />
+            </View>
+          </View>
+          <View style={styles.bottomContainer}>
+            <View style={styles.genreContainer}>
+              {/* GENRES */}
+
+              <MultiSelect
+                style={styles.dropdown}
+                maxHeight={150}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                onFocus={() => setIsMultiSelectOpen(true)}
+                onBlur={() => setIsMultiSelectOpen(false)}
+                items={filteredData}
+                data={data}
+                labelField="label"
+                valueField="value"
+                placeholder="Select a genre"
+                value={genres}
+                search
+                searchPlaceholder="Search..."
+                onChange={(item) => {
+                  setGenres(item);
+                }}
+                onChangeInput={(text) => setSearchTerm(text)}
+                renderLeftIcon={() => (
+                  <AntDesign
+                    style={styles.icon}
+                    color="black"
+                    name="Safety"
+                    size={20}
+                  />
+                )}
+                renderItem={renderItem}
+                renderSelectedItem={(item, unSelect) => (
+                  <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                    <View style={styles.selectedStyle}>
+                      <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                      <FontAwesome
+                        key={item.label}
+                        onPress={() => handleDeleteItem(item.label)}
+                        color="#000000"
+                        name="trash"
+                        size={17}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
               />
             </View>
 
-            {/* FORM */}
-
-            <View style={styles.formContainer}>
-              <View style={styles.leftForm}>
-                {/* TIME START */}
-                <View style={styles.selectView}>
-                  <TouchableOpacity onPress={showDatePicker}>
-                    {dateInput ? (
-                      <Text style={styles.buttonDateText}>
-                        {timeStart.toLocaleDateString("fr-FR", {
-                          year: "numeric",
-                          month: "numeric",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </Text>
-                    ) : (
-                      <Text style={styles.buttonDateText}>
-                        Date / Heure de début
-                      </Text>
-                    )}
-                  </TouchableOpacity>
-
-                  <Modal
-                    transparent={true}
-                    visible={isDatePickerVisible}
-                    onRequestClose={hideDatePicker}
-                  >
-                    <DateTimePickerModal
-                      date={timeStart}
-                      isVisible={isDatePickerVisible}
-                      mode="datetime"
-                      onConfirm={handleConfirm}
-                      onCancel={hideDatePicker}
-                    />
-                  </Modal>
-                </View>
-
-                {/* TIME END */}
-
-                <View style={styles.selectView}>
-                  <TouchableOpacity onPress={showDatePickertwo}>
-                    {dateInputtwo ? (
-                      <Text style={styles.buttonDateText}>
-                        {timeEnd.toLocaleDateString("fr-FR", {
-                          year: "numeric",
-                          month: "numeric",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </Text>
-                    ) : (
-                      <Text style={styles.buttonDateText}>
-                        Date / Heure de fin
-                      </Text>
-                    )}
-                  </TouchableOpacity>
-
-                  <Modal
-                    transparent={true}
-                    visible={isDatePickerVisibletwo}
-                    onRequestClose={hideDatePickertwo}
-                  >
-                    <DateTimePickerModal
-                      // Add 2 hours to the date
-                      date={new Date(timeEnd.getTime() + 2 * 60 * 60 * 1000)}
-                      isVisible={isDatePickerVisibletwo}
-                      mode="datetime"
-                      onConfirm={handleConfirmtwo}
-                      onCancel={hideDatePickertwo}
-                    />
-                  </Modal>
-                </View>
-
-                {/* PRICE */}
-                <TextInput
-                  onChangeText={(value) => setPrice(value)}
-                  value={price}
-                  style={styles.textInput}
-                  placeholder="Price"
-                />
-              </View>
-              <View style={styles.rightForm}>
-                {/* NOM DU LIEU */}
-                <TextInput
-                  onChangeText={(value) => setVenue(value)}
-                  value={venue}
-                  style={styles.textInput}
-                  placeholder="Nom du lieu"
-                />
-
-                {/* VILLE */}
-                <TextInput
-                  onChangeText={(value) => setCity(value)}
-                  value={city}
-                  style={styles.textInput}
-                  placeholder="Ville"
-                />
-
-                {/* ADRESSE */}
-                <TextInput
-                  onChangeText={(value) => setAddress(value)}
-                  value={address}
-                  style={styles.textInput}
-                  placeholder="Adresse"
-                />
-              </View>
+            {/* DESCRIPTION */}
+            <View style={descriptionContainerStyles}>
+              <TextInput
+                style={styles.descriptionText}
+                onChangeText={(value) => setDescription(value)}
+                value={description}
+                placeholder="Entrez votre description"
+              />
             </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.genreContainer}>
-                {/* GENRES */}
 
-                <MultiSelect
-                  style={styles.dropdown}
-                  maxHeight={150}
-                  placeholderStyle={styles.placeholderStyle}
-                  selectedTextStyle={styles.selectedTextStyle}
-                  inputSearchStyle={styles.inputSearchStyle}
-                  iconStyle={styles.iconStyle}
-                  onFocus={() => setIsMultiSelectOpen(true)}
-                  onBlur={() => setIsMultiSelectOpen(false)}
-                  items={filteredData}
-                  data={data}
-                  labelField="label"
-                  valueField="value"
-                  placeholder="Select a genre"
-                  value={genres}
-                  search
-                  searchPlaceholder="Search..."
-                  onChange={(item) => {
-                    setGenres(item);
-                  }}
-                  onChangeInput={(text) => setSearchTerm(text)}
-                  renderLeftIcon={() => (
-                    <AntDesign
-                      style={styles.icon}
-                      color="black"
-                      name="Safety"
-                      size={20}
-                    />
-                  )}
-                  renderItem={renderItem}
-                  renderSelectedItem={(item, unSelect) => (
-                    <TouchableOpacity
-                      onPress={() => unSelect && unSelect(item)}
-                    >
-                      <View style={styles.selectedStyle}>
-                        <Text style={styles.textSelectedStyle}>
-                          {item.label}
-                        </Text>
-                        <FontAwesome
-                          key={item.label}
-                          onPress={() => handleDeleteItem(item.label)}
-                          color="#000000"
-                          name="trash"
-                          size={17}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  )}
-                />
-              </View>
-
-              {/* DESCRIPTION */}
-              <View style={descriptionContainerStyles}>
-                <TextInput
-                  onChangeText={(value) => setDescription(value)}
-                  value={description}
-                  placeholder="Entrez votre description"
-                />
-              </View>
-
-              {/* UPLOAD D'IMAGE */}
-              <View style={styles.uploadContainer}>
-                <UploadPhoto style={styles.uploadButton}/> 
-                  <Text style={styles.upload}>Upload Image</Text>
-                
-                <View style={styles.share}>
-                  <FontAwesome name="plus" color="#ffffff" />
-                </View>
-              </View>
-
-              {/* CREER L'EVENEMENT */}
-              <TouchableOpacity
-                onPress={() => handleEventCreation()}
-                style={styles.createEventContainer}
-              >
-                <Text style={styles.createEventText}>Créer l'évènement</Text>
+            {/* UPLOAD D'IMAGE */}
+            <View style={styles.uploadContainer}>
+              <TouchableOpacity style={styles.uploadButton}>
+                <Text style={styles.upload}>Upload Image</Text>
               </TouchableOpacity>
-
-              <Modal
-                visible={modalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={true}
-              >
-                <View
-                  style={{
-                    flex: 0.2,
-                    backgroundColor: "grey",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderTopLeftRadius: 10,
-                    borderTopRightRadius: 10,
-                    height: "15%",
-                    width: "100%",
-                    position: "absolute",
-                    bottom: 0,
-                    marginBottom: "20%",
-                  }}
-                >
-                  {isTrue ? (
-                    <>
-                      <Text style={styles.champtext}>
-                        Super ! Votre évènement a bien été créé !!!
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => handleRedirection()}
-                        style={styles.redirectionBtn}
-                      >
-                        <Text style={styles.eventBtnNavigation}>
-                          Aller à la case départ !
-                        </Text>
-                      </TouchableOpacity>
-                    </>
-                  ) : (
-                    <View>
-                      <Text style={styles.champtext}>
-                        Tu as oublié de remplir un ou plusieurs champs !
-                      </Text>
-                      <TouchableOpacity
-                        style={styles.tryButonStyle}
-                        onPress={() => setModalVisible(false)}
-                      >
-                        <Text style={styles.tryText}>
-                          Par ici pour réessayer !!
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                </View>
-              </Modal>
+              <View style={styles.share}>
+                <FontAwesome name="plus" color="#ffffff" />
+              </View>
             </View>
-          </KeyboardAvoidingView>
-        </ScrollView>
-      </ImageBackground>
+
+            {/* CREER L'EVENEMENT */}
+            <TouchableOpacity
+              onPress={() => handleEventCreation()}
+              style={styles.createEventContainer}
+            >
+              <Text style={styles.createEventText}>Créer l'évènement</Text>
+            </TouchableOpacity>
+
+            <Modal
+              visible={modalVisible}
+              animationType="slide"
+              transparent={true}
+              onRequestClose={true}
+            >
+              <View
+                style={{
+                  flex: 0.2,
+                  backgroundColor: isTrue ? "limegreen" : "crimson",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: "15%",
+                  width: "100%",
+                  justifyContent: "center",
+                  position: "absolute",
+                  bottom: 0,
+                  marginBottom: "20%",
+                }}
+              >
+                {isTrue ? (
+                  <>
+                    <Text style={{ fontWeight: "bold" }}>
+                      Super ! Votre évènement a bien été créé
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => handleRedirection()}
+                      style={styles.trybtn}
+                    >
+                      <Text style={styles.eventBtnNavigation}>
+                        Retour à la case départ
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <View>
+                    <Text style={styles.errorText}>
+                      Tu as oublié de remplir un ou plusieurs champs !
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.tryButonStyle}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <Text style={styles.trybtn}>Réessayer !</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            </Modal>
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  main: {
+    backgroundColor: "#000000",
+  },
   container: {
     flex: 1,
-  },
-  imageBackgroundContainer: {
-    resizeMode: "cover",
   },
   topContainer: {
     height: 80,
@@ -499,24 +487,16 @@ const styles = StyleSheet.create({
     height: 230,
     display: "flex",
     flexDirection: "row",
+    marginBottom: 70,
   },
   leftForm: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "50%",
+    width: "100%",
     height: "100%",
-    borderRightWidth: "2px",
-    borderRightColor: "#ffffff",
-  },
-  rightForm: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "50%",
-    height: "100%",
+    gap: 15,
   },
   nameInputContainer: {
     height: 80,
@@ -528,7 +508,7 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    width: "80%",
+    width: "60%",
     height: 40,
     backgroundColor: "white",
     borderRadius: 10,
@@ -546,6 +526,10 @@ const styles = StyleSheet.create({
   genreContainer: {
     marginTop: 30,
     width: "80%",
+  },
+
+  descriptionText: {
+    padding: 10,
   },
 
   uploadContainer: {
@@ -581,15 +565,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   selectView: {
-    marginTop: 20,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 15,
     backgroundColor: "#ffffff",
   },
   dropdown: {
-    marginLeft: "3%",
-    marginRight: "3%",
     borderBottomColor: "gray",
     borderBottomWidth: 0.5,
   },
@@ -657,34 +638,28 @@ const styles = StyleSheet.create({
     marginRight: 5,
     fontSize: 16,
   },
+  errorText: {
+    fontWeight: "bold",
+  },
   tryButonStyle: {
-    borderWidth: 1,
-    borderRadius: "35%",
-    padding: "3%",
-    marginLeft: "5%",
-    marginRight: "5%",
-    marginTop: "5%",
-    backgroundColor: "white",
+    borderWidth: 2,
+    borderRadius: 35,
+    paddingVertical: "3%",
+    marginHorizontal: 70,
+    marginTop: 10,
   },
   tryText: {
     textAlign: "center",
+    fontWeight: "bold",
   },
 
   eventBtnNavigation: {
-    borderWidth: 1,
-    borderRadius: "20%",
+    borderWidth: 2,
+    borderRadius: 20,
+    padding: "3%",
     marginLeft: "5%",
     marginRight: "5%",
     marginTop: "5%",
-    padding: "3%",
-    backgroundColor: "white",
+    fontWeight: "bold",
   },
-  redirectionBtn: {
-    textAlign: "center",
-  },
-  champtext: {
-    color: "white",
-  },
-
-  // ///////////
 });

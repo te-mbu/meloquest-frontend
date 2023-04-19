@@ -11,66 +11,55 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
-import EventM from "../components/EventM";
 import { useState, useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { formatDate, formatHour } from "../modules/date";
 
-export default function UserSearchScreen({ }) {
+export default function UserSearchScreen({}) {
   const [events, setEvents] = useState([]);
+  const [searchMsg, setSearchMsg] = useState("");
+
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    fetch("https://meloquest-backend.vercel.app/events/allevents")
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data.city);
-      });
-  }, []);
-
-  function formatDate(dateString) {
-    let date = new Date(dateString);
-    let formattedDate =
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0");
-    return formattedDate;
-  }
-
-  function formatHour(dateString) {
-    let date = new Date(dateString);
-    let formattedTime =
-      date.getUTCHours().toString().padStart(2, "0") +
-      ":" +
-      date.getUTCMinutes().toString().padStart(2, "0");
-    return formattedTime
-  }
-
+    if (isFocused) {
+      fetch("https://meloquest-backend.vercel.app/events/allevents")
+        .then((res) => res.json())
+        .then((data) => {
+          setEvents(data.city);
+        });
+    }
+  }, [isFocused]);
 
   const allEvents = events.map((data, i) => {
-
-    console.log(data.genre)
     return (
-      <EventM
+      <EventSOne
         key={i}
         name={data.name}
-        genres={data.genre}
         venue={data.address.venue}
-        timeStart={formatHour(data.timeDetails.timeStart)}
-        timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
+        date={formatDate(data.timeDetails.timeStart)}
+        timeStart={formatHour(data.timeDetails.timeStart)}
       />
     );
   });
 
-   // Variable pour fetch les évents filter dans une fonction handleWeek
-   const handleSearch = () => {
-    fetch('https://meloquest-backend.vercel.app/events/tonight') // pour tester la route avec les évents de la nuit 
-      .then(response => response.json())
-      .then(data => {
-        if (data.result && data.tonight) {
-          setEvents(data.tonight)
+  const handleSearch = () => {
+    fetch("https://meloquest-backend.vercel.app/events/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        searchMsg: searchMsg,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) {
+          setEvents(data.data);
+        } else {
+          console.log("No events found");
         }
-      })
+      });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -78,21 +67,19 @@ export default function UserSearchScreen({ }) {
         <View style={styles.body}>
           <View style={styles.searchContainer}>
             <TextInput
+              onChangeText={(value) => setSearchMsg(value)}
+              value={searchMsg}
               style={styles.searchText}
               placeholder="Rechercher"
             />
-            <TouchableOpacity onPress={() => handleSearch()} style={styles.searchButton}>
+            <TouchableOpacity
+              onPress={() => handleSearch()}
+              style={styles.searchButton}
+            >
               <FontAwesome name="search" size={13} color="#ffffff" />
             </TouchableOpacity>
           </View>
-          <View style={styles.eventsLikedContainer}>
-            {/* <EventSOne />
-            <EventSOne />
-            <EventSOne />
-            <EventSOne />
-            <EventSOne /> */}
-            {allEvents}
-          </View>
+          <View style={styles.eventsLikedContainer}>{allEvents}</View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -102,7 +89,7 @@ export default function UserSearchScreen({ }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: "#000000",
   },
   bannerContainer: {
     display: "flex",
@@ -160,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   searchContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     height: 40,
     marginBottom: 10,
     flexDirection: "row",
@@ -168,9 +155,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 15,
     borderWidth: 2,
-    borderColor: "black"
-
-
+    borderColor: "black",
   },
   searchText: {
     padding: 10,
@@ -183,5 +168,5 @@ const styles = StyleSheet.create({
     marginLeft: 14,
     paddingHorizontal: 10,
     paddingVertical: 5,
-  }
+  },
 });
