@@ -28,7 +28,9 @@ export default function OrgaProfileScreen({ navigation }) {
   useEffect(() => {
     if (isFocused) {
       setToken(userToken);
-      fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
+      fetch(
+        `https://meloquest-backend.vercel.app/events/organiser/${userToken}`
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.result) {
@@ -50,6 +52,7 @@ export default function OrgaProfileScreen({ navigation }) {
   }
 
   const allEvents = events.map((data, i) => {
+
     return (
       <EventSOne
         key={i}

@@ -8,8 +8,6 @@ import {
 
 
 export default function Event_S_Stats(props) {
-  const nbSells = 0
-  const nbLike = 0
 
   return (
     <View style={styles.cardcontainer}>
@@ -21,8 +19,8 @@ export default function Event_S_Stats(props) {
           </View>
           <View style={styles.right}>
             <Text>{props.name} | {props.venue} | {props.date}</Text>
-            <Text>Nombre de ventes : {nbSells}</Text>
-            <Text>Nombre de likes : {nbLike}</Text>
+            <Text>Nombre de ventes : {props.nbPurchases}</Text>
+            <Text>Nombre de likes : {props.nbLikes}</Text>
           </View>
         </View>
   )
