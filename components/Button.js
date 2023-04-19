@@ -1,26 +1,24 @@
-import React from 'react'
+import React from "react";
 import {
-    Pressable,
-    View,
-    StyleSheet,
+  View,
+  StyleSheet,
+  Text,
 } from "react-native";
 
-export default function Button({ label,  theme, onPress}) {
-    if (theme === "primary") {
-      return (
-        <View>
-          <Pressable
-            style={[styles.button, { backgroundColor: '#fff' }]}
-            onPress={onPress}
-          >
-        </Pressable>
-        </View>
-      );
-    }
+export default function Button({ label, theme, onPress }) {
+  if (theme === "primary") {
+    return (
+      <View style={[styles.button, { backgroundColor: "#fff" }]}>
+        <Text> Upload image </Text>
+      </View>
+    )
   }
+}
 
-  const styles = StyleSheet.create({
-    button:{
-        borderWidth: 1
-    }
-  })
+const styles = StyleSheet.create({
+  button: {
+    borderWidth: 1,
+    padding: "5%",
+    borderRadius: "10%"
+  },
+});

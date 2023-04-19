@@ -24,8 +24,11 @@ export const userSlice = createSlice({
         eventsPurchased: (state, action) => {
             state.value.eventsPurchased.push(action.payload)
         },
+        addPhoto: (state, action) => {
+            state.value.photos.push(action.payload);
+          },
     },
 });
 
-export const { login, logout, addEventToPurchase, eventsPurchased } = userSlice.actions;
+export const { login, logout, addEventToPurchase, eventsPurchased, addPhoto, removePhoto } = userSlice.actions;
 export default userSlice.reducer;

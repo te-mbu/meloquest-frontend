@@ -10,18 +10,22 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Modal,
+  TouchableOpacityBase,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import { useIsFocused } from "@react-navigation/native";
+import UploadPhoto from "../components/UploadPic";
+import { addPhoto } from "../reducers/user"
+
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import UploadPhoto from "../components/uploadPhoto";
 
 const data = [
   { label: "Rock", value: "rock" },
@@ -30,7 +34,7 @@ const data = [
 ];
 ///////////////
 
-const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
+const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS
 
 export default function OrgaCreateEventScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -58,13 +62,14 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const userToken = useSelector((state) => state.user.value.token);
 
   const isFocused = useIsFocused();
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setToken(userToken);
-    if (isFocused) {     // in react-native, isFocused works the same as the useEffect?
+    if (isFocused) {
+      // in react-native, isFocused works the same as the useEffect?
       setIsTrue(false);
-  } 
+    }
   }, [isFocused]);
 
   const renderItem = (item) => {
@@ -195,6 +200,27 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const filteredData = data.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  let cameraRef: any = useRef(null);
+
+  const getPicFromCloudinary = async () => {
+    const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
+    const formData = new FormData();
+
+    formData.append('photoFromFront', {
+      uri: photo.uri,
+      name: 'photo.jpg',
+      type: 'image/jpeg',
+    });
+
+    fetch(`${BACKEND_ADDRESS}/upload`, {
+      method: 'POST',
+      body: formData,
+    }).then((response) => response.json())
+      .then((data) => {
+        data.result && dispatch(addPhoto(data.url));
+      });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -398,9 +424,9 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
               {/* UPLOAD D'IMAGE */}
               <View style={styles.uploadContainer}>
-                <UploadPhoto style={styles.uploadButton}/> 
-                  <Text style={styles.upload}>Upload Image</Text>
-                
+                  
+                  <UploadPhoto />
+              
                 <View style={styles.share}>
                   <FontAwesome name="plus" color="#ffffff" />
                 </View>
@@ -471,7 +497,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -687,4 +713,4 @@ const styles = StyleSheet.create({
   },
 
   // ///////////
-});
+})
