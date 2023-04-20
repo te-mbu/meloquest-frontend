@@ -170,9 +170,9 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
 
-    borderWidth: "2px",
-    borderColor: "#000000",
-    backgroundColor: "black",
+    // borderWidth: "2px",
+    // borderColor: "#000000",
+    backgroundColor: "#262626",
   },
   totalContainer: {
     width: "95%",

@@ -19,16 +19,16 @@ export default function EventSOne(props) {
       </View>
       <View style={styles.right}>
         <View style={styles.iconContainer}>
-          <FontAwesome name="music" color="purple" size={15} />
+          <FontAwesome name="music" color="orange" size={15} />
           <Text style={styles.iconPosition}> {props.name}</Text>
         </View>
         <View style={styles.iconContainer}>
-          <FontAwesome name="map-pin" color="purple" size={15} />
+          <FontAwesome name="map-pin" color="orange" size={15} />
           <Text style={styles.iconPosition}>{props.venue}</Text>
         </View>
         
         <View style={styles.iconContainer}>
-        <FontAwesome name="lightbulb-o" color="purple" size={15} />
+        <FontAwesome name="lightbulb-o" color="orange" size={15} />
           <Text style={styles.iconPosition}>{props.date} | {props.timeStart} | {props.price} €</Text>
         </View>
       </View>
@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
     // padding: 10,
     // backgroundColor: '#ffffff',
   },
+
+  
 
   iconPosition: {
     marginLeft: 10,

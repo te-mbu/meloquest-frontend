@@ -22,7 +22,7 @@ export default function UserProfileScreen({ navigation }) {
   const [eventsPurchased, setEventsPurchased] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const dispatch = useDispatch();
-  
+
 
   const userToken = useSelector((state) => state.user.value.token);
   const eventsPurchasedRed = useSelector(
@@ -89,7 +89,7 @@ export default function UserProfileScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.ScrollViewContainer}>
         <View style={styles.bannerContainer}>
           <View style={styles.logoutContainer}>
             <Text onPress={() => handleLogout()} style={styles.logoutText}>
@@ -99,13 +99,13 @@ export default function UserProfileScreen({ navigation }) {
           <View style={styles.userIcon}>
             <FontAwesome
               style={styles.icon}
-              name="user"
-              size="70"
+              name="user-circle-o"
+              size="60"
               color="#ffffff"
             />
           </View>
           <View style={styles.userContainer}>
-            <Text style={styles.username}>Lalalaa</Text>
+            <Text style={styles.username}>Jojo</Text>
           </View>
         </View>
         <View style={styles.body}>
@@ -126,15 +126,19 @@ export default function UserProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000'
+
   },
+  ScrollViewContainer: {
+    backgroundColor: '#262626'
+  },
+
   bannerContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
     height: 170,
-    backgroundColor: "#000000",
+    backgroundColor: "#262626",
   },
   logoutContainer: {
     flex: 1,
@@ -160,7 +164,7 @@ const styles = StyleSheet.create({
   userContainer: {
     backgroundColor: "#ffffff",
     flex: 1,
-    marginBottom: 10,
+    marginBottom: 20,
     borderRadius: 15,
   },
   username: {
@@ -174,6 +178,8 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom:10,
+    marginTop:20
   },
   title: {
     fontWeight: "bold",

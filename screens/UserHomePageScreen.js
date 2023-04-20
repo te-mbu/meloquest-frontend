@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 const { formatDate, formatHour } = require("../modules/date");
 import { useIsFocused } from "@react-navigation/native";
 
-export default function UserHomePageScreen({}) {
+export default function UserHomePageScreen({ }) {
   const [events, setEvents] = useState([]);
 
   const isFocused = useIsFocused();
@@ -72,7 +72,7 @@ export default function UserHomePageScreen({}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.ScrollViewContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Évènements</Text>
         </View>
@@ -97,7 +97,9 @@ export default function UserHomePageScreen({}) {
         </View>
 
         {/* </View> */}
-        <View style={styles.eventsContainer}>{allEvents}</View>
+        <View style={styles.eventsContainer}>
+          {allEvents}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -106,18 +108,25 @@ export default function UserHomePageScreen({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+  },
+  ScrollViewContainer: {
+    backgroundColor: "#262626"
   },
 
   titleContainer: {
     height: 50,
-    backgroundColor: "#000000",
+    backgroundColor: "white",
+    marginTop: '7.8%',
+    marginBottom: '7%',
+    width: '100%'
   },
   title: {
-    fontSize: 23,
-    alignSelf: "center",
-    color: "#ffffff",
-    paddingTop: 5,
+    fontWeight: "bold",
+    width: "100%",
+    textAlign: "center",
+    fontSize: 20,
+    padding: "3%",
+    backgroundColor: "#ffffff",
   },
 
   headerContainer: {
@@ -127,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     height: 50,
-    backgroundColor: "black",
+    backgroundColor: "#262626",
   },
 
   tonightContainer: {
@@ -178,5 +187,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+
   },
 });

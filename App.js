@@ -50,8 +50,9 @@ const OrgaTabNavigator = () => {
         tabBarInactiveTintColor: "white",
         headerShown: false,
 
+         // permet de définir le sytle de la tabbar
         tabBarStyle: {
-          backgroundColor: "black", // permet de définir le fond de la tabbar
+          backgroundColor: "black",
           borderTopWidth: 0,
         }
 

@@ -25,6 +25,55 @@ const data = [
   { label: "Rock", value: "rock" },
   { label: "Pop", value: "pop" },
   { label: "Hip Hop", value: "hiphop" },
+  { label: "Afrobeat", value: "afrobeat" },
+  { label: "Bossa Nova", value: "bossanova" },
+  { label: "Flamenco", value: "flamenco" },
+  { label: "K-Pop", value: "kpop" },
+  { label: "Reggae", value: "reggae" },
+  { label: "Salsa", value: "salsa" },
+  { label: "Samba", value: "samba" },
+  { label: "Tango", value: "tango" },
+  { label: "World Fusion", value: "worldfusion" },
+  { label: "Celtic", value: "celtic" },
+  { label: "Jazz Fusion", value: "jazzfusion" },
+  { label: "Reggae Dub", value: "reggaedub" },
+  { label: "Electronic Dance Music", value: "edm" },
+  { label: "Classical Crossover", value: "classicalcrossover" },
+  { label: "Funk", value: "funk" },
+  { label: "Blues Rock", value: "bluesrock" },
+  { label: "Latin Jazz", value: "latinjazz" },
+  { label: "Chiptune", value: "chiptune" },
+  { label: "Gypsy Jazz", value: "gypsyjazz" },
+  { label: "Klezmer", value: "klezmer" },
+  { label: "Nintendocore", value: "nintendocore" },
+  { label: "Steampunk Music", value: "steampunk" },
+  { label: "Vaporwave", value: "vaporwave" },
+  { label: "Zydeco", value: "zydeco" },
+  { label: "Neoclassical Darkwave", value: "neoclassicaldarkwave" },
+  { label: "Math Rock", value: "mathrock" },
+  { label: "Folktronica", value: "folktronica" },
+  { label: "Funk carioca", value: "funkcarioca" },
+  { label: "Musique gnawa", value: "gnawa" },
+  { label: "Musique Touareg", value: "touareg" },
+  { label: "Musique Mongole", value: "mongole" },
+  { label: "Musique Kora", value: "kora" },
+  { label: "Musique Fado", value: "fado" },
+  { label: "Musique Klezmer", value: "klezmer" },
+  { label: "Musique Andine", value: "andine" },
+  { label: "Musique d'Asie centrale", value: "asiacentrale" },
+  { label: "Musique des Balkans", value: "balkans" },
+  { label: "Musique des Marins", value: "marins" },
+  { label: "Musique de la Nouvelle-Orléans", value: "nouvelleorleans" },
+  { label: "Musique électroacoustique", value: "electroacoustique" },
+  { label: "Musique de la Nouvelle Vague", value: "nouvellevague" },
+  { label: "Musique acadienne", value: "acadienne" },
+  { label: "Musique Tropicália", value: "tropicalia" },
+  { label: "Musique de la Renaissance", value: "renaissance" },
+  { label: "Musique de la cour ottomane", value: "courottomane" },
+  { label: "Musique traditionnelle irlandaise", value: "irlandaise" },
+  { label: "Musique traditionnelle japonaise", value: "japonaise" },
+  { label: "Musique traditionnelle chinoise", value: "chinoise" }
+
 ];
 
 const BACKEND_ADDRESS = process.env.BACKEND_ADDRESS;
@@ -475,7 +524,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: "3%",
     backgroundColor: "#ffffff",
-    marginBottom:30
+    marginBottom: 30
   },
   formContainer: {
     height: 230,
@@ -532,15 +581,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
-    marginLeft:20,
+    marginLeft: 20,
     width: "50%",
   },
   uploadButton: {
     backgroundColor: "#ffffff",
     borderRadius: 15,
   },
-  share:{
-    marginRight:30
+  share: {
+    marginRight: 30
   },
 
   upload: {

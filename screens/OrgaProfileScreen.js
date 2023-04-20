@@ -16,6 +16,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { formatDate, formatHour } from "../modules/date";
+import EventSOneSearch from "../components/EventSOneSearch";
 
 export default function OrgaProfileScreen({ navigation }) {
   const [token, setToken] = useState("");
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   loaded:{
     display:'flex',
     flex:1,
-    marginTop:'20%',
+    marginTop:'40%',
     alignSelf:'center'
   },
 

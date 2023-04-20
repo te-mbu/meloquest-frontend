@@ -63,7 +63,7 @@ export default function UserTicketScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.ScrollViewContainer}>
         <View style={styles.body}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Mes tickets</Text>
@@ -80,7 +80,10 @@ export default function UserTicketScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+ 
+  },
+  ScrollViewContainer:{
+    backgroundColor: "#262626",
   },
   bannerContainer: {
     display: "flex",
@@ -128,6 +131,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop:"7%"
   },
   title: {
     fontWeight: "bold",

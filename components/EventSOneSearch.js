@@ -10,7 +10,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch } from "react-redux";
 import { addEventToPurchase } from "../reducers/user";
-import { useNavigation } from "@react-navigation/native"; 
+import { useNavigation } from "@react-navigation/native";
 
 export default function EventSOneSearch(props) {
   const navigation = useNavigation();
@@ -33,24 +33,36 @@ export default function EventSOneSearch(props) {
   };
 
   return (
-      <TouchableOpacity
+    <TouchableOpacity
       // style={{width: '100%', height: '100%'}}
-        onPress={() => handleOnPress()}
-      >
-    <View style={styles.eventSContainer}>
-      <View style={styles.left}>
-        <ImageBackground
-          style={{ flex: 1 }}
-          source={require("../assets/eventPhoto.png")}
+      onPress={() => handleOnPress()}
+    >
+      <View style={styles.eventSContainer}>
+        <View style={styles.left}>
+          <ImageBackground
+            style={{ flex: 1 }}
+            source={require("../assets/eventPhoto.png")}
           ></ImageBackground>
+        </View>
+        
+        <View style={styles.right}>
+          <View style={styles.iconContainer}>
+            <FontAwesome name="music" color="orange" size={15} />
+            <Text style={styles.iconPosition}> {props.name}</Text>
+          </View>
+
+          <View style={styles.iconContainer}>
+            <FontAwesome name="map-pin" color="orange" size={15} />
+            <Text style={styles.iconPosition}>{props.venue}</Text>
+          </View>
+
+          <View style={styles.iconContainer}>
+            <FontAwesome name="lightbulb-o" color="orange" size={15} />
+            <Text style={styles.iconPosition}>{props.date} | {props.timeStart} | {props.price} €</Text>
+          </View>
+        </View>
       </View>
-      <View style={styles.right}>
-        <Text>{props.name}</Text>
-        <Text>{props.venue}</Text>
-        <Text>{props.date} | {props.timeStart} | {props.price} €</Text>
-      </View>
-    </View>
-          </TouchableOpacity>
+    </TouchableOpacity>
   );
 }
 
@@ -80,4 +92,16 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#ffffff',
   },
+
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: 10,
+  },
+
+  iconPosition: {
+    marginLeft: 10,
+  },
+
+
 });
