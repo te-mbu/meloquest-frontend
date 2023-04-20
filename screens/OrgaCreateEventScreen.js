@@ -415,7 +415,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
                 data={data}
                 labelField="label"
                 valueField="value"
-                placeholder="Select a genre"
+                placeholder="Genre(s)"
                 value={genres}
                 search
                 searchPlaceholder="Search..."
