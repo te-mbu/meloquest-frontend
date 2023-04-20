@@ -36,7 +36,7 @@ const OrgaTabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 
-          if (route.name === "Profil") {
+          if (route.name === "Mes events") {
             iconName = "home";
           } else if (route.name === "Création d'évenements") {
             iconName = "plus-square-o";
@@ -58,7 +58,7 @@ const OrgaTabNavigator = () => {
 
       })}
     >
-      <Tab.Screen name="Profil" component={OrgaProfileScreen} />
+      <Tab.Screen name="Mes events" component={OrgaProfileScreen} />
       <Tab.Screen name="Création d'évenements" component={OrgaCreateEventScreen} />
       <Tab.Screen name="Statistiques" component={OrgaEventStatsScreen} />
     </Tab.Navigator>

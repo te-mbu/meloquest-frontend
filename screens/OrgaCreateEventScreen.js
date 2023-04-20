@@ -180,7 +180,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
   const handleRedirection = () => {
     setModalVisible(false);
-    navigation.navigate("OrgaProfile");
+    navigation.navigate("Mes events");
   };
 
   const filteredData = data.filter((item) =>
