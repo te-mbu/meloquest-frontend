@@ -6,13 +6,12 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import { useSelector } from 'react-redux';
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 
 export default function EventSOne(props) {
-  const userPhoto = useSelector((state) => state.user.value);
+ 
 
   return (
     <View style={styles.eventSContainer}>

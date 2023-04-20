@@ -6,7 +6,7 @@ const initialState = {
             email:null, 
             eventToPurchase: null, 
             eventsPurchased: [], 
-            photos: "" },
+            photos: null },
 };
 
 export const userSlice = createSlice({
