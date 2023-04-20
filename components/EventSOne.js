@@ -6,21 +6,27 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
+import { useSelector } from 'react-redux';
+
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+
 export default function EventSOne(props) {
+  const userPhoto = useSelector((state) => state.user.value);
+
   return (
     <View style={styles.eventSContainer}>
       <View style={styles.left}>
         <ImageBackground
           style={{ flex: 1 }}
-          source={require("../assets/eventPhoto.png")}
+          source={{ uri : props.url }}
         ></ImageBackground>
       </View>
       <View style={styles.right}>
         <Text>{props.name}</Text>
         <Text>{props.venue}</Text>
         <Text>{props.date} | {props.timeStart} | {props.price} €</Text>
+        
       </View>
     </View>
   );

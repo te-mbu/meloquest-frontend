@@ -5,7 +5,7 @@ import {
   Text,
 } from "react-native";
 
-export default function Button({ label, theme, onPress }) {
+export default function Button({ theme}) {
   if (theme === "primary") {
     return (
       <View style={[styles.button, { backgroundColor: "#fff" }]}>
