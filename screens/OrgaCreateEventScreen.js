@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -13,11 +13,10 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useIsFocused } from "@react-navigation/native";
 import UploadPic from "../components/UploadPic";
-import { addPhoto } from "../reducers/user";
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
@@ -39,7 +38,6 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [venue, setVenue] = useState("");
   const [description, setDescription] = useState("");
   const [genres, setGenres] = useState([]);
-  const [eventPhoto, setEventPhoto] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -58,10 +56,8 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [photo, setPhoto] = useState(null);
 
   const userToken = useSelector((state) => state.user.value.token);
-  const user = useSelector((state) => state.user.value);
 
   const isFocused = useIsFocused();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setToken(userToken);
@@ -132,8 +128,33 @@ export default function OrgaCreateEventScreen({ navigation }) {
     );
   }
 
-  const handleEventCreation = () => {
-    fetch("https://meloquest-backend.vercel.app/users/eventcreation", {
+
+  const handleRedirection = () => {
+    setModalVisible(false);
+    navigation.navigate("OrgaProfile");
+  };
+
+  const filteredData = data.filter((item) =>
+    item.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sendPicToCloudinary = async () => {
+    const formData = new FormData();
+
+    formData.append("photoFromFront", {
+      uri: photo,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    });
+
+      fetch(`https://meloquest-backend.vercel.app/sendPic/upload`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result){
+          fetch("https://meloquest-backend.vercel.app/users/eventcreation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -146,13 +167,12 @@ export default function OrgaCreateEventScreen({ navigation }) {
         venue: venue,
         description: description,
         genre: genres,
-        url: user.photos,
+        url: data.url,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          // console.log("Event added to the database");
           setName("");
           setCity("");
           setAddress("");
@@ -170,6 +190,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setIsMultiSelectOpen(false);
           setModalVisible(true); // pour l'affichage de la modale
           setIsTrue(true); // pour le contenu de la modale
+          // ajout du token de l'organisateur dans le tableau 'organiser' de l'event
           fetch("https://meloquest-backend.vercel.app/events/organiser", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -190,41 +211,13 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setModalVisible(true); // si les champs ne sont pas remplis, afficher quand même un modale.
         }
       });
-  };
-
-  const handleRedirection = () => {
-    setModalVisible(false);
-    navigation.navigate("OrgaProfile");
-  };
-
-  const filteredData = data.filter((item) =>
-    item.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const sendPicToCloudinary = async () => {
-    const formData = new FormData();
-
-    formData.append("photoFromFront", {
-      uri: photo,
-      name: "photo.jpg",
-      type: "image/jpeg",
-    });
-
-    fetch(`http://10.6.23.26:3000/sendPic/upload`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        data.result && dispatch(addPhoto(data.url));
+        }
       });
   };
   /* fonction intermédiaire qui permet de récupérer la photo */
   function getPhoto(photo) {
     setPhoto(photo);
   }
-  // console.log(photo);
 
   return (
     <SafeAreaView>
@@ -430,7 +423,6 @@ export default function OrgaCreateEventScreen({ navigation }) {
             {/* CREER L'EVENEMENT */}
             <TouchableOpacity
               onPress={() => {
-                handleEventCreation();
                 sendPicToCloudinary();
               }}
               style={styles.createEventContainer}
@@ -496,9 +488,6 @@ export default function OrgaCreateEventScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  // main: {
-  //   backgroundColor: "white",
-  // },
   container: {
     flex: 1,
   },
