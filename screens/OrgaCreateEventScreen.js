@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
-  ImageBackground,
   Text,
   View,
   StyleSheet,
@@ -14,14 +13,15 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { useIsFocused } from "@react-navigation/native";
+import UploadPic from "../components/UploadPic";
+import { addPhoto } from "../reducers/user";
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import UploadPhoto from "../components/uploadPhoto";
 
 const data = [
   { label: "Rock", value: "rock" },
@@ -39,6 +39,8 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [venue, setVenue] = useState("");
   const [description, setDescription] = useState("");
   const [genres, setGenres] = useState([]);
+  const [eventPhoto, setEventPhoto] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const [timeStart, setTimeStart] = useState(new Date());
@@ -53,17 +55,20 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [token, setToken] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [isTrue, setIsTrue] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
   const userToken = useSelector((state) => state.user.value.token);
+  const user = useSelector((state) => state.user.value);
 
   const isFocused = useIsFocused();
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setToken(userToken);
-    if (isFocused) {     // in react-native, isFocused works the same as the useEffect?
+    if (isFocused) {
+      // in react-native, isFocused works the same as the useEffect?
       setIsTrue(false);
-  } 
+    }
   }, [isFocused]);
 
   const renderItem = (item) => {
@@ -141,6 +146,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
         venue: venue,
         description: description,
         genre: genres,
+        url: user.photos,
       }),
     })
       .then((response) => response.json())
@@ -194,6 +200,31 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const filteredData = data.filter((item) =>
     item.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const sendPicToCloudinary = async () => {
+    const formData = new FormData();
+
+    formData.append("photoFromFront", {
+      uri: photo,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    });
+
+    fetch(`http://10.6.23.26:3000/sendPic/upload`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        data.result && dispatch(addPhoto(data.url));
+      });
+  };
+  /* fonction intermédiaire qui permet de récupérer la photo */
+  function getPhoto(photo) {
+    setPhoto(photo);
+  }
+  // console.log(photo);
 
   return (
     <SafeAreaView>
@@ -389,7 +420,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
             {/* UPLOAD D'IMAGE */}
             <View style={styles.uploadContainer}>
               <TouchableOpacity style={styles.uploadButton}>
-                <Text style={styles.upload}>Upload Image</Text>
+                <UploadPic getPhoto={getPhoto} />
               </TouchableOpacity>
               <View style={styles.share}>
                 <FontAwesome name="plus" color="#ffffff" />
@@ -398,7 +429,10 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
             {/* CREER L'EVENEMENT */}
             <TouchableOpacity
-              onPress={() => handleEventCreation()}
+              onPress={() => {
+                handleEventCreation();
+                sendPicToCloudinary();
+              }}
               style={styles.createEventContainer}
             >
               <Text style={styles.createEventText}>Créer l'évènement</Text>
@@ -420,7 +454,6 @@ export default function OrgaCreateEventScreen({ navigation }) {
                   borderTopRightRadius: 10,
                   height: "15%",
                   width: "100%",
-                  justifyContent: "center",
                   position: "absolute",
                   bottom: 0,
                   marginBottom: "20%",
@@ -463,9 +496,9 @@ export default function OrgaCreateEventScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  main: {
-    backgroundColor: "#000000",
-  },
+  // main: {
+  //   backgroundColor: "white",
+  // },
   container: {
     flex: 1,
   },

@@ -9,17 +9,70 @@ import {
   SafeAreaView,
   ScrollView
 } from "react-native";
+import { useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { formatDate, formatHour } from "../modules/date";
 
 export default function OrgaEventStatsScreen() {
+
+  const [token, setToken] = useState("");
+  const [events, setEvents] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [nbLikes, setNbLikes] = useState([])
+  const [nbPurchases, setNbPurchases] = useState([])
+
+  const isFocused = useIsFocused();
+  const userToken = useSelector((state) => state.user.value.token);
+
+  useEffect(() => {
+    if (isFocused) {
+      setToken(userToken);
+      fetch(`http://localhost:3000/events/organiser/${userToken}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.result) {
+            setEvents([...data.data]);
+            setNbLikes([...data.likes])
+            setNbPurchases([...data.purchases])
+            setDataLoaded(true);
+          } else {
+            console.log("Events not found");
+          }
+        });
+    }
+  }, [isFocused]);
+
+  if (!dataLoaded) {
+    return (
+      <View>
+        <Text>Chargement en cours...</Text>
+      </View>
+    );
+  }
+
+
+  const allEvents = events.map((data, i) => {
+    return (
+      <Event_S_Stats
+        key={i}
+        name={data.name}
+        venue={data.address.venue}
+        date={formatDate(data.timeDetails.timeStart)}
+        nbLikes={nbLikes[i]}
+        nbPurchases={nbPurchases[i]}
+      />
+    );
+  });
+
   return (
     <SafeAreaView style={{flex : 1, backgroundColor: '#000000'}}>
       <ScrollView>
         <View style={styles.containerone}>
           <Text style={styles.title}>Stats</Text>
         </View>
-          <Event_S_Stats />
-          <Event_S_Stats />
-          <Event_S_Stats />
+          {allEvents}
       </ScrollView>
     </SafeAreaView>
     );

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-    Image
+    Image,
   } from "react-native";
 
 export default function ImageViewer({ placeholderImageSource, selectedImage }) {
@@ -8,5 +8,5 @@ export default function ImageViewer({ placeholderImageSource, selectedImage }) {
       ? { uri: selectedImage }
       : placeholderImageSource;
   
-    return <Image source={imageSource} style={styles.image} />;
-  }
+    return <Image source={imageSource}  /> // style={styles.image}
+}

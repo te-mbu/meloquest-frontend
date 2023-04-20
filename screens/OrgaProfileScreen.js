@@ -28,7 +28,9 @@ export default function OrgaProfileScreen({ navigation }) {
   useEffect(() => {
     if (isFocused) {
       setToken(userToken);
-      fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
+      fetch(
+        `https://meloquest-backend.vercel.app/events/organiser/${userToken}`
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.result) {
@@ -58,6 +60,7 @@ export default function OrgaProfileScreen({ navigation }) {
         price={data.price}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
+        url={data.url}
       />
     );
   });

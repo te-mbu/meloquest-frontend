@@ -5,30 +5,52 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity
 } from "react-native";
-import { useSelector } from 'react-redux';
-
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from "react-redux";
+import { addEventToPurchase } from "../reducers/user";
+import { useNavigation } from "@react-navigation/native"; 
 
+export default function EventSOneSearch(props) {
+  const navigation = useNavigation();
+  const dispatch = useDispatch()
 
-export default function EventSOne(props) {
-  const userPhoto = useSelector((state) => state.user.value);
+  const handleOnPress = () => {
+    fetch(`https://meloquest-backend.vercel.app/events/${props.event_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(addEventToPurchase(data.event));
+          navigation.navigate("UserEventPage");
+        } else {
+          console.log(data.error);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
+      <TouchableOpacity
+      // style={{width: '100%', height: '100%'}}
+        onPress={() => handleOnPress()}
+      >
     <View style={styles.eventSContainer}>
       <View style={styles.left}>
         <ImageBackground
           style={{ flex: 1 }}
-          source={{ uri : props.url }}
-        ></ImageBackground>
+          source={require("../assets/eventPhoto.png")}
+          ></ImageBackground>
       </View>
       <View style={styles.right}>
         <Text>{props.name}</Text>
         <Text>{props.venue}</Text>
         <Text>{props.date} | {props.timeStart} | {props.price} €</Text>
-        
       </View>
     </View>
+          </TouchableOpacity>
   );
 }
 
