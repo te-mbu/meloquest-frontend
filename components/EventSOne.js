@@ -18,9 +18,19 @@ export default function EventSOne(props) {
         ></ImageBackground>
       </View>
       <View style={styles.right}>
-        <Text>{props.name}</Text>
-        <Text>{props.venue}</Text>
-        <Text>{props.date} | {props.timeStart} | {props.price} €</Text>
+        <View style={styles.iconContainer}>
+          <FontAwesome name="music" color="purple" size={15} />
+          <Text style={styles.iconPosition}> {props.name}</Text>
+        </View>
+        <View style={styles.iconContainer}>
+          <FontAwesome name="map-pin" color="purple" size={15} />
+          <Text style={styles.iconPosition}>{props.venue}</Text>
+        </View>
+        
+        <View style={styles.iconContainer}>
+        <FontAwesome name="lightbulb-o" color="purple" size={15} />
+          <Text style={styles.iconPosition}>{props.date} | {props.timeStart} | {props.price} €</Text>
+        </View>
       </View>
     </View>
   );
@@ -46,10 +56,24 @@ const styles = StyleSheet.create({
   right: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: 'space-evenly',
     height: "100%",
     width: "70%",
-    padding: 10,
-    backgroundColor: '#ffffff',
+    // padding: 10,
+    backgroundColor: 'white',
   },
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: 10,
+    // height: "100%",
+    // width: "70%",
+    // padding: 10,
+    // backgroundColor: '#ffffff',
+  },
+
+  iconPosition: {
+    marginLeft: 10,
+  },
+  
 });

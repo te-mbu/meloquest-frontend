@@ -63,7 +63,7 @@ export default function UserSearchScreen({}) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.ScrollViewContainer}>
         <View style={styles.body}>
           <View style={styles.searchContainer}>
             <TextInput
@@ -89,10 +89,13 @@ export default function UserSearchScreen({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#262626",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+
+  ScrollViewContainer:{
+    backgroundColor: "#262626",
   },
   // bannerContainer: {
   //   display: "flex",
@@ -159,6 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 2,
     borderColor: "black",
+    marginTop:'5%'
   },
   searchText: {
     padding: 10,

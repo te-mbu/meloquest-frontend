@@ -75,7 +75,7 @@ export default function OrgaProfileScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.logoutContainer}>
           <Text onPress={() => handleLogout()} style={styles.logoutText}>
             Déconnexion
@@ -100,6 +100,10 @@ const styles = StyleSheet.create({
     alignSelf:'center'
   },
 
+  scrollViewContainer:{
+    backgroundColor: "#262626",
+  },
+
   textload:{
     fontSize:25
 
@@ -121,8 +125,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#262626",
-    marginTop:"10%"
   },
   body: {
     marginTop: 10,

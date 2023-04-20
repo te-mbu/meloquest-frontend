@@ -457,7 +457,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: "#000000",
+    backgroundColor: "#262626",
   },
   container: {
     flex: 1,

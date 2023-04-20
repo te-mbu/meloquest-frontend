@@ -36,11 +36,11 @@ const OrgaTabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 
-          if (route.name === "OrgaProfile") {
+          if (route.name === "Profil") {
             iconName = "home";
-          } else if (route.name === "OrgaCreateEvent") {
+          } else if (route.name === "Création d'évenements") {
             iconName = "plus-square-o";
-          } else if (route.name === "OrgaEventStats") {
+          } else if (route.name === "Statistiques") {
             iconName = "line-chart";
           }
 
@@ -51,15 +51,15 @@ const OrgaTabNavigator = () => {
         headerShown: false,
 
         tabBarStyle: {
-          backgroundColor: "#262626", // permet de définir le fond de la tabbar
+          backgroundColor: "black", // permet de définir le fond de la tabbar
           borderTopWidth: 0,
         }
 
       })}
     >
-      <Tab.Screen name="OrgaProfile" component={OrgaProfileScreen} />
-      <Tab.Screen name="OrgaCreateEvent" component={OrgaCreateEventScreen} />
-      <Tab.Screen name="OrgaEventStats" component={OrgaEventStatsScreen} />
+      <Tab.Screen name="Profil" component={OrgaProfileScreen} />
+      <Tab.Screen name="Création d'évenements" component={OrgaCreateEventScreen} />
+      <Tab.Screen name="Statistiques" component={OrgaEventStatsScreen} />
     </Tab.Navigator>
   );
 };
@@ -71,13 +71,13 @@ const UserTabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 
-          if (route.name === "UserHomePage") {
+          if (route.name === "Accueil") {
             iconName = "home";
-          } else if (route.name === "UserSearch") {
+          } else if (route.name === "Recherche") {
             iconName = "search";
-          } else if (route.name === "UserTicket") {
+          } else if (route.name === "Ticket") {
             iconName = "ticket";
-          } else if (route.name === "UserProfile") {
+          } else if (route.name === "Profil") {
             iconName = "user-circle-o";
           }
 
@@ -94,10 +94,10 @@ const UserTabNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="UserHomePage" component={UserHomePageScreen} />
-      <Tab.Screen name="UserSearch" component={UserSearchScreen} />
-      <Tab.Screen name="UserTicket" component={UserTicketScreen} />
-      <Tab.Screen name="UserProfile" component={UserProfileScreen} />
+      <Tab.Screen name="Accueil" component={UserHomePageScreen} />
+      <Tab.Screen name="Recherche" component={UserSearchScreen} />
+      <Tab.Screen name="Ticket" component={UserTicketScreen} />
+      <Tab.Screen name="Profil" component={UserProfileScreen} />
     </Tab.Navigator>
   );
 };
@@ -107,7 +107,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="FirstPage" component={FirstPageScreen} />
+          <Stack.Screen name="FirstPage" component={FirstPageScreen} />
           <Stack.Screen name="Role" component={RoleScreen} />
           <Stack.Screen
             name="Signin"
@@ -120,7 +120,7 @@ export default function App() {
           <Stack.Screen
             name="UserSignup"
             component={UserSignupScreen}
-          /> */}
+          />
           <Stack.Screen name="OrgaTabNavigator" component={OrgaTabNavigator} />
           <Stack.Screen name="UserTabNavigator" component={UserTabNavigator} />
           <Stack.Screen name="UserEventPage" component={UserEventPageScreen} />
