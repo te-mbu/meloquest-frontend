@@ -112,8 +112,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  
   ScrollViewContainer: {
+    width: '100%',
     backgroundColor: "#262626",
   },
 
