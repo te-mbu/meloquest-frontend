@@ -35,13 +35,13 @@ export default function EventSOneSearch(props) {
   return (
     <TouchableOpacity
       // style={{width: '100%', height: '100%'}}
-      onPress={() => handleOnPress()}
-    >
-      <View style={styles.eventSContainer}>
-        <View style={styles.left}>
-          <ImageBackground
-            style={{ flex: 1 }}
-            source={require("../assets/eventPhoto.png")}
+        onPress={() => handleOnPress()}
+      >
+    <View style={styles.eventSContainer}>
+      <View style={styles.left}>
+        <ImageBackground
+          style={{ flex: 1 }}
+          source={{uri: props.url}}
           ></ImageBackground>
         </View>
         

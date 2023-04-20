@@ -15,18 +15,19 @@ export default function EventL(props) {
       <View style={styles.container}>
         <View style={styles.backgroundContainer}>
           <Image
-            source={require("../assets/eventPhoto.png")}
+            source={{uri: props.url}}
             style={styles.background}
           />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Nom : {props.name}</Text>
+          <Text style={styles.text}>Nom de l'évènement :{} {props.name}</Text>
           <Text style={styles.text}>Où ? {props.venue} </Text>
           <Text style={styles.text}>Quand ? {props.date}</Text>
           <Text style={styles.text}>De {props.timeStart} à {props.timeEnd}</Text>
         </View>
       </View>
     </SafeAreaView>
+    
   );
 }
 
@@ -41,14 +42,18 @@ const styles = StyleSheet.create({
   },
   backgroundContainer: {
     width: '100%',
+    height: 320,
+    borderRadius: 15,
   },
   background: {
     width: "100%",
+    height:'100%'
   },
   text: {
     color: "black",
     textAlign: "center",
     padding: 10,
+    fontWeight: 'bold'
   },
   textContainer: {
     borderWidth: 1,

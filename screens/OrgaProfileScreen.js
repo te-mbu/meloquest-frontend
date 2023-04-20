@@ -54,7 +54,6 @@ export default function OrgaProfileScreen({ navigation }) {
   }
 
   const allEvents = events.map((data, i) => {
-
     return (
       <EventSOne
         key={i}
@@ -63,6 +62,7 @@ export default function OrgaProfileScreen({ navigation }) {
         price={data.price}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
+        url={data.url}
       />
     );
   });

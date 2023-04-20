@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  ImageBackground,
   Text,
   View,
   StyleSheet,
@@ -15,7 +14,9 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import DatePicker from "@react-native-community/datetimepicker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+
+import { useIsFocused } from "@react-navigation/native";
+import UploadPic from "../components/UploadPic";
 
 // genre
 import { MultiSelect } from "react-native-element-dropdown";
@@ -86,6 +87,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
   const [venue, setVenue] = useState("");
   const [description, setDescription] = useState("");
   const [genres, setGenres] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const [timeStart, setTimeStart] = useState(new Date());
@@ -98,15 +100,21 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
   const [isMultiSelectOpen, setIsMultiSelectOpen] = useState(false);
   const [token, setToken] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isTrue, setIsTrue] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
   const userToken = useSelector((state) => state.user.value.token);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     setToken(userToken);
-  }, []);
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isTrue, setIsTrue] = useState(false);
+    if (isFocused) {
+      // in react-native, isFocused works the same as the useEffect?
+      setIsTrue(false);
+    }
+  }, [isFocused]);
 
   const renderItem = (item) => {
     return (
@@ -169,8 +177,33 @@ export default function OrgaCreateEventScreen({ navigation }) {
     );
   }
 
-  const handleEventCreation = () => {
-    fetch("https://meloquest-backend.vercel.app/users/eventcreation", {
+
+  const handleRedirection = () => {
+    setModalVisible(false);
+    navigation.navigate("OrgaProfile");
+  };
+
+  const filteredData = data.filter((item) =>
+    item.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sendPicToCloudinary = async () => {
+    const formData = new FormData();
+
+    formData.append("photoFromFront", {
+      uri: photo,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    });
+
+      fetch(`https://meloquest-backend.vercel.app/sendPic/upload`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result){
+          fetch("https://meloquest-backend.vercel.app/users/eventcreation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -183,12 +216,12 @@ export default function OrgaCreateEventScreen({ navigation }) {
         venue: venue,
         description: description,
         genre: genres,
+        url: data.url,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          // console.log("Event added to the database");
           setName("");
           setCity("");
           setAddress("");
@@ -206,6 +239,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setIsMultiSelectOpen(false);
           setModalVisible(true); // pour l'affichage de la modale
           setIsTrue(true); // pour le contenu de la modale
+          // ajout du token de l'organisateur dans le tableau 'organiser' de l'event
           fetch("https://meloquest-backend.vercel.app/events/organiser", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -226,16 +260,13 @@ export default function OrgaCreateEventScreen({ navigation }) {
           setModalVisible(true); // si les champs ne sont pas remplis, afficher quand même un modale.
         }
       });
+        }
+      });
   };
-
-  const handleRedirection = () => {
-    setModalVisible(false);
-    navigation.navigate("OrgaProfile");
-  };
-
-  const filteredData = data.filter((item) =>
-    item.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  /* fonction intermédiaire qui permet de récupérer la photo */
+  function getPhoto(photo) {
+    setPhoto(photo);
+  }
 
   return (
     <SafeAreaView>
@@ -431,7 +462,7 @@ export default function OrgaCreateEventScreen({ navigation }) {
             {/* UPLOAD D'IMAGE */}
             <View style={styles.uploadContainer}>
               <TouchableOpacity style={styles.uploadButton}>
-                <Text style={styles.upload}>Upload Image</Text>
+                <UploadPic getPhoto={getPhoto} />
               </TouchableOpacity>
               <View style={styles.share}>
                 <FontAwesome name="plus" color="#ffffff" />
@@ -440,7 +471,9 @@ export default function OrgaCreateEventScreen({ navigation }) {
 
             {/* CREER L'EVENEMENT */}
             <TouchableOpacity
-              onPress={() => handleEventCreation()}
+              onPress={() => {
+                sendPicToCloudinary();
+              }}
               style={styles.createEventContainer}
             >
               <Text style={styles.createEventText}>Créer l'évènement</Text>
@@ -462,7 +495,6 @@ export default function OrgaCreateEventScreen({ navigation }) {
                   borderTopRightRadius: 10,
                   height: "15%",
                   width: "100%",
-                  justifyContent: "center",
                   position: "absolute",
                   bottom: 0,
                   marginBottom: "20%",
@@ -680,7 +712,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
     elevation: 2,
   },
   textSelectedStyle: {
@@ -697,7 +728,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 70,
     marginTop: 10,
   },
-  trybtn: {
+  tryText: {
     textAlign: "center",
     fontWeight: "bold",
   },

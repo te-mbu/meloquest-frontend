@@ -6,15 +6,19 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
+
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+
 export default function EventSOne(props) {
+ 
+
   return (
     <View style={styles.eventSContainer}>
       <View style={styles.left}>
         <ImageBackground
           style={{ flex: 1 }}
-          source={require("../assets/eventPhoto.png")}
+          source={{ uri : props.url }}
         ></ImageBackground>
       </View>
       <View style={styles.right}>

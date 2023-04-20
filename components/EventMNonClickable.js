@@ -23,7 +23,6 @@ export default function EventM(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.result) {
-          console.log("EVENT M DATA EVENT -> ", data.event)
           dispatch(addEventToPurchase(data.event));
           navigation.navigate("UserEventPage");
         } else {
@@ -48,7 +47,7 @@ export default function EventM(props) {
       <View style={styles.totalContainer}>
         <ImageBackground
           style={{ flex: 1, }}
-          source={require("../assets/eventPhoto.png")}
+          source={{uri: props.url}}
           resizeMode='cover'
         >
           <View style={styles.topContainer}>

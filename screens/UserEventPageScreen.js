@@ -50,6 +50,7 @@ export default function UserEventPageScreen({ navigation }) {
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
+        url={data.url}
       />
       );
     });

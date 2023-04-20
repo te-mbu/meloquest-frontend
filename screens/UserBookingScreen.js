@@ -10,6 +10,8 @@ import {
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 const { formatDate, formatHour } = require('../modules/date')
 
 export default function UserBookingScreen({ navigation }) {
@@ -43,6 +45,7 @@ export default function UserBookingScreen({ navigation }) {
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
+        url={data.url}
       />
       );
     });
@@ -50,6 +53,12 @@ export default function UserBookingScreen({ navigation }) {
     console.log('[USER_BOOKING_SCREEN eventL->', event)
     return (
       <SafeAreaView style={styles.maincontainer}>
+      <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.arrowBack}
+        >
+          <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
+        </TouchableOpacity>
       {eventDetails}
       <View style={styles.container}>
         <View style={styles.sectionone}>
@@ -66,7 +75,7 @@ export default function UserBookingScreen({ navigation }) {
         <View style={styles.sectiontwo}>
           <TouchableOpacity style={styles.styleprice}>
             <Text style={styles.textprice}>
-              Total: <Text style={styles.price}>{ count * event[0].price } €</Text>
+              Total: <Text style={styles.bold}>{ count * event[0].price } €</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -91,7 +100,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
+  arrowBack: {
+    height: 70,
+    justifyContent: "center",
+    paddingLeft: 15,
+  },
   sectionone: {
     flex: 1,
     flexDirection: "row",
@@ -108,10 +121,11 @@ const styles = StyleSheet.create({
   },
   roundstyle: {
     color: "white",
+    padding:10,
   },
   square: {
     borderWidth: 1,
-    padding: 5,
+    padding: 10,
     backgroundColor: "#FFC54B",
   },
   count: {
@@ -121,6 +135,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: "50%",
     backgroundColor: "#4C32CC",
+    marginHorizontal:70,
   },
   textprice: {
     textAlign: "center",
@@ -128,7 +143,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 20,
   },
-  price: {
+  bold: {
     fontWeight: "bold",
   },
   sectiontwo: {
@@ -139,9 +154,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: "center",
     alignSelf: "center",
-    marginLeft: 25,
-    marginRight: 25,
-    padding: 5,
+  
+    padding: 10,
     borderRadius: "50%",
     backgroundColor: "#4C32CC",
   },

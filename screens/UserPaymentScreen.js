@@ -14,6 +14,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { emptyEventToPurchase, eventsPurchased } from '../reducers/user'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 
 export default function UserPaymentScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -86,6 +88,12 @@ export default function UserPaymentScreen({ navigation }) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
+          <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.arrowBack}
+        >
+          <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
+        </TouchableOpacity>
           <View style={styles.topContainer}>
             <Text style={styles.title}>Paiement par carte</Text>
           </View>
@@ -150,6 +158,11 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  arrowBack: {
+    height: 50,
+    justifyContent: "center",
+    paddingLeft: 15,
   },
   title: {
     fontWeight: "bold",
