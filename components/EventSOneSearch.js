@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 
   iconPosition: {
     marginLeft: 10,
+    fontWeight:'bold',
   },
 
 

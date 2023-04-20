@@ -19,6 +19,7 @@ import { formatDate, formatHour } from "../modules/date";
 export default function UserSearchScreen({}) {
   const [events, setEvents] = useState([]);
   const [searchMsg, setSearchMsg] = useState("");
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const isFocused = useIsFocused();
 
@@ -28,9 +29,24 @@ export default function UserSearchScreen({}) {
         .then((res) => res.json())
         .then((data) => {
           setEvents(data.city);
+          setDataLoaded(true);
         });
     }
   }, [isFocused]);
+
+  if (!dataLoaded ) {
+    return (
+      <View style={styles.loaded}>
+        <Text style={styles.textload}>Soyez patient, ça arrive ...</Text>
+        <FontAwesome
+          name="optin-monster"
+          color="purple"
+          size={40}
+          style={styles.icon}
+        />
+      </View>
+    );
+  }
 
   const allEvents = events.map((data, i) => {
     return (
@@ -92,69 +108,24 @@ export default function UserSearchScreen({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  ScrollViewContainer:{
+  ScrollViewContainer: {
     backgroundColor: "#262626",
   },
-  // bannerContainer: {
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   alignItems: "center",
-  //   width: "100%",
-  //   height: 170,
-  //   backgroundColor: "#000000",
-  // },
-  // // // logoutContainer: {
-  // // //   flex: 1,
-  // // //   alignSelf: "flex-end",
-  // // //   marginTop: 10,
-  // // //   marginRight: 10,
-  // // //   backgroundColor: "purple",
-  // // //   borderRadius: 15,
-  // // },
-  // logoutText: {
-  //   color: "#ffffff",
-  //   paddingHorizontal: 12,
-  //   paddingVertical: 5,
-  //   fontWeight: "bold",
-  // },
-  // userIcon: {
-  //   width: "100%",
-  //   flex: 3,
-  // },
-  // icon: {
-  //   alignSelf: "center",
-  // },
-  // userContainer: {
-  //   backgroundColor: "#ffffff",
-  //   flex: 1,
-  //   marginBottom: 10,
-  //   borderRadius: 15,
-  // },
-  // username: {
-  //   paddingHorizontal: 12,
-  //   paddingVertical: 5,
-  //   color: "#000000",
-  //   fontWeight: "bold",
-  // },
-  // titleContainer: {
-  //   flex: 2,
-  //   display: "flex",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
-  // title: {
-  //   fontWeight: "bold",
-  //   width: "100%",
-  //   textAlign: "center",
-  //   fontSize: 20,
-  //   padding: "3%",
-  //   backgroundColor: "#ffffff",
-  // },
+
+  loaded:{
+    display:'flex',
+    flex:1,
+    marginTop:'40%',
+    alignSelf:'center'
+  },
+  textload: {
+    fontSize: 25,
+  },
   searchContainer: {
     backgroundColor: "#ffffff",
     height: 40,
@@ -165,7 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 2,
     borderColor: "black",
-    marginTop:'5%'
+    marginTop: "5%",
   },
   searchText: {
     padding: 10,

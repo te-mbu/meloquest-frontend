@@ -18,9 +18,9 @@ export default function Event_S_Stats(props) {
             </Image>
           </View>
           <View style={styles.right}>
-            <Text>{props.name} | {props.venue} | {props.date}</Text>
-            <Text>Nombre de ventes : {props.nbPurchases}</Text>
-            <Text>Nombre de likes : {props.nbLikes}</Text>
+            <Text><Text style={{fontWeight: 'bold', color:'purple'}}>{props.name} </Text>| {props.venue} | {props.date}</Text>
+            <Text><Text style={{fontWeight: 'bold'}}>Nombre de ventes : </Text>{props.nbPurchases}</Text>
+            <Text><Text style={{fontWeight: 'bold'}}>Nombre de likes : </Text>{props.nbLikes}</Text>
           </View>
         </View>
   )

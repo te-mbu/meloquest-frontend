@@ -1,18 +1,23 @@
+import React from "react";
 import Event_S_Stats from "../components/Event_S_Stats";
 import {
+  Image,
+  ImageBackground,
   Text,
   View,
   StyleSheet,
   SafeAreaView,
   ScrollView
 } from "react-native";
-import  React, { useState, useEffect  } from "react";
+import { useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { formatDate } from "../modules/date";
+import { useEffect } from "react";
+import { formatDate, formatHour } from "../modules/date";
 
 export default function OrgaEventStatsScreen() {
 
+  const [token, setToken] = useState("");
   const [events, setEvents] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [nbLikes, setNbLikes] = useState([])
@@ -23,6 +28,7 @@ export default function OrgaEventStatsScreen() {
 
   useEffect(() => {
     if (isFocused) {
+      setToken(userToken);
       fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
         .then((res) => res.json())
         .then((data) => {
@@ -41,7 +47,7 @@ export default function OrgaEventStatsScreen() {
   if (!dataLoaded) {
     return (
       <View>
-        <Text>Chargement en cours...</Text>
+        <Text>Soyez patient, ça arrive...</Text>
       </View>
     );
   }
@@ -62,32 +68,23 @@ export default function OrgaEventStatsScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollViewContainer}>
+    <SafeAreaView style={{flex : 1}}>
+      <ScrollView style={{backgroundColor: '#262626'}}>
         <View style={styles.containerone}>
-          <Text style={styles.title}>Statistiques</Text>
+          <Text style={styles.title}>Stats</Text>
         </View>
-        <Event_S_Stats />
-        <Event_S_Stats />
-        <Event_S_Stats />
+          {allEvents}
       </ScrollView>
     </SafeAreaView>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  scrollViewContainer: {
-    backgroundColor: "#262626"
-  },
   containerone: {
-    marginTop: "7%",
-    backgroundColor: '#000000'
+    marginTop: 10,
+    marginBottom:10,
+    backgroundColor:'#000000'
   },
-
   title: {
     fontWeight: "bold",
     width: "100%",
@@ -97,27 +94,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderWidth: 1
   },
-  // cardcontainer: {
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   height: 100,
-  //   width: "100%",
-  //   borderWidth: "2px",
-  //   borderColor: "#000000",
-  //   marginTop: "20%"
-  // },
-  // left: {
-  //   height: "100%",
-  //   width: "30%",
-  // },
-  // right: {
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   justifyContent: "space-between",
-  //   height: "100%",
-  //   width: "70%",
-  //   padding: 10,
-  //   backgroundColor: '#ffffff',
-  // },
+  cardcontainer: {
+    display: "flex",
+    flexDirection: "row",
+    height: 100,
+    width: "100%",
+    borderWidth: "2px",
+    borderColor: "#000000",
+    marginTop: "20%"
+  },
+  left: {
+    height: "100%",
+    width: "30%",
+  },
+  right: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
+    width: "70%",
+    padding: 10,
+    backgroundColor: '#ffffff',
+  },
 });
 
