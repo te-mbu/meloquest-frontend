@@ -111,16 +111,13 @@ export default function EventM(props) {
       >
         <ImageBackground
           style={{ flex: 1 }}
-          source={require("../assets/eventPhoto.png")}
+          source={{uri: props.url}}
           resizeMode="cover"
         >
           <View style={styles.topContainer}>
             <View style={styles.topContainerInfos}>
               <Text style={styles.title}>{props.name}</Text>
               <View style={styles.icons}>
-                <TouchableOpacity style={styles.share}>
-                  <FontAwesome name="share" color="#ffffff" size={20} />
-                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.heart}
                   onPress={() => handleEventLiked()}
@@ -217,7 +214,6 @@ const styles = StyleSheet.create({
     width: "20%",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginTop: 10,
     marginRight: 10,
   },
   details: {

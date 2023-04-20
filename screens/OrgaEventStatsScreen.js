@@ -1,23 +1,18 @@
-import React from "react";
 import Event_S_Stats from "../components/Event_S_Stats";
 import {
-  Image,
-  ImageBackground,
   Text,
   View,
   StyleSheet,
   SafeAreaView,
   ScrollView
 } from "react-native";
-import { useState } from "react";
+import  React, { useState, useEffect  } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { formatDate, formatHour } from "../modules/date";
+import { formatDate } from "../modules/date";
 
 export default function OrgaEventStatsScreen() {
 
-  const [token, setToken] = useState("");
   const [events, setEvents] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [nbLikes, setNbLikes] = useState([])
@@ -28,8 +23,7 @@ export default function OrgaEventStatsScreen() {
 
   useEffect(() => {
     if (isFocused) {
-      setToken(userToken);
-      fetch(`http://localhost:3000/events/organiser/${userToken}`)
+      fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.result) {
@@ -62,6 +56,7 @@ export default function OrgaEventStatsScreen() {
         date={formatDate(data.timeDetails.timeStart)}
         nbLikes={nbLikes[i]}
         nbPurchases={nbPurchases[i]}
+        url={data.url}
       />
     );
   });

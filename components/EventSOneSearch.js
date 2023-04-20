@@ -41,7 +41,7 @@ export default function EventSOneSearch(props) {
       <View style={styles.left}>
         <ImageBackground
           style={{ flex: 1 }}
-          source={require("../assets/eventPhoto.png")}
+          source={{uri: props.url}}
           ></ImageBackground>
       </View>
       <View style={styles.right}>

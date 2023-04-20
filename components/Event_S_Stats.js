@@ -14,7 +14,7 @@ export default function Event_S_Stats(props) {
         <View style={styles.left}>
             <Image 
               style={{ flex: 1, borderTopLeftRadius: 15, borderBottomLeftRadius: 15 }}
-              source={require("../assets/photobleue.jpg")}>
+              source={{ uri: props.url}}>
             </Image>
           </View>
           <View style={styles.right}>

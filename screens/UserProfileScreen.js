@@ -70,6 +70,7 @@ export default function UserProfileScreen({ navigation }) {
         price={data.price}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
+        url={data.url}
       />
     );
   });
@@ -83,6 +84,7 @@ export default function UserProfileScreen({ navigation }) {
         price={data.price}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
+        url={data.url}
       />
     );
   });

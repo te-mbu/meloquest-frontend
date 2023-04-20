@@ -49,7 +49,6 @@ export default function UserTicketScreen() {
 
     return <EventMNonClickable 
     key={i}
-    // isClickable={false}
     genres={data.genre}
     name={data.name}
     event_id={data.event_id}
@@ -58,6 +57,7 @@ export default function UserTicketScreen() {
     timeStart={formatHour(data.timeDetails.timeStart)}
     timeEnd={formatHour(data.timeDetails.timeEnd)}
     price={data.price}
+    url={data.url}
     />
   }) 
 

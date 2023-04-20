@@ -42,6 +42,7 @@ export default function UserSearchScreen({}) {
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
         event_id={data.event_id}
+        url={data.url}
       />
     );
   });

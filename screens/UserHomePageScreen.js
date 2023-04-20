@@ -1,13 +1,10 @@
 import React from "react";
 import {
-  ImageBackground,
   Text,
   View,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   SafeAreaView,
-  KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
 import EventM from "../components/EventM";
@@ -43,6 +40,7 @@ export default function UserHomePageScreen({}) {
         timeStart={formatHour(data.timeDetails.timeStart)}
         timeEnd={formatHour(data.timeDetails.timeEnd)}
         price={data.price}
+        url={data.url}
       />
     );
   });
