@@ -21,9 +21,17 @@ import UserValidationScreen from "./screens/UserValidationScreen";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
+import { LogBox } from 'react-native';
+
+// Ignore log notification by message
+// LogBox.ignoreLogs(['Warning: ...']);
+
+//Ignore all log notifications
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 
 const store = configureStore({
   reducer: { user },

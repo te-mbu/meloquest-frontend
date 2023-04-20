@@ -25,8 +25,8 @@ export default function UserValidationScreen({ navigation }) {
             <Text style={styles.text}>Maintenant place à la zik !</Text>
           </View>
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate('UserTicket')} style={styles.btnstyle} activeOpacity={0.8}>
-              <Text style={styles.textbutton}>Retour à l'accueil</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Ticket')} style={styles.btnstyle} activeOpacity={0.8}>
+              <Text style={styles.textbutton}>Retour</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "white",
     borderRadius: "5%",
+    paddingHorizontal: 10,
     alignItems: "flex-end",
   },
   textbutton: {
