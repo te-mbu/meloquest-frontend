@@ -89,9 +89,9 @@ export default function UserHomePageScreen({ }) {
             <Text style={styles.textweek}>Cette Semaine</Text>
           </TouchableOpacity>
 
-          <View style={styles.trendContainer}>
+          {/* <View style={styles.trendContainer}>
             <Text style={styles.textTrend}>Tendances</Text>
-          </View>
+          </View> */}
         </View>
 
         {/* </View> */}
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
     height: 50,
     backgroundColor: "#262626",

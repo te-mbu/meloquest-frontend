@@ -212,9 +212,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "20%",
-    justifyContent: "space-between",
+    justifyContent: 'flex-end',
     alignItems: "center",
-    marginRight: 10,
+
   },
   details: {
     height: "45%",
@@ -237,13 +237,11 @@ const styles = StyleSheet.create({
   right: {
     height: "100%",
     width: "50%",
-    // backgroundColor: 'red',
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
   },
   rightInfos: {
-    // height: "100%",
     width: "100%",
     flexWrap: "wrap",
     alignItems: "center",
