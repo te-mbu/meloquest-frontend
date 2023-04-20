@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EventSOne from "../components/EventSOne";
+import EventSOneSearch from "../components/EventSOneSearch";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { formatDate, formatHour } from "../modules/date";
@@ -33,13 +34,14 @@ export default function UserSearchScreen({}) {
 
   const allEvents = events.map((data, i) => {
     return (
-      <EventSOne
+      <EventSOneSearch
         key={i}
         name={data.name}
         venue={data.address.venue}
         price={data.price}
         date={formatDate(data.timeDetails.timeStart)}
         timeStart={formatHour(data.timeDetails.timeStart)}
+        event_id={data.event_id}
       />
     );
   });
