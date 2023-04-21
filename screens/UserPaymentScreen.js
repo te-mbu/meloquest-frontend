@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -81,6 +82,7 @@ export default function UserPaymentScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
@@ -146,6 +148,7 @@ export default function UserPaymentScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
