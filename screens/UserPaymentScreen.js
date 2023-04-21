@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     borderRadius: 15,
+    marginTop: 50
   },
   validationText: {
     alignSelf: "center",
