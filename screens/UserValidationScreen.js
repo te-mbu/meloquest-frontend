@@ -24,7 +24,7 @@ export default function UserValidationScreen({ navigation }) {
             <Text style={styles.text}>Le plus dur est passé !</Text>
             <Text style={styles.text}>Maintenant place à la zik !</Text>
           </View>
-          <View>
+          <View style={styles.btncontainer} >
             <TouchableOpacity onPress={() => navigation.navigate('Ticket')} style={styles.btnstyle} activeOpacity={0.8}>
               <Text style={styles.textbutton}>Retour</Text>
             </TouchableOpacity>
@@ -37,7 +37,6 @@ export default function UserValidationScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-
 
   fullScreen: {
     flex: 1,
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
     marginRight: "3%",
     borderRadius: 10,
-    marginBottom: "25%",
+    marginBottom: "15%",
     padding: "3%"
   },
   maincontainer: {
@@ -91,10 +90,14 @@ const styles = StyleSheet.create({
     borderRadius: "5%",
     paddingHorizontal: 10,
     alignItems: "flex-end",
+    marginBottom: 50
   },
   textbutton: {
     padding: "5%",
     color: "black"
+  }, 
+  btncontainer:{
+    marginBottom: 50
   }
 });
 
