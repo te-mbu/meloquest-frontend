@@ -22,6 +22,7 @@ export default function OrgaProfileScreen({ navigation }) {
   const [token, setToken] = useState("");
   const [events, setEvents] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const dispatch = useDispatch();
 
   const isFocused = useIsFocused();
   const userToken = useSelector((state) => state.user.value.token);
@@ -29,6 +30,7 @@ export default function OrgaProfileScreen({ navigation }) {
   useEffect(() => {
     if (isFocused) {
       setToken(userToken);
+      // Get organiser informations by his token (event organised with nb liked/nb purchased)
       fetch(
         `https://meloquest-backend.vercel.app/events/organiser/${userToken}`
       )
@@ -42,13 +44,20 @@ export default function OrgaProfileScreen({ navigation }) {
           }
         });
     }
+    // Every time we open the tab the useEffect is run
   }, [isFocused]);
 
+  // Page loaded while fetch is loading
   if (!dataLoaded) {
     return (
       <View style={styles.loaded}>
         <Text style={styles.textload}> Chargement en cours...</Text>
-        <FontAwesome name="optin-monster" color="purple" size={40} style={styles.icon} />
+        <FontAwesome
+          name="optin-monster"
+          color="purple"
+          size={40}
+          style={styles.icon}
+        />
       </View>
     );
   }
@@ -66,8 +75,6 @@ export default function OrgaProfileScreen({ navigation }) {
       />
     );
   });
-
-  const dispatch = useDispatch();
 
   function handleLogout() {
     dispatch(logout());
@@ -94,20 +101,19 @@ export default function OrgaProfileScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  loaded:{
-    display:'flex',
-    flex:1,
-    marginTop:'40%',
-    alignSelf:'center'
+  loaded: {
+    display: "flex",
+    flex: 1,
+    marginTop: "40%",
+    alignSelf: "center",
   },
 
-  scrollViewContainer:{
+  scrollViewContainer: {
     backgroundColor: "#262626",
   },
 
-  textload:{
-    fontSize:25
-
+  textload: {
+    fontSize: 25,
   },
 
   logoutContainer: {

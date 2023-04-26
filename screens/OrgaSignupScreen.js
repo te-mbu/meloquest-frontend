@@ -9,10 +9,9 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
-//import redux
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../reducers/user";
+import { login } from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function OrgaSignupScreen({ navigation }) {

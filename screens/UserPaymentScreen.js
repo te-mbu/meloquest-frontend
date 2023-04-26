@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { emptyEventToPurchase, eventsPurchased } from "../reducers/user";
+import { eventsPurchased } from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function UserPaymentScreen({ navigation }) {
@@ -38,6 +38,7 @@ export default function UserPaymentScreen({ navigation }) {
     setToken(userToken);
   }, []);
 
+  // Format credit card number
   const formatCreditCardNumber = (inputValue) => {
     let formattedValue = inputValue.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     let cardNumberArr = [];
@@ -48,6 +49,7 @@ export default function UserPaymentScreen({ navigation }) {
     return cardNumberArr.join(" ");
   };
 
+  // Format expiry date
   const formatExpiryDate = (inputValue) => {
     let formattedValue = inputValue.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     let expiryDateArr = [];
@@ -59,8 +61,6 @@ export default function UserPaymentScreen({ navigation }) {
   };
 
   function handlePaymentValidationClick() {
-    console.log("[PAYMENT PAGE event]", event[0]);
-
     fetch("https://meloquest-backend.vercel.app/events/purchased", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    // justifyContent: "space-between",
     gap: 40,
     width: "100%",
   },

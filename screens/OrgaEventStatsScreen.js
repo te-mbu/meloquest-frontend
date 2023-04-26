@@ -1,8 +1,6 @@
 import React from "react";
 import Event_S_Stats from "../components/Event_S_Stats";
 import {
-  Image,
-  ImageBackground,
   Text,
   View,
   StyleSheet,
@@ -13,7 +11,7 @@ import { useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { formatDate, formatHour } from "../modules/date";
+import { formatDate } from "../modules/date";
 
 export default function OrgaEventStatsScreen() {
 
@@ -29,6 +27,7 @@ export default function OrgaEventStatsScreen() {
   useEffect(() => {
     if (isFocused) {
       setToken(userToken);
+      // Get organiser informations by his token (event organised with nb liked/nb purchased)
       fetch(`https://meloquest-backend.vercel.app/events/organiser/${userToken}`)
         .then((res) => res.json())
         .then((data) => {
@@ -42,8 +41,10 @@ export default function OrgaEventStatsScreen() {
           }
         });
     }
+    // Every time we open the tab the useEffect is run
   }, [isFocused]);
 
+  // Page loaded while fetch is loading
   if (!dataLoaded) {
     return (
       <View>

@@ -50,7 +50,6 @@ export default function UserBookingScreen({ navigation }) {
       );
     });
     
-    console.log('[USER_BOOKING_SCREEN eventL->', event)
     return (
       <SafeAreaView style={styles.maincontainer}>
       <TouchableOpacity

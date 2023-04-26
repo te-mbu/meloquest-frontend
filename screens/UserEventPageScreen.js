@@ -37,7 +37,6 @@ export default function UserEventPageScreen({ navigation }) {
   }
   
   const eventDetails = event.map((data, i) => {
-    console.log("DATA -> ", data.event_id)
     return (
       <EventMNonClickable
         key={i}
@@ -55,7 +54,6 @@ export default function UserEventPageScreen({ navigation }) {
       );
     });
     
-    console.log('[USER_EVENT_PAGE_SCREEN event->', event)
     return (
       <SafeAreaView style={styles.container}>
       <ScrollView>

@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import EventSOne from "../components/EventSOne";
 import EventSOneSearch from "../components/EventSOneSearch";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";

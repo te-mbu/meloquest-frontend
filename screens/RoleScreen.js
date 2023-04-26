@@ -2,9 +2,6 @@ import React from 'react';
 
 import { Text, View, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import { StatusBar } from 'expo-status-bar';
-
-
 export default function RoleScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
@@ -43,8 +40,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 40,
     color:'white'
-    // backgroundColor: '#FFFFFF',
-
   },
   textButton: {
     fontSize: 18,
@@ -57,8 +52,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
   btnlayout: {
     flexDirection: "row",

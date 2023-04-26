@@ -94,7 +94,6 @@ export default function UserHomePageScreen({ }) {
           </View> */}
         </View>
 
-        {/* </View> */}
         <View style={styles.eventsContainer}>
           {allEvents}
         </View>
@@ -143,7 +142,6 @@ const styles = StyleSheet.create({
     width: "30%",
     borderRadius: 30,
   },
-  //style de text tonight
   textTonight: {
     fontSize: 18,
     alignSelf: "center",
@@ -157,7 +155,6 @@ const styles = StyleSheet.create({
     backgroundColor: "purple",
     borderRadius: 30,
   },
-  //style de text week-end
   textweek: {
     fontSize: 18,
     alignSelf: "center",
@@ -171,8 +168,6 @@ const styles = StyleSheet.create({
     height: "80%",
     width: "30%",
   },
-
-  //style de text tendances
   textTrend: {
     fontSize: 18,
     alignSelf: "center",

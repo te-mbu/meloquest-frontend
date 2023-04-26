@@ -9,46 +9,45 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { login, logout } from '../reducers/user';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/user";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function SigninScreen({ navigation }) {
   const dispatch = useDispatch();
 
-
   //  Etats pour Sign In de l'USER
-  const [signInEmail, setSignInEmail] = useState('');
-  const [signInPassword, setSignInPassword] = useState('');
-
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
 
   // Variable pour le fetch dans une fonction handleConnection
   const handleConnection = () => {
-    //fetch('https://meloquest-backend.vercel.app/users/signin', {
     fetch("https://meloquest-backend.vercel.app/users/signin", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: signInEmail,
         password: signInPassword,
       }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.result) {
-          console.log(data)
-          dispatch(login({ email: signInEmail, token: data.token }))
-          setSignInEmail('');
-          setSignInPassword('');
+          console.log(data);
+          dispatch(login({ email: signInEmail, token: data.token }));
+          setSignInEmail("");
+          setSignInPassword("");
+          // Go to organiser path if user is an organiser
           if (data.profileType === "organiser") {
-            navigation.navigate('OrgaTabNavigator');
+            navigation.navigate("OrgaTabNavigator");
+            // Go to customer path if user is a customer
           } else if (data.profileType === "customer") {
-            navigation.navigate('UserTabNavigator', {screen: 'UserHomePage'});
+            navigation.navigate("UserTabNavigator", { screen: "UserHomePage" });
           }
         }
-      })
-  }
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,12 +59,14 @@ export default function SigninScreen({ navigation }) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.arrowBack}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.arrowBack}
+          >
             <FontAwesome name="arrow-circle-left" color="#ffffff" size={30} />
           </TouchableOpacity>
 
           <View style={styles.signinContainer}>
-            
             <Text style={styles.title}>Se Connecter</Text>
 
             <TextInput
@@ -86,7 +87,10 @@ export default function SigninScreen({ navigation }) {
               autoCapitalize="none"
             />
 
-            <TouchableOpacity onPress={() => handleConnection()} style={styles.signinBtn}>
+            <TouchableOpacity
+              onPress={() => handleConnection()}
+              style={styles.signinBtn}
+            >
               <Text style={styles.signin}>Connexion</Text>
             </TouchableOpacity>
 
@@ -95,9 +99,7 @@ export default function SigninScreen({ navigation }) {
             <TouchableOpacity onPress={() => navigation.navigate("Role")}>
               <Text style={styles.signupLink}>Créer un compte</Text>
             </TouchableOpacity>
-
           </View>
-          
         </KeyboardAvoidingView>
       </ImageBackground>
     </SafeAreaView>
@@ -105,7 +107,6 @@ export default function SigninScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1,
   },
@@ -116,16 +117,16 @@ const styles = StyleSheet.create({
   },
 
   signinContainer: {
-    alignSelf: 'center',
-    marginTop:'30%',
+    alignSelf: "center",
+    marginTop: "30%",
     height: 400,
     width: 280,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     opacity: 0.9,
-    borderRadius: '25px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    borderRadius: "25px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 
   title: {
@@ -138,18 +139,18 @@ const styles = StyleSheet.create({
 
   textInput: {
     width: "60%",
-    borderBottomColor: '#808080',
+    borderBottomColor: "#808080",
     borderBottomWidth: 1,
     height: 40,
     marginBottom: 25,
   },
 
   signinBtn: {
-    height : 40,
+    height: 40,
     width: 140,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderStyle: 'solid', 
+    alignItems: "center",
+    justifyContent: "center",
+    borderStyle: "solid",
     borderWidth: 1,
     borderColor: "#000000",
     borderRadius: 15,
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  alter:{
+  alter: {
     marginTop: 50,
     fontWeight: "bold",
     fontSize: 12,
@@ -172,6 +173,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     fontWeight: "bold",
-  }
-
+  },
 });

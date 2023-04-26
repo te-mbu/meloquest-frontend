@@ -16,8 +16,6 @@ import { formatDate, formatHour } from "../modules/date";
 
 export default function UserTicketScreen() {
   const [token, setToken] = useState('')
-  const [eventsPurchased, setEventsPurchased] = useState("");
-  const [dataLoaded, setDataLoaded] = useState(false);
 
   const userToken = useSelector((state) => state.user.value.token);
   const eventsPurchasedRed = useSelector((state) => state.user.value.eventsPurchased);
@@ -27,24 +25,11 @@ export default function UserTicketScreen() {
   useEffect(() => {
     if (isFocused) {
       setToken(userToken);
-
       setEventsPurchased(eventsPurchasedRed)
 
-      // fetch(`https://meloquest-backend.vercel.app/events/purchased/${token}`)
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     if (data.result) {
-      //       setEventsPurchased(data.data);
-      //       setDataLoaded(true);
-      //     } else {
-      //       console.log("Events not found");
-      //     }
-      //   });
     }
   }, [isFocused]);
 
-
-  console.log("all events ->", eventsPurchasedRed)
   const allEvents = eventsPurchasedRed.map((data, i) => {
 
     return <EventMNonClickable 
